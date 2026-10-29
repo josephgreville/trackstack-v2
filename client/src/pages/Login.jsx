@@ -30,8 +30,9 @@ export default function Login() {
 
       <form onSubmit={handleSubmit} className="bg-paper rounded-lg p-8 shadow-sm">
         <div className="mb-4">
-          <label className="block text-sm text-brown mb-2">Email</label>
+          <label htmlFor="login-email" className="block text-sm text-brown mb-2">Email</label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -41,16 +42,15 @@ export default function Login() {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm text-brown mb-2">
-            Password {/* {/* {showPassword && <span className="cursor-pointer text-orange underline">Hide</span>} */}</label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full rounded border line p-3"
-            />
-          </label>
+          <label htmlFor="login-password" className="block text-sm text-brown mb-2">Password</label>
+          <input
+            id="login-password"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full rounded border line p-3"
+          />
           <div className="flex justify-end mt-2">
             <button
               type="button"
