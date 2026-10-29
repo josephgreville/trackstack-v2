@@ -1,0 +1,40 @@
+{
+  "name": "trackstack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TrackStack — a warm, tactile home for your music collection.",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev --workspace server",
+    "dev:client": "npm run dev --workspace client",
+    "build": "npm run build --workspace client",
+    "start": "npm run start --workspace server",
+    "preview": "npm run preview --workspace client",
+    "db:migrate": "npm run db:migrate --workspace server",
+    "db:seed": "npm run db:seed --workspace server",
+    "db:test:setup": "npm run db:test:setup --workspace server",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:server": "vitest run --project server",
+    "test:client": "vitest run --project client",
+    "test:coverage": "vitest run --coverage",
+    "verify": "npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "concurrently": "^9.1.2",
+    "jsdom": "^26.1.0",
+    "supertest": "^7.1.1",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}

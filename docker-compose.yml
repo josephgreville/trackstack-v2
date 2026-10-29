@@ -1,0 +1,23 @@
+name: trackstack-v2
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: trackstack-v2-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-trackstack}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trackstack_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-trackstack}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - trackstack-v2-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-trackstack} -d ${POSTGRES_DB:-trackstack}']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  trackstack-v2-pgdata:

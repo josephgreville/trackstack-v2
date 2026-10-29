@@ -1,0 +1,109 @@
+/* ==========================================================================
+   TrackStack design tokens
+   A warm, paper-and-ink system inspired by independent record shops.
+   ========================================================================== */
+
+:root {
+  /* Core palette — deliberately limited. */
+  --cream: #f5f0e6;
+  --paper: #fffcf6;
+  --paper-deep: #faf5eb;
+  --orange: #f47745;
+  --orange-dark: #d95d2d;
+  --orange-soft: #fde6da;
+  --charcoal: #292725;
+  --charcoal-soft: #3b3835;
+  --brown: #786b60;
+  --brown-light: #a39689;
+  --line: #ddd5c9;
+  --line-strong: #c9bfb1;
+
+  /* Supporting warm accents, used for genre labels and illustrations. */
+  --olive: #74764f;
+  --olive-soft: #e9e7d2;
+  --rust: #a74f36;
+  --gold: #c79745;
+  --gold-soft: #f5e6c7;
+  --sage: #62756b;
+  --sage-soft: #dfe7df;
+  --rose: #b36b62;
+  --rose-soft: #f2deda;
+
+  /* Semantic aliases */
+  --bg: var(--cream);
+  --surface: var(--paper);
+  --surface-muted: var(--paper-deep);
+  --text: var(--charcoal);
+  --text-muted: var(--brown);
+  --text-subtle: #998c80;
+  --border: var(--line);
+  --accent: var(--orange);
+  --accent-hover: var(--orange-dark);
+  --danger: #a33f32;
+  --danger-soft: #f5ddd7;
+  --success: #4f6b51;
+  --success-soft: #e2e9dd;
+
+  /* Type */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Cascadia Mono', Consolas, monospace;
+
+  --text-xs: 0.72rem;
+  --text-sm: 0.82rem;
+  --text-base: 0.94rem;
+  --text-md: 1.05rem;
+  --text-lg: 1.22rem;
+  --text-xl: 1.5rem;
+  --text-2xl: clamp(1.8rem, 3vw, 2.45rem);
+  --text-3xl: clamp(2.35rem, 5vw, 4rem);
+  --text-hero: clamp(2.7rem, 6.4vw, 5.6rem);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Shape */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --radius-pill: 999px;
+
+  /* Depth — soft ink on paper, never glassy. */
+  --shadow-xs: 0 1px 0 rgba(41, 39, 37, 0.06);
+  --shadow-sm: 0 3px 10px rgba(74, 60, 45, 0.07);
+  --shadow: 0 12px 30px -16px rgba(74, 60, 45, 0.32);
+  --shadow-lg: 0 28px 60px -30px rgba(41, 39, 37, 0.45);
+  --shadow-orange: 0 12px 24px -14px rgba(217, 93, 45, 0.62);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 140ms;
+  --duration: 220ms;
+  --duration-slow: 420ms;
+
+  /* Layout */
+  --container: 1240px;
+  --container-narrow: 940px;
+  --header-height: 76px;
+  --mobile-nav-height: 68px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-height: 66px;
+  }
+}
