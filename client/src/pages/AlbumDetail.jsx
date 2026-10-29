@@ -71,9 +71,7 @@ export default function AlbumDetail() {
           />
           <h1 className="text-3xl font-display font-700 mb-2">{album.title}</h1>
           <p className="text-brown">
-            {album.artist}{' '}
-            {formatYear(album.releaseYear)}{' '}·{' }
-            {album.genre || 'Unknown genre'}
+            {album.artist} · {formatYear(album.releaseYear)} · {album.genre || 'Unknown genre'}
           </p>
         </div>
 
