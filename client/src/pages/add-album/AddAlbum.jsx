@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate, useRouteMatch } from 'react-router-dom';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 import { cx, formatYear } from '../../utils/format';
 import { GENRES, genreByName } from '../../utils/genres';
@@ -8,7 +8,7 @@ import Button from '../../components/Button.jsx';
 import SearchBar from '../../components/SearchBar.jsx';
 
 export default function AddAlbum() {
-  const { id: collectionId } = useRouteMatch('/collections/:id')?.params ?? {};
+  const { collectionId } = useParams();
   const navigate = useNavigate();
   const { success, error, info } = useToast();
 
