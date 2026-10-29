@@ -94,8 +94,9 @@ export default function Home() {
         <div className="mb-12">
           <h2 className="text-2xl font-display font-600 mb-6">Featured albums</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Featured cards will be populated by the Browse page or could fetch here */}
-            {/* Placeholder while we build Browse */}
+            {featuredAlbums.map((album) => (
+              <AlbumCard key={album.externalId} album={album} />
+            ))}
           </div>
         </div>
 
@@ -103,7 +104,12 @@ export default function Home() {
         <div className="mb-12">
           <h2 className="text-2xl font-display font-600 mb-6">Recently added</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Will be populated */}
+            {recentAlbums.map((album) => (
+              <AlbumCard
+                key={album.id}
+                album={{ ...album, artworkUrl: album.artworkUrl ?? album.coverArtworks?.[0] }}
+              />
+            ))}
           </div>
         </div>
 
