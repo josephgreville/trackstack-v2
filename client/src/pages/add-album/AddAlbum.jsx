@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, useRouteMatch } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { cx, formatYear, genreByName, GENRES } from '../utils/format';
-import { api } from '../api/client';
-import { collectionsService } from '../services/index';
+import { catalogService, collectionsService } from '../services/index';
 import { Button } from '../components/Button.jsx';
 import { SearchBar } from '../components/SearchBar.jsx';
 
@@ -43,9 +42,11 @@ export default function AddAlbum() {
     if (!query.trim()) return;
     setSearchLoading(true);
     try {
-      const results = await api.get(`/catalog/search?q=${encodeURIComponent(query)}`);
+      const results = await catalogService.search({ q: query, genre: '' });
       setSearchResults(results.results ?? []);
-      info(`Found ${results.results?.length ?? 0} albums.`);
+      if (results.results.length === 0) {
+        info('No albums found. Try a different search term or genre.');
+      }
     } catch (err) {
       error('Search failed. Please try again.');
     } finally {
@@ -60,7 +61,7 @@ export default function AddAlbum() {
     }
     setSearchLoading(true);
     try {
-      await api.post(`/collections/${collectionId}/albums`, { externalId: album.externalId });
+      await collectionsService.addAlbum(collectionId, { externalId: album.externalId });
       success('Album added to collection!');
       setSearchResults([]);
       setQuery('');
@@ -80,7 +81,7 @@ export default function AddAlbum() {
     }
     setSearchLoading(true);
     try {
-      await api.post(`/collections/${collectionId}/albums`, { manual: manualForm });
+      await collectionsService.addAlbum(collectionId, { manual: manualForm });
       success('Album added to collection manually!');
       setManualForm({
         title: '',
