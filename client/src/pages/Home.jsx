@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { cx, formatAddedDate, formatYear, genreByName, GENRES } from '../utils/format';
 import { catalogService, collectionsService } from '../services/index';
@@ -62,8 +63,8 @@ export default function Home() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const q = (e.target.querySelector('input[name="q"]') as HTMLInputElement).value.trim();
-    const genre = (e.target.querySelector('select[name="genre"]') as HTMLSelectElement).value;
+    const q = e.target.querySelector('input[name="q"]').value.trim();
+    const genre = e.target.querySelector('select[name="genre"]').value;
     setSearchParams(new URLSearchParams({ q, genre }));
     navigate(`/browse?q=${encodeURIComponent(q)}&genre=${genre}`);
   };
