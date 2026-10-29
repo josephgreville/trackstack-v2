@@ -23,6 +23,7 @@ import Community from './pages/Community.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Wantlist from './pages/Wantlist.jsx';
 import ListeningHistory from './pages/ListeningHistory.jsx';
+import ListeningQueue from './pages/ListeningQueue.jsx';
 import SharedCollection from './pages/SharedCollection.jsx';
 import PublicProfile from './pages/PublicProfile.jsx';
 import PageLoader from './components/PageLoader.jsx';
@@ -81,6 +82,7 @@ export function AppRoutes() {
           <Route path="community" element={<Community />} />
           <Route path="wantlist" element={<Wantlist />} />
           <Route path="listening-history" element={<ListeningHistory />} />
+          <Route path="listen-next" element={<ListeningQueue />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>

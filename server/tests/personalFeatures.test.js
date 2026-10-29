@@ -65,6 +65,44 @@ describe('collection and personal features', () => {
     expect((await first.get(`${api}/me/history`)).body.history[0]).toMatchObject({ rating: 5, review: 'A favorite.' });
   });
 
+  it('saves album memories, moves found wantlist albums into a collection, and builds a listening queue', async () => {
+    const agent = await account('music-journaler', 'journaler@example.com');
+    const { body: { collection } } = await agent.post(`${api}/collections`).send({ name: 'Albums with a story', description: 'Records from memorable trips.' });
+    const saved = await agent.post(`${api}/collections/${collection.id}/albums`).send({
+      manual: { title: 'After the Gold Rush', artist: 'Neil Young', releaseYear: 1970, genre: 'Folk' },
+    });
+    expect(saved.status).toBe(201);
+    const memory = await agent.patch(`${api}/collections/${collection.id}/albums/${saved.body.album.id}`).send({
+      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record we bought together.',
+    });
+    expect(memory.status).toBe(200);
+    const shelf = await agent.get(`${api}/collections/${collection.id}`);
+    expect(shelf.body.collection.albums[0]).toMatchObject({
+      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record we bought together.',
+    });
+
+    const wanted = await agent.post(`${api}/me/wantlist`).send({ externalId: '594061854', maxPrice: 30 });
+    expect(wanted.status).toBe(201);
+    expect((await agent.get(`${api}/me/wantlist`)).body.items[0].maxPrice).toBe(30);
+    const acquired = await agent.post(`${api}/me/wantlist/${wanted.body.album.id}/acquire`).send({
+      collectionId: collection.id, format: 'vinyl', purchaseDate: '2026-10-01', price: 24.5,
+    });
+    expect(acquired.status).toBe(201);
+    expect((await agent.get(`${api}/me/wantlist`)).body.items).toEqual([]);
+    expect((await agent.get(`${api}/collections/${collection.id}`)).body.collection.albums)
+      .toEqual(expect.arrayContaining([expect.objectContaining({ id: wanted.body.album.id, format: 'vinyl', price: 24.5 })]));
+
+    const built = await agent.post(`${api}/me/queue/build`).send({ genre: 'Folk' });
+    expect(built.status).toBe(200);
+    expect(built.body.queue.map((item) => item.id)).toContain(saved.body.album.id);
+    const queueItem = built.body.queue.find((item) => item.id === saved.body.album.id);
+    const listened = await agent.post(`${api}/me/queue/${queueItem.queueId}/listen`);
+    expect(listened.status).toBe(200);
+    const insights = await agent.get(`${api}/me/history/insights`);
+    expect(insights.body.insights).toMatchObject({ totalListens: 1, unplayedCount: 1 });
+    expect(insights.body.insights.topArtists[0].artist).toBe('Neil Young');
+  });
+
   it('applies artist and year refinements to catalogue search', async () => {
     const agent = await account('searcher', 'searcher@example.com');
     const match = await agent.get(`${api}/catalog/search`).query({ q: 'Test Album', artist: 'Test Artist', yearFrom: 2000, yearTo: 2002, sort: 'title' });

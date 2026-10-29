@@ -3,31 +3,26 @@ import { Link } from 'react-router-dom';
 
 export default function CollectionCard({ collection }) {
   return (
-    <article className="group bg-paper rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+    <article className="collection-card group">
       <Link
         to={`/collections/${collection.id}`}
         aria-label={`View ${collection.name} collection`}
-        className="block"
+        className="collection-card-link"
       >
-      {/* Cover artworks from the join table */}
-      <div className="aspect-square rounded-t-lg">
-        {collection.coverArtworks && collection.coverArtworks.length > 0
-          ? <img
-              src={collection.coverArtworks[0]}
-              alt={collection.name}
-              className="w-full h-48 object-cover"
-            />
-          : <img
-              src="https://via.placeholder.com/300x300/dddde4/786b60"
-              alt={collection.name}
-              className="w-full h-48 object-cover"
-            />
-          }
+      <div className="collection-card-cover" aria-hidden="true">
+        {collection.coverArtworks?.[0]
+          ? <img src={collection.coverArtworks[0]} alt="" />
+          : <div className="collection-card-empty-cover">
+              <span className="collection-card-record">♫</span>
+              <span className="collection-card-cover-label">
+                {collection.albumCount ? 'Your collection' : 'Ready for its first album'}
+              </span>
+            </div>}
       </div>
-      <div className="p-4">
-        <h3 className="font-display font-600 line-clamp-1">{collection.name}</h3>
-        <p className="text-xs text-brown-line mt-1">{collection.albumCount} albums</p>
-        <p className="text-xs text-brown-light mt-2">{formatAddedDate(collection.createdAt)}</p>
+      <div className="collection-card-copy">
+        <h3>{collection.name}</h3>
+        <p>{collection.albumCount} {collection.albumCount === 1 ? 'album' : 'albums'}</p>
+        <p className="collection-card-date">Created {formatAddedDate(collection.createdAt)}</p>
       </div>
       </Link>
     </article>

@@ -35,12 +35,22 @@ export const wantlistService = {
   add: (payload) => api.post('/me/wantlist', payload),
   remove: (id) => api.delete(`/me/wantlist/${id}`),
   update: (id, payload) => api.patch(`/me/wantlist/${id}`, payload),
+  acquire: (id, payload) => api.post(`/me/wantlist/${id}/acquire`, payload),
+};
+
+export const listeningQueueService = {
+  list: () => api.get('/me/queue'),
+  add: (albumId) => api.post('/me/queue', { albumId }),
+  build: (genre = '', mood = '') => api.post('/me/queue/build', { genre, mood }),
+  remove: (id) => api.delete(`/me/queue/${id}`),
+  listened: (id) => api.post(`/me/queue/${id}/listen`),
 };
 
 export const listeningService = {
   list: () => api.get('/me/history'),
   log: (payload) => api.post('/me/history', payload),
   review: (id, payload) => api.patch(`/me/history/${id}`, payload),
+  insights: () => api.get('/me/history/insights'),
 };
 
 export const publicService = {

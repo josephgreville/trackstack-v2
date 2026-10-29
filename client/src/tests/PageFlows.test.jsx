@@ -376,7 +376,7 @@ describe('Collections pages', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Create collection' }));
     await user.type(screen.getByLabelText('Name'), 'New records');
-    await user.type(screen.getByLabelText('Description (optional)'), 'For later');
+    await user.type(screen.getByLabelText('The story behind this collection (optional)'), 'For later');
     await user.click(screen.getByRole('button', { name: 'Save collection' }));
     await waitFor(() => expect(mocks.collectionsCreate).toHaveBeenCalledWith({
       name: 'New records',

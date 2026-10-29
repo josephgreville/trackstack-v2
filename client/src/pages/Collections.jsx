@@ -137,20 +137,22 @@ export default function Collections() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="collection-description" className="block text-sm text-brown mb-2">Description (optional)</label>
+              <label htmlFor="collection-description" className="block text-sm text-brown mb-2">The story behind this collection (optional)</label>
               <textarea
                 id="collection-description"
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
                 maxLength={500}
+                placeholder="Why did you bring these albums together? Who would you recommend them to?"
                 className="w-full rounded border line p-3"
               />
+              <p className="collection-story-hint">This note appears when you share the collection.</p>
             </div>
             <Button type="submit" loading={saving}>Save collection</Button>
           </form>
         )}
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="collection-manage-grid">
           {collections.map((collection) => editingId === collection.id ? (
             <form
               key={collection.id}
@@ -167,12 +169,13 @@ export default function Collections() {
                 required
                 className="w-full rounded border line p-3 mb-4"
               />
-              <label htmlFor={`edit-description-${collection.id}`} className="block text-sm text-brown mb-2">Description</label>
+              <label htmlFor={`edit-description-${collection.id}`} className="block text-sm text-brown mb-2">Collection story</label>
               <textarea
                 id={`edit-description-${collection.id}`}
                 value={editDescription}
                 onChange={(event) => setEditDescription(event.target.value)}
                 maxLength={500}
+                placeholder="What makes this collection yours?"
                 className="w-full rounded border line p-3 mb-4"
               />
               <div className="flex gap-3">
@@ -181,7 +184,7 @@ export default function Collections() {
               </div>
             </form>
           ) : (
-            <div key={collection.id} className="bg-paper rounded-lg p-4 shadow-sm">
+            <div key={collection.id} className="collection-manage-card">
               <CollectionCard collection={collection} />
               <div className="flex gap-3 mt-4">
                 <Button type="button" variant="outline" onClick={() => beginEdit(collection)}>Rename</Button>

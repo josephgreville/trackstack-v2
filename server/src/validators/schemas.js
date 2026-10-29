@@ -109,17 +109,34 @@ export const collectionAlbumUpdateSchema = z.object({
   purchaseDate: z.string().date().nullable().optional(),
   price: z.number().nonnegative().max(99999999).nullable().optional(),
   editionNotes: z.string().trim().max(500).optional(),
+  memoryLocation: z.string().trim().max(200).nullable().optional(),
+  memoryWith: z.string().trim().max(200).nullable().optional(),
+  memoryNote: z.string().trim().max(1000).nullable().optional(),
 }).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a detail to update.' });
 
 export const wantlistCreateSchema = z.object({
   externalId: z.union([z.string(), z.number()]).transform(String).pipe(z.string().regex(/^\d{1,20}$/)),
   preferredEdition: z.string().trim().max(300).optional().default(''),
   notes: z.string().trim().max(500).optional().default(''),
+  maxPrice: z.number().nonnegative().max(99999999).nullable().optional(),
 }).strict();
 export const wantlistUpdateSchema = z.object({
   preferredEdition: z.string().trim().max(300).optional(),
   notes: z.string().trim().max(500).optional(),
+  maxPrice: z.number().nonnegative().max(99999999).nullable().optional(),
 }).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a wantlist detail to update.' });
+export const wantlistAcquireSchema = z.object({
+  collectionId: uuid,
+  format: z.enum(['vinyl', 'cassette', 'cd', 'digital', 'other']).optional(),
+  purchaseDate: z.string().date().optional(),
+  price: z.number().nonnegative().max(99999999).optional(),
+}).strict();
+export const queueIdSchema = z.object({ id: uuid });
+export const queueBuildSchema = z.object({
+  genre: z.string().trim().max(60).optional().default(''),
+  mood: z.enum(['', 'mellow', 'upbeat', 'energetic', 'reflective', 'focus']).optional().default(''),
+}).strict();
+export const queueCreateSchema = z.object({ albumId: uuid }).strict();
 
 export const historyCreateSchema = z.object({
   albumId: uuid.optional(),
@@ -147,5 +164,8 @@ export const collectionImportSchema = z.object({
     purchaseDate: z.string().date().optional(),
     price: z.coerce.number().nonnegative().max(99999999).optional(),
     editionNotes: z.string().trim().max(500).optional().default(''),
+    memoryLocation: z.string().trim().max(200).optional().default(''),
+    memoryWith: z.string().trim().max(200).optional().default(''),
+    memoryNote: z.string().trim().max(1000).optional().default(''),
   }).strict()).max(500),
 }).strict();

@@ -70,7 +70,7 @@ export async function stats(req, res) {
 
 export async function exportCollection(req, res) {
   const collection = await getCollection(req.user.id, req.validated.params.id, { sort: 'added_at' });
-  const columns = ['title', 'artist', 'releaseYear', 'genre', 'format', 'condition', 'purchaseDate', 'price', 'editionNotes'];
+  const columns = ['title', 'artist', 'releaseYear', 'genre', 'format', 'condition', 'purchaseDate', 'price', 'editionNotes', 'memoryLocation', 'memoryWith', 'memoryNote'];
   const quote = (value) => {
     const text = String(value ?? '');
     const safe = /^[\t\r ]*[=+\-@]/.test(text) ? `'${text}` : text;

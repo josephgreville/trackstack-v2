@@ -71,7 +71,8 @@ export async function getCollection(userId, collectionId, { sort = 'added_at', o
     `SELECT a.*, ca.added_at,
             ca.format AS collection_format, ca.condition AS collection_condition,
             ca.purchase_date AS collection_purchase_date, ca.price AS collection_price,
-            ca.edition_notes AS collection_edition_notes
+            ca.edition_notes AS collection_edition_notes,
+            ca.memory_location, ca.memory_with, ca.memory_note
      FROM albums a
      JOIN collection_albums ca ON ca.album_id = a.id
      WHERE ca.collection_id = $1
@@ -93,6 +94,9 @@ export async function getCollection(userId, collectionId, { sort = 'added_at', o
       purchaseDate: row.collection_purchase_date,
       price: row.collection_price === null ? null : Number(row.collection_price),
       editionNotes: row.collection_edition_notes ?? '',
+      memoryLocation: row.memory_location ?? '',
+      memoryWith: row.memory_with ?? '',
+      memoryNote: row.memory_note ?? '',
     })),
   };
 }
@@ -140,6 +144,7 @@ export async function updateCollectionAlbum(userId, collectionId, albumId, metad
   const columns = {
     format: 'format', condition: 'condition', purchaseDate: 'purchase_date',
     price: 'price', editionNotes: 'edition_notes',
+    memoryLocation: 'memory_location', memoryWith: 'memory_with', memoryNote: 'memory_note',
   };
   const sets = [];
   const values = [collectionId, albumId];
@@ -176,10 +181,12 @@ export async function importCollectionAlbums(userId, collectionId, albums) {
       );
       await client.query(
         `INSERT INTO collection_albums
-          (collection_id, album_id, format, condition, purchase_date, price, edition_notes)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          (collection_id, album_id, format, condition, purchase_date, price, edition_notes,
+           memory_location, memory_with, memory_note)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
         [collection.id, rows[0].id, item.format ?? null, item.condition ?? null,
-          item.purchaseDate ?? null, item.price ?? null, item.editionNotes ?? ''],
+          item.purchaseDate ?? null, item.price ?? null, item.editionNotes ?? '',
+          item.memoryLocation ?? '', item.memoryWith ?? '', item.memoryNote ?? ''],
       );
       imported += 1;
     }

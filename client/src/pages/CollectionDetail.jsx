@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../context/ToastContext.jsx';
 import { formatYear, formatAddedDate, albumHref } from '../utils/format.js';
-import { collectionsService } from '../services/index.js';
+import { collectionsService, listeningQueueService } from '../services/index.js';
 import { parseCsv } from '../utils/csv.js';
 import Button from '../components/Button.jsx';
 
@@ -30,6 +30,7 @@ export default function CollectionDetail() {
   const [stats, setStats] = useState(null);
   const [editingAlbum, setEditingAlbum] = useState(null);
   const [importing, setImporting] = useState(false);
+  const [queueingAlbum, setQueueingAlbum] = useState(null);
 
   const fetchCollection = useCallback(async () => {
     const data = await collectionsService.get(collectionId, { sort, order, q: query });
@@ -54,6 +55,15 @@ export default function CollectionDetail() {
     catch (err) { error(err.message ?? 'Failed to remove album from collection.'); }
   };
 
+  const addToQueue = async (album) => {
+    setQueueingAlbum(album.id);
+    try {
+      await listeningQueueService.add(album.id);
+      success(`${album.title} added to your listening queue.`);
+    } catch (err) { error(err.message ?? 'Could not add this album to your queue.'); }
+    finally { setQueueingAlbum(null); }
+  };
+
   const saveMetadata = async (event, album) => {
     event.preventDefault();
     const fields = new FormData(event.currentTarget);
@@ -63,6 +73,9 @@ export default function CollectionDetail() {
       purchaseDate: fields.get('purchaseDate') || null,
       price: fields.get('price') ? Number(fields.get('price')) : null,
       editionNotes: fields.get('editionNotes') || '',
+      memoryLocation: fields.get('memoryLocation') || '',
+      memoryWith: fields.get('memoryWith') || '',
+      memoryNote: fields.get('memoryNote') || '',
     };
     try { await collectionsService.updateAlbum(collectionId, album.id, payload); setEditingAlbum(null); success('Copy details saved.'); await fetchCollection(); }
     catch (err) { error(err.message ?? 'Could not save copy details.'); }
@@ -106,6 +119,7 @@ export default function CollectionDetail() {
         purchaseDate: row.purchasedate || undefined,
         price: row.price ? Number(row.price) : undefined,
         editionNotes: row.editionnotes ?? '',
+        memoryLocation: row.memorylocation ?? '', memoryWith: row.memorywith ?? '', memoryNote: row.memorynote ?? '',
       }));
       if (!items.length) throw new Error('That CSV has no album rows with both a title and artist.');
       const result = await collectionsService.importAlbums(collectionId, items);
@@ -158,8 +172,15 @@ export default function CollectionDetail() {
             <label>Purchase date<input type="date" name="purchaseDate" defaultValue={album.purchaseDate?.slice(0,10) ?? ''} /></label>
             <label>Price<input type="number" name="price" step="0.01" min="0" defaultValue={album.price ?? ''} /></label>
             <label>Edition notes<input name="editionNotes" maxLength="500" defaultValue={album.editionNotes ?? ''} /></label>
+            <p className="copy-form-subheading">The memory behind this album</p>
+            <label>Where did you find it?<input name="memoryLocation" maxLength="200" defaultValue={album.memoryLocation ?? ''} placeholder="A shop, a gig, a trip…" /></label>
+            <label>Who were you with?<input name="memoryWith" maxLength="200" defaultValue={album.memoryWith ?? ''} /></label>
+            <label>Why does it matter?<textarea name="memoryNote" maxLength="1000" defaultValue={album.memoryNote ?? ''} /></label>
             <div className="copy-form-actions"><Button size="sm" type="submit">Save details</Button><Button size="sm" variant="outline" onClick={() => setEditingAlbum(null)}>Cancel</Button></div>
-          </form> : <div className="collection-card-actions"><Button size="sm" variant="outline" onClick={() => setEditingAlbum(album.id)}>Copy details</Button><Button size="sm" variant="danger" onClick={() => { if (window.confirm(`Remove “${album.title}” from this collection?`)) removeAlbum(album.id); }}>Remove</Button></div>}
+          </form> : <>
+            {(album.memoryLocation || album.memoryWith || album.memoryNote) && <div className="album-memory"><p className="eyebrow">Album memory</p>{album.memoryLocation && <p>Found at {album.memoryLocation}</p>}{album.memoryWith && <p>With {album.memoryWith}</p>}{album.memoryNote && <p>{album.memoryNote}</p>}</div>}
+            <div className="collection-card-actions"><Button size="sm" variant="outline" onClick={() => setEditingAlbum(album.id)}>Copy details &amp; memory</Button><Button size="sm" variant="outline" onClick={() => addToQueue(album)} loading={queueingAlbum === album.id}>Add to queue</Button><Button size="sm" variant="danger" onClick={() => { if (window.confirm(`Remove “${album.title}” from this collection?`)) removeAlbum(album.id); }}>Remove</Button></div>
+          </>}
         </article>
       ))}</div> : <p className="empty-state">{query ? 'No albums match your search.' : 'No albums in this collection yet. Add an album to get started.'}</p>}
     </div></section>

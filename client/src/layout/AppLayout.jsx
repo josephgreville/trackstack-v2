@@ -8,13 +8,14 @@ import Logo from '../components/Logo.jsx';
 import PlayerBar from '../components/PlayerBar.jsx';
 import {
   IconHome, IconCompass, IconCollection, IconDisc, IconClock,
-  IconUser, IconMenu, IconClose,
+  IconUser, IconMenu, IconClose, IconMusic,
 } from '../components/Icons.jsx';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', match: (path) => path === '/', Icon: IconHome },
   { to: '/browse', label: 'Browse', match: (path) => path.startsWith('/browse'), Icon: IconCompass },
   { to: '/collections', label: 'My Collections', match: (path) => path.startsWith('/collections'), Icon: IconCollection },
+  { to: '/listen-next', label: 'Next to Listen', match: (path) => path.startsWith('/listen-next'), Icon: IconMusic },
   { to: '/wantlist', label: 'Wantlist', match: (path) => path.startsWith('/wantlist'), Icon: IconDisc },
   { to: '/listening-history', label: 'Listening History', match: (path) => path.startsWith('/listening-history'), Icon: IconClock },
   { to: '/community', label: 'Community', match: (path) => path.startsWith('/community'), Icon: IconUser },
