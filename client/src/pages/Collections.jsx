@@ -5,7 +5,6 @@ import { cx, formatAddedDate } from '../utils/format';
 import { api } from '../api/client';
 import { collectionsService } from '../services/index';
 import CollectionCard from '../components/CollectionCard.jsx';
-import { Button } from '../components/Button.jsx';
 
 export default function Collections() {
   const [params, setSearchParams] = useSearchParams();

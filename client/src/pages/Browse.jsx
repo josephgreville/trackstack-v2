@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
-import { useDebounce } from '../hooks/useDebounce';
+import useDebounce from '../hooks/useDebounce';
 import { cx, formatYear, formatAddedDate } from '../utils/format';
 import { GENRES, genreByName } from '../utils/genres';
 import { api } from '../api/client';
