@@ -125,6 +125,21 @@ export async function getSavedAlbum(id) {
   }
 }
 
+export async function listRecentAlbums(userId, limit = 8) {
+  const { rows } = await pool.query(
+    `SELECT a.*, max(ca.added_at) AS added_at
+     FROM albums a
+     JOIN collection_albums ca ON ca.album_id = a.id
+     JOIN collections c ON c.id = ca.collection_id
+     WHERE c.user_id = $1
+     GROUP BY a.id
+     ORDER BY max(ca.added_at) DESC
+     LIMIT $2`,
+    [userId, limit],
+  );
+  return rows.map(toAlbum);
+}
+
 export async function getCatalogAlbum(externalId) {
   return getAlbumDetail(externalId);
 }
