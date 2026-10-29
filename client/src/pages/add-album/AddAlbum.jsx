@@ -105,7 +105,7 @@ export default function AddAlbum() {
           <h1 className="text-3xl font-display font-700 tracking-tighter mb-4">
             Add album
           </h1>
-          {collectionId && <p className="text-brown-line">{collectionName || 'Select a collection'}}</p>}
+          {collectionId && <p className="text-brown-line">{collectionName || 'Select a collection'}</p>}
         </header>
 
         {/* Search form */}
