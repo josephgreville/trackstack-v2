@@ -5,6 +5,9 @@ export default function SearchBar({
   value,
   onChange,
   onSubmit,
+  genreOptions = [],
+  selectedGenre = '',
+  onGenreChange,
   placeholder = 'Search albums, artists or a feeling…',
   buttonLabel = 'Search',
   loading = false,
@@ -41,6 +44,23 @@ export default function SearchBar({
         autoComplete="off"
         enterKeyHint="search"
       />
+      {genreOptions.length > 0 && (
+        <label className="sr-only" htmlFor={`${id}-genre`}>
+          Filter by genre
+          <select
+            id={`${id}-genre`}
+            value={selectedGenre?.name ?? selectedGenre ?? ''}
+            onChange={(event) => onGenreChange?.(event.target.value)}
+          >
+            <option value="">All genres</option>
+            {genreOptions.map((genre) => (
+              <option key={genre.name} value={genre.name}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <button type="submit" className="search-submit" disabled={loading}>
         {loading ? <span className="spinner" aria-hidden="true" /> : buttonLabel}
       </button>

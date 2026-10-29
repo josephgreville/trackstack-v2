@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { cx } from '../utils/format';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import Button from '../components/Button.jsx';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', match: (p) => p === '/' },
@@ -11,6 +14,19 @@ const NAV_ITEMS = [
 
 export default function AppLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isLoading, logout } = useAuth();
+  const { error, success } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      success('You have signed out.');
+      navigate('/', { replace: true });
+    } catch (logoutError) {
+      error(logoutError.message ?? 'Could not sign out. Please try again.');
+    }
+  };
 
   useEffect(() => {
     const handlePop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,7 +65,21 @@ export default function AppLayout() {
           })}
         </nav>
         <div className="p-4 border-t border-line text-xs text-brown-line">
-          Your records, properly kept.
+          {!isLoading && user ? (
+            <div className="flex flex-col gap-3">
+              <span>Signed in as {user.username}</span>
+              <Button type="button" variant="outline" size="sm" onClick={handleLogout}>
+                Log out
+              </Button>
+            </div>
+          ) : !isLoading ? (
+            <div className="flex items-center gap-3">
+              <Link to="/login" className="underline">Log in</Link>
+              <Link to="/register" className="underline">Register</Link>
+            </div>
+          ) : (
+            'Your records, properly kept.'
+          )}
         </div>
       </aside>
 
@@ -58,7 +88,7 @@ export default function AppLayout() {
         <Link to="/" className="font-display text-lg font-700 tracking-wider text-charcoal">
           TrackStack
         </Link>
-        <nav className="flex gap-3 text-sm">
+        <nav className="flex gap-3 text-sm overflow-x-auto">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.to}
@@ -69,6 +99,13 @@ export default function AppLayout() {
             >
               {item.label}
             </Link>
+          ))}
+          {!isLoading && (user ? (
+            <button type="button" onClick={handleLogout} className="text-brown whitespace-nowrap">
+              Log out
+            </button>
+          ) : (
+            <Link to="/login" className="text-brown whitespace-nowrap">Log in</Link>
           ))}
         </nav>
       </div>

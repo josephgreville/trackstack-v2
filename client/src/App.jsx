@@ -44,8 +44,18 @@ function RequireAuth() {
 
 function GuestOnly() {
   const { user, isLoading } = useAuth();
+  const location = useLocation();
+
   if (isLoading) return <PageLoader label="Opening TrackStack" />;
-  if (user) return <Navigate to="/" replace />;
+  if (user) {
+    const returnTo = location.state?.from;
+    const destination = typeof returnTo === 'string'
+      && returnTo.startsWith('/')
+      && !returnTo.startsWith('//')
+      ? returnTo
+      : '/';
+    return <Navigate to={destination} replace />;
+  }
   return <Outlet />;
 }
 

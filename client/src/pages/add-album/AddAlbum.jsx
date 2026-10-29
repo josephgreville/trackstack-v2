@@ -34,22 +34,26 @@ export default function AddAlbum() {
           const coll = data.collections.find((c) => c.id === collectionId);
           if (coll) setCollectionName(coll.name);
         })
-        .catch(() => {});
+        .catch((err) => error(err.message ?? 'Could not load the collection.'));
     }
-  }, [collectionId]);
+  }, [collectionId, error]);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
+  const handleSearch = async (searchQuery) => {
+    const term = searchQuery.trim();
+    setQuery(term);
+    if (!term) {
+      setSearchResults([]);
+      return;
+    }
     setSearchLoading(true);
     try {
-      const results = await catalogService.search({ q: query, genre: '' });
+      const results = await catalogService.search({ q: term, genre: '' });
       setSearchResults(results.results ?? []);
-      if (results.results.length === 0) {
+      if ((results.results ?? []).length === 0) {
         info('No albums found. Try a different search term or genre.');
       }
     } catch (err) {
-      error('Search failed. Please try again.');
+      error(err.message ?? 'Search failed. Please try again.');
     } finally {
       setSearchLoading(false);
     }
@@ -82,7 +86,12 @@ export default function AddAlbum() {
     }
     setSearchLoading(true);
     try {
-      await collectionsService.addAlbum(collectionId, { manual: manualForm });
+      await collectionsService.addAlbum(collectionId, {
+        manual: {
+          ...manualForm,
+          releaseYear: manualForm.releaseYear ? Number(manualForm.releaseYear) : undefined,
+        },
+      });
       success('Album added to collection manually!');
       setManualForm({
         title: '',
@@ -112,10 +121,11 @@ export default function AddAlbum() {
         {/* Search form */}
         <div className="bg-paper rounded-lg p-6 mb-12 shadow-sm">
           <SearchBar
+            value={query}
+            onChange={setQuery}
             placeholder="Search albums, artists, or keywords"
             onSubmit={handleSearch}
-            genreOptions={GENRES}
-            selectedGenre={null}
+            loading={searchLoading}
           />
           <div className="mt-4">
             <button
@@ -159,6 +169,7 @@ export default function AddAlbum() {
                   </p>
                   <Button
                     className="mt-3 w-full"
+                    loading={searchLoading}
                     onClick={() => addFromSearch(album)}
                   >
                     Add to collection
@@ -176,9 +187,10 @@ export default function AddAlbum() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm text-brown mb-2">Album title</label>
+                <label htmlFor="manual-title" className="block text-sm text-brown mb-2">Album title</label>
                 <input
                   type="text"
+                  id="manual-title"
                   name="title"
                   value={manualForm.title}
                   onChange={(e) =>
@@ -189,9 +201,10 @@ export default function AddAlbum() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-brown mb-2">Artist</label>
+                <label htmlFor="manual-artist" className="block text-sm text-brown mb-2">Artist</label>
                 <input
                   type="text"
+                  id="manual-artist"
                   name="artist"
                   value={manualForm.artist}
                   onChange={(e) =>
@@ -205,9 +218,10 @@ export default function AddAlbum() {
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
               <div>
-                <label className="block text-sm text-brown mb-2">Release year</label>
+                <label htmlFor="manual-release-year" className="block text-sm text-brown mb-2">Release year</label>
                 <input
                   type="number"
+                  id="manual-release-year"
                   name="releaseYear"
                   value={manualForm.releaseYear}
                   onChange={(e) =>
@@ -219,8 +233,9 @@ export default function AddAlbum() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-brown mb-2">Genre</label>
+                <label htmlFor="manual-genre" className="block text-sm text-brown mb-2">Genre</label>
                 <select
+                  id="manual-genre"
                   name="genre"
                   value={manualForm.genre}
                   onChange={(e) =>
@@ -239,9 +254,10 @@ export default function AddAlbum() {
             </div>
 
             <div>
-              <label className="block text-sm text-brown mb-2">Artwork URL (optional)</label>
+              <label htmlFor="manual-artwork-url" className="block text-sm text-brown mb-2">Artwork URL (optional)</label>
               <input
-                type="text"
+                type="url"
+                id="manual-artwork-url"
                 name="artworkUrl"
                 value={manualForm.artworkUrl}
                 onChange={(e) =>
@@ -252,7 +268,7 @@ export default function AddAlbum() {
               />
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" loading={searchLoading}>
               Add album
             </Button>
           </form>

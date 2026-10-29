@@ -11,10 +11,16 @@ export function AuthProvider({ children }) {
     const controller = new AbortController();
 
     authService
-      .me()
-      .then(({ user: currentUser }) => setUser(currentUser))
-      .catch(() => setUser(null))
-      .finally(() => setIsLoading(false));
+      .me({ signal: controller.signal })
+      .then(({ user: currentUser }) => {
+        if (!controller.signal.aborted) setUser(currentUser);
+      })
+      .catch((error) => {
+        if (error.name !== 'AbortError' && !controller.signal.aborted) setUser(null);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false);
+      });
 
     return () => controller.abort();
   }, []);

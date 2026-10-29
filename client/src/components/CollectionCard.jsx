@@ -1,10 +1,14 @@
-import { cx, formatAddedDate } from '../utils/format';
+import { formatAddedDate } from '../utils/format';
+import { Link } from 'react-router-dom';
 
 export default function CollectionCard({ collection }) {
   return (
-    <article
-      className="group bg-paper rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-    >
+    <article className="group bg-paper rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <Link
+        to={`/collections/${collection.id}`}
+        aria-label={`View ${collection.name} collection`}
+        className="block"
+      >
       {/* Cover artworks from the join table */}
       <div className="aspect-square rounded-t-lg">
         {collection.coverArtworks && collection.coverArtworks.length > 0
@@ -25,6 +29,7 @@ export default function CollectionCard({ collection }) {
         <p className="text-xs text-brown-line mt-1">{collection.albumCount} albums</p>
         <p className="text-xs text-brown-light mt-2">{formatAddedDate(collection.createdAt)}</p>
       </div>
+      </Link>
     </article>
   );
 }

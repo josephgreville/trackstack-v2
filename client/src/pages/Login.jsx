@@ -1,25 +1,38 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import { cx } from '../utils/format';
-import { authService } from '../services/index';
 import Button from '../components/Button.jsx';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { success, error } = useToast();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
-      const user = await authService.login({ email, password });
+      const user = await login({ email, password });
       success(`Welcome back, ${user.username}!`);
-      navigate('/', { replace: true });
+      const returnTo = location.state?.from;
+      const destination = typeof returnTo === 'string'
+        && returnTo.startsWith('/')
+        && !returnTo.startsWith('//')
+        ? returnTo
+        : '/';
+      navigate(destination, { replace: true });
     } catch (err) {
       error(err.message ?? 'Login failed. Please check your credentials.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -63,7 +76,7 @@ export default function Login() {
           </div>
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" loading={submitting}>
           Log in
         </Button>
 

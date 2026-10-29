@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useToast } from '../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import useDebounce from '../hooks/useDebounce';
-import { cx, formatAddedDate, formatYear } from '../utils/format';
+import { cx } from '../utils/format';
 import { GENRES, genreByName } from '../utils/genres';
-import { catalogService, collectionsService } from '../services/index';
+import { albumsService, catalogService, collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import Button from '../components/Button.jsx';
 
 export default function Home() {
-  const [params, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { success, error, info } = useToast();
   const { user } = useAuth();
-
-  const debouncedQuery = useDebounce(params.get('q') ?? '', 300);
-  const genreFilter = params.get('genre') ?? '';
+  const [query, setQuery] = useState('');
+  const [genre, setGenre] = useState('');
 
   // Fetch featured albums on mount
   const [featuredAlbums, setFeaturedAlbums] = useState([]);
   const [recentAlbums, setRecentAlbums] = useState([]);
   const [myCollections, setMyCollections] = useState([]);
+  const [featuredLoading, setFeaturedLoading] = useState(true);
+  const [featuredError, setFeaturedError] = useState('');
+  const [collectionsLoading, setCollectionsLoading] = useState(false);
+  const [collectionsError, setCollectionsError] = useState('');
+  const [recentError, setRecentError] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -33,33 +33,49 @@ export default function Home() {
       .then(({ albums }) => {
         if (!cancelled) setFeaturedAlbums(albums ?? []);
       })
-      .catch(() => {
-        if (!cancelled) setFeaturedAlbums([]);
+      .catch((err) => {
+        if (!cancelled) {
+          setFeaturedAlbums([]);
+          setFeaturedError(err.message ?? 'Featured albums could not be loaded.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setFeaturedLoading(false);
       });
 
     // Fetch recently added albums for the current user
     if (user) {
+      setCollectionsLoading(true);
       collectionsService
         .list()
         .then((data) => {
           if (cancelled) return;
           setMyCollections(data.collections ?? []);
-          // Get all albums from all collections, sorted by added_at
-          const allAlbums = (data.collections ?? []).flatMap((collection) =>
-            (collection.albums ?? []).map((album) => ({ ...album, collectionName: collection.name }))
-          );
-          // Sort by added_at descending and take the most recent 8
-          allAlbums.sort(
-            (a, b) => new Date(b.addedAt ?? '').getTime() - new Date(a.addedAt ?? '').getTime()
-          );
-          setRecentAlbums(allAlbums.slice(0, 8));
         })
-        .catch(() => {
+        .catch((err) => {
           if (!cancelled) {
             setMyCollections([]);
+            setCollectionsError(err.message ?? 'Your collections could not be loaded.');
+          }
+        })
+        .finally(() => {
+          if (!cancelled) setCollectionsLoading(false);
+        });
+      albumsService
+        .recent()
+        .then(({ albums }) => {
+          if (!cancelled) setRecentAlbums(albums ?? []);
+        })
+        .catch((err) => {
+          if (!cancelled) {
             setRecentAlbums([]);
+            setRecentError(err.message ?? 'Recently added albums could not be loaded.');
           }
         });
+    } else {
+      setMyCollections([]);
+      setRecentAlbums([]);
+      setCollectionsLoading(false);
     }
 
     return () => {
@@ -67,12 +83,12 @@ export default function Home() {
     };
   }, [user]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const q = e.target.querySelector('input[name="q"]').value.trim();
-    const genre = e.target.querySelector('select[name="genre"]').value;
-    setSearchParams(new URLSearchParams({ q, genre }));
-    navigate(`/browse?q=${encodeURIComponent(q)}&genre=${genre}`);
+  const handleSearch = (value) => {
+    const q = value.trim();
+    const search = new URLSearchParams();
+    if (q) search.set('q', q);
+    if (genre) search.set('genre', genre);
+    navigate(`/browse${search.size ? `?${search}` : ''}`);
   };
 
   return (
@@ -90,16 +106,21 @@ export default function Home() {
         {/* Search & filters */}
         <div className="bg-paper rounded-lg p-6 mb-12 shadow-sm">
           <SearchBar
+            value={query}
+            onChange={setQuery}
             placeholder="Search albums, artists, or keywords"
             onSubmit={handleSearch}
             genreOptions={GENRES}
-            selectedGenre={genreByName(genreFilter)}
+            selectedGenre={genreByName(genre)?.name ?? ''}
+            onGenreChange={setGenre}
           />
         </div>
 
         {/* Featured albums section */}
         <div className="mb-12">
           <h2 className="text-2xl font-display font-600 mb-6">Featured albums</h2>
+          {featuredLoading && <p role="status">Loading featured albums…</p>}
+          {featuredError && <p role="alert">{featuredError}</p>}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredAlbums.map((album) => (
               <AlbumCard key={album.externalId} album={album} />
@@ -110,6 +131,7 @@ export default function Home() {
         {/* Recently added */}
         <div className="mb-12">
           <h2 className="text-2xl font-display font-600 mb-6">Recently added</h2>
+          {recentError && <p role="alert">{recentError}</p>}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {recentAlbums.map((album) => (
               <AlbumCard
@@ -133,8 +155,12 @@ export default function Home() {
                 Create collection
               </Button>
             </div>
+            {collectionsLoading && <p role="status">Loading your collections…</p>}
+            {collectionsError && <p role="alert">{collectionsError}</p>}
             {myCollections.length === 0 ? (
-              <p className="text-sm text-brown">No collections yet. Create one to get started.</p>
+              !collectionsLoading && !collectionsError && (
+                <p className="text-sm text-brown">No collections yet. Create one to get started.</p>
+              )
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {myCollections.slice(0, 3).map((collection) => (

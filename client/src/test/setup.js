@@ -1,7 +1,21 @@
-/**
- * Test setup for Vitest + React Testing Library
- * Mocks matchMedia and clears auth state between tests.
- */
+import { beforeEach } from 'vitest';
+import '@testing-library/jest-dom/vitest';
+
+// Provide a minimal localStorage implementation if the environment lacks one
+const storageArea = typeof window !== 'undefined' ? window : globalThis;
+if (!storageArea.localStorage) {
+  const store = new Map();
+  storageArea.localStorage = {
+    getItem: (key) => (store.has(key) ? store.get(key) : null),
+    setItem: (key, value) => store.set(key, String(value)),
+    removeItem: (key) => store.delete(key),
+    clear: () => store.clear(),
+    key: (index) => Array.from(store.keys())[index] ?? null,
+    get length() {
+      return store.size;
+    },
+  };
+}
 
 // Mock matchMedia for jsdom
 global.matchMedia = global.matchMedia || function (query) {
@@ -15,6 +29,7 @@ global.matchMedia = global.matchMedia || function (query) {
     removeEventListener: function () { },
     dispatchEvent: function () { },
   };
+
 };
 
 // Clear any existing auth state before each test

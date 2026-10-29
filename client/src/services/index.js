@@ -1,7 +1,7 @@
 import { api } from '../api/client.js';
 
 export const authService = {
-  me: () => api.get('/auth/me'),
+  me: (options) => api.get('/auth/me', options),
   register: (payload) => api.post('/auth/register', payload),
   login: (payload) => api.post('/auth/login', payload),
   logout: () => api.post('/auth/logout'),

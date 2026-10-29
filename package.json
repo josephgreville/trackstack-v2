@@ -18,11 +18,12 @@
     "db:migrate": "npm run db:migrate --workspace server",
     "db:seed": "npm run db:seed --workspace server",
     "db:test:setup": "npm run db:test:setup --workspace server",
-    "test": "vitest run",
+    "test": "npm run db:test:setup && vitest run --maxWorkers=1",
     "test:watch": "vitest",
-    "test:server": "vitest run --project server",
+    "test:server": "npm run db:test:setup && vitest run --project server --maxWorkers=1",
+    "test:database": "npm run db:test:setup && vitest run --project server --maxWorkers=1 server/tests/database.test.js",
     "test:client": "vitest run --project client",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "npm run db:test:setup && vitest run --coverage --maxWorkers=1",
     "verify": "npm run test && npm run build"
   },
   "devDependencies": {

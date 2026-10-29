@@ -1,74 +1,72 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import useDebounce from '../hooks/useDebounce';
-import { cx, formatYear, formatAddedDate } from '../utils/format';
 import { GENRES, genreByName } from '../utils/genres';
-import { api } from '../api/client';
-import { collectionsService } from '../services/index';
+import { catalogService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
-import Button from '../components/Button.jsx';
 
 export default function Browse() {
   const [params, setSearchParams] = useSearchParams();
-  const location = useLocation();
-  const { success, error, info } = useToast();
-  const [genreOptions, setGenreOptions] = useState(GENRES);
-
-  const [q, setQ] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
-
-  // Initialise from URL
-  useEffect(() => {
-    const searchQ = location.search?.includes('q=') ? new URLSearchParams(location.search).get('q') : '';
-    const searchGenre = new URLSearchParams(location.search).get('genre') ?? '';
-    setQ(searchQ ?? '');
-    setSelectedGenre(searchGenre ?? '');
-  }, [location.search]);
-
+  const { error } = useToast();
+  const [q, setQ] = useState(params.get('q') ?? '');
+  const [selectedGenre, setSelectedGenre] = useState(params.get('genre') ?? '');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const debouncedQuery = useDebounce(q, 300);
 
-  // Trigger search on debounced query change
   useEffect(() => {
-    if (debouncedQuery || selectedGenre) {
-      catalogService
-        .search({ q: debouncedQuery, genre: selectedGenre, limit: 24 })
-        .then(({ results, total }) => {
-          if (results.length === 0) {
-            info('No albums found. Try a different search term or genre.');
-          }
-        })
-        .catch((err) => {
-          error(err.message ?? 'Search failed.');
-        });
-    }
-  }, [debouncedQuery, selectedGenre]);
+    setQ(params.get('q') ?? '');
+    setSelectedGenre(params.get('genre') ?? '');
+  }, [params]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const input = e.target.querySelector('input[name="q"]');
-    const genreSelect = e.target.querySelector('select[name="genre"]');
-    if (!input || !genreSelect) return;
-    const q = input.value.trim();
-    const genre = genreSelect.value;
-    setQ(q);
-    setSelectedGenre(genre);
-    setSearchParams(new URLSearchParams({ q, genre }));
-    navigate(`/browse?q=${encodeURIComponent(q)}&genre=${genre}`, { replace: true });
+  useEffect(() => {
+    let active = true;
+    if (!debouncedQuery.trim() && !selectedGenre) {
+      setResults([]);
+      setLoading(false);
+      return () => {
+        active = false;
+      };
+    }
+
+    setLoading(true);
+    catalogService
+      .search({ q: debouncedQuery, genre: selectedGenre, limit: 24 })
+      .then(({ results: albums }) => {
+        if (active) setResults(albums ?? []);
+      })
+      .catch((err) => {
+        if (active) {
+          setResults([]);
+          error(err.message ?? 'Search failed.');
+        }
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [debouncedQuery, selectedGenre, error]);
+
+  const handleSearch = (value) => {
+    const nextQuery = value.trim();
+    setQ(nextQuery);
+    const next = new URLSearchParams();
+    if (nextQuery) next.set('q', nextQuery);
+    if (selectedGenre) next.set('genre', selectedGenre);
+    setSearchParams(next, { replace: true });
   };
 
-  // Navigate back from detail page
-  useEffect(() => {
-    const handlePop = () => {
-      setQ('');
-      setSelectedGenre('');
-      setSearchParams(new URLSearchParams());
-      navigate('/', { replace: true });
-    };
-    window.addEventListener('popstate', handlePop);
-    return () => window.removeEventListener('popstate', handlePop);
-  }, []);
+  const handleGenreChange = (genre) => {
+    const next = new URLSearchParams();
+    if (q.trim()) next.set('q', q.trim());
+    if (genre) next.set('genre', genre);
+    setSearchParams(next, { replace: true });
+  };
 
   return (
     <section className="py-12">
@@ -85,59 +83,31 @@ export default function Browse() {
         {/* Search & filters */}
         <div className="bg-paper rounded-lg p-6 mb-12 shadow-sm">
           <SearchBar
+            value={q}
+            onChange={setQ}
             placeholder="Search albums, artists, or keywords"
             onSubmit={handleSearch}
-            genreOptions={genreOptions}
-            selectedGenre={genreByName(selectedGenre)}
+            genreOptions={GENRES}
+            selectedGenre={genreByName(selectedGenre)?.name ?? ''}
+            onGenreChange={handleGenreChange}
           />
         </div>
 
         {/* Results grid */}
         <div>
           <h2 className="text-2xl font-display font-600 mb-6">
-            {q ? `Results for "${q}"${selectedGenre ? ` · ${selectedGenre}` : ''}` : 'Popular albums'}
+            {q ? `Results for "${q}"${selectedGenre ? ` · ${selectedGenre}` : ''}` : selectedGenre || 'Popular albums'}
           </h2>
 
-          {/* No results state */}
-          {q && !selectedGenre && q.trim() && '' && (
-            <p className="text-brown text-sm text-muted mb-6">Try adjusting your search or selecting a genre.</p>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Results will be fetched and rendered by the parent or via API */}
-            {/* Placeholder cards */}
-            {Array.from({ length: 12 }, (_, i) => (
-              <ArticleCard key={i} />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {results.map((album) => <AlbumCard key={album.externalId} album={album} />)}
+            </div>
+            {loading && <p role="status" className="mt-6">Searching albums…</p>}
+            {!loading && (q.trim() || selectedGenre) && results.length === 0 && (
+              <p className="text-brown text-sm text-muted mt-6">No albums match your search. Try a different term or genre.</p>
+            )}
           </div>
-
-          {/* No results message */}
-          {q && selectedGenre && (
-            <p className="text-brown text-sm text-muted mt-6">No albums match that genre filter. Try a different genre or search term.</p>
-          )}
-        </div>
       </div>
     </section>
-  );
-}
-
-function ArticleCard() {
-  return (
-    <article className="bg-paper rounded-lg shadow-sm overflow-hidden transition-shadow hover:shadow-md">
-      <div className="aspect-square rounded-t-lg">
-        <img
-          src="https://via.placeholder.com/400x400/dddde4/786b60?text=Album+art"
-          alt="Album artwork"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-display font-600 line-clamp-2 mb-2">Abbey Road</h3>
-        <p className="text-sm text-brown mb-3">The Beatles</p>
-        <p className="text-xs text-brown-light">
-          1970 · Rock
-        </p>
-      </div>
-    </article>
   );
 }
