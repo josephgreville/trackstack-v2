@@ -16,7 +16,7 @@ import Browse from './pages/Browse.jsx';
 import AlbumDetail from './pages/AlbumDetail.jsx';
 import Collections from './pages/Collections.jsx';
 import CollectionDetail from './pages/CollectionDetail.jsx';
-import AddAlbum from './pages/AddAlbum.jsx';
+import AddAlbum from './pages/add-album/AddAlbum.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import NotFound from './pages/NotFound.jsx';

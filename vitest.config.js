@@ -17,7 +17,7 @@ export default defineConfig({
         test: {
           name: 'client',
           environment: 'jsdom',
-          include: ['client/src/**/*.test.{js,jsx}'],
+          include: ['client/src/tests/**/*.test.{js,jsx}'],
           setupFiles: ['client/src/test/setup.js'],
           css: false,
         },
