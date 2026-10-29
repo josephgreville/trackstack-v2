@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { cx } from '../utils/format';
 import { authService } from '../services/index';
+import Button from '../components/Button.jsx';
 
 export default function Register() {
   const [name, setName] = useState('');
