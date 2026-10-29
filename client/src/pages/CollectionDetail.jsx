@@ -1,8 +1,8 @@
 import { useParams, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import { cx, formatYear, formatAddedDate } from '../utils/format';
-import { api } from '../api/client';
 import { collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import { Button } from '../components/Button.jsx';
@@ -20,8 +20,10 @@ export default function CollectionDetail() {
   const [order, setOrder] = useState('desc');
 
   useEffect(() => {
+    const { user, isLoading } = useAuth();
+    if (isLoading) return;
     collectionsService
-      .getCollection(req ? req.user.id : 0, id, { sort, order })
+      .getCollection(user.id, id, { sort, order })
       .then((data) => {
         setCollection(data.collection);
         setAlbums(data.albums);
