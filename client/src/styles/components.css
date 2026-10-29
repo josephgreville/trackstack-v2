@@ -1,0 +1,28 @@
+/* Component-specific extensions */
+
+/* Button base styles already in base.css; this file adds variant utilities */
+
+/* Focus-visible enhancements for all interactive elements */
+*:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+/* Input and form control enhancements */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

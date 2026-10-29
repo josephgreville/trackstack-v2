@@ -1,0 +1,28 @@
+/* Page-specific extensions */
+
+/* Home page hero */
+.home-hero {
+  text-align: center;
+  padding: var(--space-16) 0;
+}
+
+.home-hero h1 {
+  font-size: var(--text-hero);
+  line-height: 1.1;
+}
+
+/* Browse page */
+.browse-filters {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+/* Collection page */
+.collection-summary {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
