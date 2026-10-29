@@ -1,10 +1,11 @@
 import { useParams, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useToast, useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import { cx, formatYear, formatAddedDate } from '../utils/format';
 import { collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
-import { Button } from '../components/Button.jsx';
+import Button from '../components/Button.jsx';
 
 export default function CollectionDetail() {
   const { id } = useParams();

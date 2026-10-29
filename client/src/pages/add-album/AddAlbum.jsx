@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, useRouteMatch } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
-import { cx, formatYear, genreByName, GENRES } from '../../utils/format';
+import { cx, formatYear } from '../../utils/format';
+import { GENRES, genreByName } from '../../utils/genres';
 import { catalogService, collectionsService } from '../../services/index';
-import { Button } from '../../components/Button.jsx';
-import { SearchBar } from '../../components/SearchBar.jsx';
+import Button from '../../components/Button.jsx';
+import SearchBar from '../../components/SearchBar.jsx';
 
 export default function AddAlbum() {
   const { id: collectionId } = useRouteMatch('/collections/:id')?.params ?? {};

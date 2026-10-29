@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useDebounce } from '../hooks/useDebounce';
-import { cx, formatYear, formatAddedDate, genreByName, GENRES } from '../utils/format';
+import { cx, formatYear, formatAddedDate } from '../utils/format';
+import { GENRES, genreByName } from '../utils/genres';
 import { api } from '../api/client';
 import { collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
-import { Button } from '../components/Button.jsx';
+import Button from '../components/Button.jsx';
 
 export default function Browse() {
   const [params, setSearchParams] = useSearchParams();

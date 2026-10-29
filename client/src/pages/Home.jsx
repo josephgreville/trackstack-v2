@@ -3,11 +3,12 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 import { useDebounce } from '../hooks/useDebounce';
-import { cx, formatAddedDate, formatYear, genreByName, GENRES } from '../utils/format';
+import { cx, formatAddedDate, formatYear } from '../utils/format';
+import { GENRES, genreByName } from '../utils/genres';
 import { catalogService, collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
-import { Button } from '../components/Button.jsx';
+import Button from '../components/Button.jsx';
 
 export default function Home() {
   const [params, setSearchParams] = useSearchParams();

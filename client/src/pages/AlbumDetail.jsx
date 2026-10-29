@@ -5,7 +5,7 @@ import { cx, formatYear, formatDuration, formatTotalDuration, initials } from '.
 import { api } from '../api/client';
 import { catalogService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
-import { Button } from '../components/Button.jsx';
+import Button from '../components/Button.jsx';
 
 export default function AlbumDetail() {
   const { externalId } = useParams();
