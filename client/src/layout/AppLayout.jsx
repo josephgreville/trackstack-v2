@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import { cx } from '../utils/format';
 
 export default function AppLayout({ children }) {
@@ -43,7 +43,7 @@ export default function AppLayout({ children }) {
       </nav>
 
       <main className="container-narrow py-8">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
