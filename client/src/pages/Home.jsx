@@ -29,8 +29,8 @@ export default function Home() {
     // Fetch featured albums
     catalogService
       .featured()
-      .then(({ results }) => {
-        if (!cancelled) setFeaturedAlbums(results ?? []);
+      .then(({ albums }) => {
+        if (!cancelled) setFeaturedAlbums(albums ?? []);
       })
       .catch(() => {
         if (!cancelled) setFeaturedAlbums([]);
