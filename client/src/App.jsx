@@ -19,6 +19,7 @@ import CollectionDetail from './pages/CollectionDetail.jsx';
 import AddAlbum from './pages/add-album/AddAlbum.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import Community from './pages/Community.jsx';
 import NotFound from './pages/NotFound.jsx';
 import PageLoader from './components/PageLoader.jsx';
 
@@ -60,6 +61,7 @@ export function AppRoutes() {
           <Route path="collections" element={<Collections />} />
           <Route path="collections/:collectionId" element={<CollectionDetail />} />
           <Route path="collections/:collectionId/add" element={<AddAlbum />} />
+          <Route path="community" element={<Community />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

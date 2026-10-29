@@ -22,6 +22,7 @@ export default function Home() {
   // Fetch featured albums on mount
   const [featuredAlbums, setFeaturedAlbums] = useState([]);
   const [recentAlbums, setRecentAlbums] = useState([]);
+  const [myCollections, setMyCollections] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,9 +43,10 @@ export default function Home() {
         .list()
         .then((data) => {
           if (cancelled) return;
+          setMyCollections(data.collections ?? []);
           // Get all albums from all collections, sorted by added_at
-          const allAlbums = data.collections.flatMap((collection) =>
-            collection.albums?.map((album) => ({ ...album, collectionName: collection.name }))
+          const allAlbums = (data.collections ?? []).flatMap((collection) =>
+            (collection.albums ?? []).map((album) => ({ ...album, collectionName: collection.name }))
           );
           // Sort by added_at descending and take the most recent 8
           allAlbums.sort(
@@ -53,7 +55,10 @@ export default function Home() {
           setRecentAlbums(allAlbums.slice(0, 8));
         })
         .catch(() => {
-          if (!cancelled) setRecentAlbums([]);
+          if (!cancelled) {
+            setMyCollections([]);
+            setRecentAlbums([]);
+          }
         });
     }
 
@@ -75,7 +80,7 @@ export default function Home() {
       <div className="container-narrow">
         <header className="mb-12">
           <h1 className="text-3xl font-display font-700 tracking-tighter mb-4">
-            Your music collection, waiting to happen.
+            Your music. Your collection. Your story.
           </h1>
           <p className="text-lg text-brown max-w-2xl">
             Discover new albums, catalogue your favourites, and build the record collection of your dreams.
@@ -114,6 +119,37 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* My Collections */}
+        {user && (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-display font-600">My collections</h2>
+              <Button
+                to="/collections"
+                variant="primary"
+                size="sm"
+              >
+                Create collection
+              </Button>
+            </div>
+            {myCollections.length === 0 ? (
+              <p className="text-sm text-brown">No collections yet. Create one to get started.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {myCollections.slice(0, 3).map((collection) => (
+                  <div
+                    key={collection.id}
+                    className="bg-paper rounded-lg p-4 border border-line shadow-sm"
+                  >
+                    <h3 className="font-display font-600 mb-1">{collection.name}</h3>
+                    <p className="text-xs text-brown">{collection.albumCount ?? 0} albums</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Popular genres */}
         <div>
