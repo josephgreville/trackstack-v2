@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { cx, formatAddedDate, formatYear, genreByName, GENRES } from '../utils/format';
-import { api } from '../api/client';
-import { catalogService } from '../services/index';
+import { catalogService, collectionsService } from '../services/index';
 import AlbumCard from '../components/AlbumCard.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import { Button } from '../components/Button.jsx';
@@ -13,26 +12,53 @@ export default function Home() {
   const [params, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { success, error, info } = useToast();
+  const { user } = useAuth();
 
   const debouncedQuery = useDebounce(params.get('q') ?? '', 300);
   const genreFilter = params.get('genre') ?? '';
 
-  // Perform search when query changes
+  // Fetch featured albums on mount
+  const [featuredAlbums, setFeaturedAlbums] = useState([]);
+  const [recentAlbums, setRecentAlbums] = useState([]);
+
   useEffect(() => {
-    if (debouncedQuery || genreFilter) {
-      const query = debouncedQuery || '';
-      catalogService
-        .search({ q: query, genre: genreFilter })
-        .then(({ results }) => {
-          if (results.length === 0) {
-            info('No albums found. Try a different search term or genre.');
-          }
+    let cancelled = false;
+
+    // Fetch featured albums
+    catalogService
+      .featured()
+      .then(({ results }) => {
+        if (!cancelled) setFeaturedAlbums(results ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setFeaturedAlbums([]);
+      });
+
+    // Fetch recently added albums for the current user
+    if (user) {
+      collectionsService
+        .list()
+        .then((data) => {
+          if (cancelled) return;
+          // Get all albums from all collections, sorted by added_at
+          const allAlbums = data.collections.flatMap((collection) =>
+            collection.albums?.map((album) => ({ ...album, collectionName: collection.name }))
+          );
+          // Sort by added_at descending and take the most recent 8
+          allAlbums.sort(
+            (a, b) => new Date(b.addedAt ?? '').getTime() - new Date(a.addedAt ?? '').getTime()
+          );
+          setRecentAlbums(allAlbums.slice(0, 8));
         })
-        .catch((err) => {
-          error(err.message ?? 'Search failed.');
+        .catch(() => {
+          if (!cancelled) setRecentAlbums([]);
         });
     }
-  }, [debouncedQuery, genreFilter]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   const handleSearch = (e) => {
     e.preventDefault();
