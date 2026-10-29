@@ -1,34 +1,16 @@
-import { useEffect, useState } from 'react';
-import { cx } from '../utils/format';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function Community() {
+  const { user } = useAuth();
   return (
-    <section className="py-12">
-      <div className="container-narrow">
-        <header className="mb-8">
-          <h1 className="text-3xl font-display font-700 tracking-tighter mb-2">
-            Community
-          </h1>
-          <p className="text-lg text-brown">
-            See what other collectors are listening to.
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-paper rounded-lg p-6 shadow-sm border border-line">
-            <h2 className="font-display font-600 mb-2">Coming soon</h2>
-            <p className="text-sm text-brown">
-              Community features — shared collections, reviews, and listening lists — are on the way.
-            </p>
-          </div>
-          <div className="bg-paper rounded-lg p-6 shadow-sm border border-line">
-            <h2 className="font-display font-600 mb-2">Your collections</h2>
-            <p className="text-sm text-brown">
-              Head to My Collections to manage your own albums and share them with friends.
-            </p>
-          </div>
-        </div>
+    <section className="page-section"><div className="container-narrow">
+      <header className="page-heading"><p className="eyebrow">Share the records you love</p><h1>Community</h1><p>Make a collector profile and share public collections with a link.</p></header>
+      <div className="community-feature-grid">
+        <article className="feature-card"><h2>Share a collection</h2><p>Open any collection and copy its private share link. People can browse it without an account.</p><Link className="community-link" to="/collections">Go to my collections</Link></article>
+        <article className="feature-card"><h2>Your public profile</h2><p>Choose whether your profile is visible. Only collections you mark public are listed there.</p>{user?.profilePublic ? <Link className="community-link" to={`/users/${encodeURIComponent(user.username)}`}>View your profile</Link> : <Link className="community-link" to="/collections">Manage profile visibility</Link>}</article>
+        <article className="feature-card"><h2>Keep a wantlist</h2><p>Save albums you’re hunting for and add notes about the edition you want.</p><Link className="community-link" to="/wantlist">Open wantlist</Link></article>
       </div>
-    </section>
+    </div></section>
   );
 }

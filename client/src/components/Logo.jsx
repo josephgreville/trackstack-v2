@@ -8,9 +8,9 @@ export default function Logo({ to = '/', className = '' }) {
           <circle cx="20" cy="20" r="17" fill="currentColor" opacity=".1" />
           <circle cx="20" cy="20" r="13.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
           <circle cx="20" cy="20" r="9" fill="none" stroke="currentColor" strokeWidth="1.1" opacity=".55" />
-          <circle cx="20" cy="20" r="5" fill="#F47745" />
-          <circle cx="20" cy="20" r="1.3" fill="#292725" />
-          <path d="M31.5 8.5c2.6 2.3 4.2 5.6 4.5 9.2" stroke="#F47745" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <circle cx="20" cy="20" r="5" fill="var(--orange)" />
+          <circle cx="20" cy="20" r="1.3" fill="var(--paper)" />
+          <path d="M31.5 8.5c2.6 2.3 4.2 5.6 4.5 9.2" stroke="var(--orange)" strokeWidth="2" fill="none" strokeLinecap="round" />
         </svg>
       </span>
       <span className="brand-word">

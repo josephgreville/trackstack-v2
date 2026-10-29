@@ -144,7 +144,7 @@ describe('Register page', () => {
     await user.type(screen.getByLabelText('Email'), 'new@example.com');
     await user.type(screen.getByLabelText('Password'), 'secure-password');
     await user.type(screen.getByLabelText('Confirm password'), 'secure-password');
-    await user.click(screen.getByRole('button', { name: 'Create account' }));
+    await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
     await waitFor(() => expect(authMocks.register).toHaveBeenCalledWith({
       username: 'new-listener',
@@ -162,7 +162,7 @@ describe('Register page', () => {
     await user.type(screen.getByLabelText('Email'), 'new@example.com');
     await user.type(screen.getByLabelText('Password'), 'secure-password');
     await user.type(screen.getByLabelText('Confirm password'), 'different-password');
-    await user.click(screen.getByRole('button', { name: 'Create account' }));
+    await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
     expect(await screen.findByRole('status')).toHaveTextContent('Passwords do not match.');
     expect(authMocks.register).not.toHaveBeenCalled();
@@ -178,7 +178,7 @@ describe('Register page', () => {
     await user.type(screen.getByLabelText('Email'), 'new@example.com');
     await user.type(screen.getByLabelText('Password'), 'secure-password');
     await user.type(screen.getByLabelText('Confirm password'), 'secure-password');
-    const submit = screen.getByRole('button', { name: 'Create account' });
+    const submit = screen.getByRole('button', { name: 'Sign up' });
     await user.click(submit);
     expect(submit).toBeDisabled();
     await user.click(submit);
@@ -203,6 +203,22 @@ it('redirects signed-out visitors from protected pages to login', async () => {
   expect(await screen.findByRole('heading', { name: 'Log in' })).toBeInTheDocument();
 });
 
+it('requires a login for the public catalogue and returns to the requested page afterward', async () => {
+  const user = userEvent.setup();
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+  authMocks.login.mockResolvedValue({ user: { id: 'user-1', username: 'listener' } });
+  render(
+    <MemoryRouter initialEntries={['/browse?q=Blue']}>
+      <ToastProvider><AuthProvider><AppRoutes /></AuthProvider></ToastProvider>
+    </MemoryRouter>,
+  );
+  expect(await screen.findByRole('heading', { name: 'Log in' })).toBeInTheDocument();
+  await user.type(screen.getByLabelText('Email'), 'listener@example.com');
+  await user.type(screen.getByLabelText('Password'), 'secure-password');
+  await user.click(screen.getByRole('button', { name: 'Log in' }));
+  expect(await screen.findByRole('heading', { name: 'Browse & discover' })).toBeInTheDocument();
+});
+
 it('preserves the intended protected page through login in the application routes', async () => {
   const user = userEvent.setup();
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
@@ -224,7 +240,7 @@ it('preserves the intended protected page through login in the application route
   expect(await screen.findByRole('heading', { name: 'Community' })).toBeInTheDocument();
 });
 
-it('logs the signed-in user out and restores guest navigation', async () => {
+it('logs the signed-in user out and returns to the login screen', async () => {
   const user = userEvent.setup();
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
   authMocks.me.mockResolvedValue({ user: { id: 'user-1', username: 'listener' } });
@@ -245,6 +261,5 @@ it('logs the signed-in user out and restores guest navigation', async () => {
 
   await user.click((await screen.findAllByRole('button', { name: 'Log out' }))[0]);
   await waitFor(() => expect(authMocks.logout).toHaveBeenCalledOnce());
-  expect(await screen.findAllByRole('link', { name: 'Log in' })).toHaveLength(2);
-  expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: 'Log in' })).toBeInTheDocument();
 });

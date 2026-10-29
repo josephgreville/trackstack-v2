@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
-import { cx } from '../utils/format';
 import Button from '../components/Button.jsx';
 
 export default function Login() {
@@ -39,49 +38,53 @@ export default function Login() {
   const togglePassword = () => setShowPassword((s) => !s);
 
   return (
-    <div className="max-w-md">
-      <h2 className="text-3xl font-display font-700 text-center mb-8">Log in</h2>
+    <div className="auth-form-shell">
+      <h2 className="auth-title">Log in</h2>
 
-      <form onSubmit={handleSubmit} className="bg-paper rounded-lg p-8 shadow-sm">
-        <div className="mb-4">
-          <label htmlFor="login-email" className="block text-sm text-brown mb-2">Email</label>
+      <form onSubmit={handleSubmit} className="auth-form">
+        <div className="auth-field">
+          <label htmlFor="login-email" className="sr-only">Email</label>
           <input
             id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded border line p-3"
+            placeholder="Email address"
+            autoComplete="email"
+            className="auth-input"
           />
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="login-password" className="block text-sm text-brown mb-2">Password</label>
+        <div className="auth-field">
+          <label htmlFor="login-password" className="sr-only">Password</label>
           <input
             id="login-password"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full rounded border line p-3"
+            placeholder="Password"
+            autoComplete="current-password"
+            className="auth-input"
           />
           <div className="flex justify-end mt-2">
             <button
               type="button"
               onClick={togglePassword}
-              className={cx('text-orange', 'hover:text-orange-dark', 'underline', 'cursor-pointer', 'py-1', 'px-2', 'rounded', 'text-sm')}
+              className="auth-password-toggle"
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
         </div>
 
-        <Button type="submit" className="w-full" loading={submitting}>
+        <Button type="submit" className="auth-submit" loading={submitting}>
           Log in
         </Button>
 
-        <p className="text-center mt-6 text-sm text-brown-line">
-          Don't have an account? <a href="/register" className="text-orange underline">Register</a>
+        <p className="auth-alternate">
+          Don't have an account? <Link to="/register">Sign up</Link>
         </p>
       </form>
     </div>

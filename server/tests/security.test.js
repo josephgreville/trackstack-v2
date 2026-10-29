@@ -38,6 +38,15 @@ describe('Security boundaries', () => {
     expect(rowCount).toBe(0);
   });
 
+  it('allows loopback Vite origins when running in development', async () => {
+    const response = await request(app)
+      .get(`${api}/auth/me`)
+      .set('Origin', 'http://127.0.0.1:5174');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['access-control-allow-origin']).toBe('http://127.0.0.1:5174');
+  });
+
   it('stores SQL-like text as data and does not expose user secrets', async () => {
     const agent = request.agent(app);
     const registration = await agent.post(`${api}/auth/register`).send({

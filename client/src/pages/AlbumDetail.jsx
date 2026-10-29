@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 import { formatYear, formatDuration } from '../utils/format';
-import { albumsService, catalogService, collectionsService } from '../services/index';
+import { albumsService, catalogService, collectionsService, listeningService, wantlistService } from '../services/index';
 import Button from '../components/Button.jsx';
+import { useOptionalPlayer } from '../context/PlayerContext.jsx';
 
 export default function AlbumDetail() {
   const { externalId, albumId } = useParams();
   const navigate = useNavigate();
   const { success, error, info } = useToast();
   const { user } = useAuth();
+  const player = useOptionalPlayer();
 
   const [album, setAlbum] = useState(null);
   const [tracks, setTracks] = useState([]);
@@ -21,6 +23,7 @@ export default function AlbumDetail() {
   const [collections, setCollections] = useState([]);
   const [pickerLoading, setPickerLoading] = useState(false);
   const [savingToCollection, setSavingToCollection] = useState(false);
+  const [loggingListen, setLoggingListen] = useState(false);
 
   useEffect(() => {
     if (!externalId && !albumId) {
@@ -90,6 +93,26 @@ export default function AlbumDetail() {
     }
   };
 
+  const saveToWantlist = async () => {
+    if (!user) { navigate('/login', { state: { from: window.location.pathname } }); return; }
+    try {
+      if (!album.externalId) throw new Error('Only catalogue albums can be added to your wantlist.');
+      await wantlistService.add({ externalId: album.externalId });
+      success('Album added to your wantlist.');
+    } catch (err) { error(err.message ?? 'Could not add this album to your wantlist.'); }
+  };
+
+  const logListen = async () => {
+    if (!user) { navigate('/login', { state: { from: window.location.pathname } }); return; }
+    setLoggingListen(true);
+    try {
+      const payload = albumId ? { albumId } : { externalId: album.externalId };
+      await listeningService.log(payload);
+      success('Added to your listening history.');
+    } catch (err) { error(err.message ?? 'Could not log this listen.'); }
+    finally { setLoggingListen(false); }
+  };
+
   if (loading) {
     return (
       <section className="py-12">
@@ -129,14 +152,19 @@ export default function AlbumDetail() {
           <h2 className="text-xl font-display font-600 mb-4">Track listing</h2>
           {tracks.length > 0 ? (
             <ol className="list-decimal inside pl-6 space-y-2 text-sm">
-              {tracks.map((track) => (
-                <li key={track.externalId}>
-                  {track.trackNumber?.toString().padStart(2, '0')}. {track.title}
-                  {track.durationMs && (
-                    <span className="text-brown-light ms-2">
-                      {formatDuration(track.durationMs)}
-                    </span>
-                  )}
+              {tracks.map((track, index) => (
+                <li key={track.externalId} className="track-row">
+                  <span>{track.trackNumber?.toString().padStart(2, '0')}. {track.title}</span>
+                  <span className="track-row-meta">
+                    {track.durationMs && <span className="text-brown-light">{formatDuration(track.durationMs)}</span>}
+                    {track.previewUrl && (
+                      <button type="button" className="track-play" onClick={() => player?.playQueue(
+                        tracks.map((item) => ({ ...item, title: item.title, artist: album.artist, artworkUrl: album.artworkUrl })), index,
+                      )}>
+                        Play preview
+                      </button>
+                    )}
+                  </span>
                 </li>
               ))}
             </ol>
@@ -159,7 +187,7 @@ export default function AlbumDetail() {
                     alt={rel.title}
                     className="w-full h-24 object-cover rounded mb-3"
                   />
-                  <h3 className="font-display font-600 line-clamp-1">{rel.title}</h3>
+                  <Link to={`/album/catalog/${rel.externalId}`} className="font-display font-600 line-clamp-1">{rel.title}</Link>
                   <p className="text-xs text-brown-light">{rel.artist}</p>
                 </article>
               ))}
@@ -170,6 +198,8 @@ export default function AlbumDetail() {
         <Button className="mt-6" loading={pickerLoading} onClick={openCollectionPicker}>
           Add to collection
         </Button>
+        {album.externalId && <Button className="mt-6 ms-3" variant="outline" onClick={saveToWantlist}>Add to wantlist</Button>}
+        <Button className="mt-6 ms-3" variant="outline" loading={loggingListen} onClick={logListen}>Log listen</Button>
         {collectionPickerOpen && (
           <section aria-labelledby="collection-picker-title" className="mt-6 bg-paper rounded-lg p-6">
             <h2 id="collection-picker-title" className="text-xl font-display font-600 mb-4">

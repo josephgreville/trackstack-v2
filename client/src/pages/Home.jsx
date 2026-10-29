@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { cx } from '../utils/format';
 import { GENRES, genreByName } from '../utils/genres';
@@ -94,7 +94,8 @@ export default function Home() {
   return (
     <section className="py-12">
       <div className="container-narrow">
-        <header className="mb-12">
+        <header className="dashboard-hero mb-12">
+          {user && <p className="eyebrow">Welcome back, {user.username}</p>}
           <h1 className="text-3xl font-display font-700 tracking-tighter mb-4">
             Your music. Your collection. Your story.
           </h1>
@@ -148,7 +149,7 @@ export default function Home() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-display font-600">My collections</h2>
               <Button
-                to="/collections"
+              to="/collections?create=true"
                 variant="primary"
                 size="sm"
               >
@@ -164,13 +165,14 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {myCollections.slice(0, 3).map((collection) => (
-                  <div
+                  <Link
                     key={collection.id}
+                    to={`/collections/${collection.id}`}
                     className="bg-paper rounded-lg p-4 border border-line shadow-sm"
                   >
                     <h3 className="font-display font-600 mb-1">{collection.name}</h3>
                     <p className="text-xs text-brown">{collection.albumCount ?? 0} albums</p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
@@ -189,7 +191,7 @@ export default function Home() {
                   'hover:bg-orange-soft hover:text-orange',
                   'border border-line',
                 )}
-                style={{ background: genre.tone === 'rust' ? '#ffe4e1' : undefined }}
+                style={{ background: 'var(--paper)' }}
               >
                 {genre.name}
               </button>

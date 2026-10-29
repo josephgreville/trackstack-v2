@@ -12,6 +12,10 @@ export default function Browse() {
   const { error } = useToast();
   const [q, setQ] = useState(params.get('q') ?? '');
   const [selectedGenre, setSelectedGenre] = useState(params.get('genre') ?? '');
+  const [artist, setArtist] = useState(params.get('artist') ?? '');
+  const [yearFrom, setYearFrom] = useState(params.get('yearFrom') ?? '');
+  const [yearTo, setYearTo] = useState(params.get('yearTo') ?? '');
+  const [sort, setSort] = useState(params.get('sort') ?? 'relevance');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const debouncedQuery = useDebounce(q, 300);
@@ -19,11 +23,15 @@ export default function Browse() {
   useEffect(() => {
     setQ(params.get('q') ?? '');
     setSelectedGenre(params.get('genre') ?? '');
+    setArtist(params.get('artist') ?? '');
+    setYearFrom(params.get('yearFrom') ?? '');
+    setYearTo(params.get('yearTo') ?? '');
+    setSort(params.get('sort') ?? 'relevance');
   }, [params]);
 
   useEffect(() => {
     let active = true;
-    if (!debouncedQuery.trim() && !selectedGenre) {
+    if (!debouncedQuery.trim() && !selectedGenre && !artist.trim()) {
       setResults([]);
       setLoading(false);
       return () => {
@@ -32,8 +40,13 @@ export default function Browse() {
     }
 
     setLoading(true);
+    const searchFilters = { q: debouncedQuery, genre: selectedGenre, limit: 24 };
+    if (artist.trim()) searchFilters.artist = artist.trim();
+    if (yearFrom) searchFilters.yearFrom = Number(yearFrom);
+    if (yearTo) searchFilters.yearTo = Number(yearTo);
+    if (sort !== 'relevance') searchFilters.sort = sort;
     catalogService
-      .search({ q: debouncedQuery, genre: selectedGenre, limit: 24 })
+      .search(searchFilters)
       .then(({ results: albums }) => {
         if (active) setResults(albums ?? []);
       })
@@ -50,7 +63,14 @@ export default function Browse() {
     return () => {
       active = false;
     };
-  }, [debouncedQuery, selectedGenre, error]);
+  }, [debouncedQuery, selectedGenre, artist, yearFrom, yearTo, sort, error]);
+
+  const updateParams = (updates) => {
+    const next = new URLSearchParams();
+    const values = { q, genre: selectedGenre, artist, yearFrom, yearTo, sort, ...updates };
+    for (const [key, value] of Object.entries(values)) if (value) next.set(key, value);
+    setSearchParams(next, { replace: true });
+  };
 
   const handleSearch = (value) => {
     const nextQuery = value.trim();
@@ -58,12 +78,20 @@ export default function Browse() {
     const next = new URLSearchParams();
     if (nextQuery) next.set('q', nextQuery);
     if (selectedGenre) next.set('genre', selectedGenre);
+    if (artist) next.set('artist', artist);
+    if (yearFrom) next.set('yearFrom', yearFrom);
+    if (yearTo) next.set('yearTo', yearTo);
+    if (sort !== 'relevance') next.set('sort', sort);
     setSearchParams(next, { replace: true });
   };
 
   const handleGenreChange = (genre) => {
     const next = new URLSearchParams();
     if (q.trim()) next.set('q', q.trim());
+    if (artist) next.set('artist', artist);
+    if (yearFrom) next.set('yearFrom', yearFrom);
+    if (yearTo) next.set('yearTo', yearTo);
+    if (sort !== 'relevance') next.set('sort', sort);
     if (genre) next.set('genre', genre);
     setSearchParams(next, { replace: true });
   };
@@ -91,6 +119,12 @@ export default function Browse() {
             selectedGenre={genreByName(selectedGenre)?.name ?? ''}
             onGenreChange={handleGenreChange}
           />
+          <div className="browse-refinements">
+            <label>Artist <input value={artist} onChange={(event) => { setArtist(event.target.value); updateParams({ artist: event.target.value }); }} placeholder="Filter artist" /></label>
+            <label>From year <input inputMode="numeric" value={yearFrom} onChange={(event) => { setYearFrom(event.target.value); updateParams({ yearFrom: event.target.value }); }} placeholder="1950" /></label>
+            <label>To year <input inputMode="numeric" value={yearTo} onChange={(event) => { setYearTo(event.target.value); updateParams({ yearTo: event.target.value }); }} placeholder="2025" /></label>
+            <label>Sort <select value={sort} onChange={(event) => { setSort(event.target.value); updateParams({ sort: event.target.value }); }}><option value="relevance">Relevance</option><option value="title">Title</option><option value="artist">Artist</option><option value="year">Year</option></select></label>
+          </div>
         </div>
 
         {/* Results grid */}

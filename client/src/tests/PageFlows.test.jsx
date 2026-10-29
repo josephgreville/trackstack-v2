@@ -125,8 +125,9 @@ describe('Home page', () => {
       </MemoryRouter>,
     );
     expect(screen.getAllByRole('link', { name: /trackstack/i })).toHaveLength(2);
-    expect(screen.getAllByRole('link', { name: 'Browse' })).toHaveLength(2);
-    expect(screen.getAllByRole('link', { name: 'My Collections' })).toHaveLength(2);
+    expect(screen.getAllByRole('link', { name: 'Browse' })).toHaveLength(1);
+    expect(screen.getAllByRole('link', { name: 'My Collections' })).toHaveLength(1);
+    expect(screen.getByRole('button', { name: 'Open navigation' })).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('renders featured albums, recent albums, collections and navigates searches', async () => {
@@ -142,7 +143,7 @@ describe('Home page', () => {
     expect(await screen.findByRole('heading', { name: /your music/i })).toBeInTheDocument();
     expect(await screen.findAllByRole('heading', { name: 'Rumours' })).toHaveLength(2);
     expect(screen.getByText('Favourites')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /create collection/i })).toHaveAttribute('href', '/collections');
+    expect(screen.getByRole('link', { name: /create collection/i })).toHaveAttribute('href', '/collections?create=true');
 
     await user.type(screen.getByRole('searchbox', { name: /search the music catalogue/i }), 'Radiohead');
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -590,7 +591,7 @@ describe('Other application pages', () => {
   it('renders the community page and the not-found recovery links', () => {
     const { unmount } = renderPage(<Community />);
     expect(screen.getByRole('heading', { name: 'Community' })).toBeInTheDocument();
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Share a collection' })).toBeInTheDocument();
     unmount();
 
     renderPage(<NotFound />, { entry: '/missing' });

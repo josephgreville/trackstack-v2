@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { collectionsService } from '../services/index';
 import CollectionCard from '../components/CollectionCard.jsx';
 import Button from '../components/Button.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function Collections() {
   const { success, error } = useToast();
+  const { user, updateProfile } = useAuth();
+  const [searchParams] = useSearchParams();
 
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState(false);
+  const [creating, setCreating] = useState(() => searchParams.get('create') === 'true');
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -83,6 +87,11 @@ export default function Collections() {
     }
   };
 
+  const togglePublicProfile = async (profilePublic) => {
+    try { await updateProfile({ profilePublic }); success(profilePublic ? 'Your profile is public.' : 'Your profile is private.'); }
+    catch (err) { error(err.message ?? 'Could not update profile visibility.'); }
+  };
+
   if (loading) {
     return (
       <section className="py-12">
@@ -106,6 +115,11 @@ export default function Collections() {
           <Button className="mt-5" onClick={() => setCreating((current) => !current)}>
             {creating ? 'Cancel' : 'Create collection'}
           </Button>
+          <div className="profile-sharing-panel">
+            <label><input type="checkbox" checked={Boolean(user?.profilePublic)} onChange={(event) => togglePublicProfile(event.target.checked)} /> Make my profile public</label>
+            {user?.profilePublic && <Link to={`/users/${encodeURIComponent(user.username)}`}>View public profile</Link>}
+            <p>Only collections marked public appear on your profile. Anyone with a collection share link can view that collection.</p>
+          </div>
         </header>
 
         {creating && (

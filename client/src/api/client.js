@@ -64,5 +64,19 @@ export const api = {
   post: (path, body, options) => request(path, { ...options, method: 'POST', body }),
   patch: (path, body, options) => request(path, { ...options, method: 'PATCH', body }),
   delete: (path, options) => request(path, { ...options, method: 'DELETE' }),
+  download: async (path) => {
+    let response;
+    try {
+      response = await fetch(`${API_BASE}${path}`, { credentials: 'include' });
+    } catch {
+      throw new ApiError('We could not reach TrackStack. Check your connection and try again.', { code: 'NETWORK_ERROR' });
+    }
+    if (!response.ok) {
+      let payload;
+      try { payload = await response.json(); } catch { /* keep fallback message */ }
+      throw new ApiError(payload?.error?.message ?? 'Could not download this file.', { status: response.status });
+    }
+    return response.blob();
+  },
   query: buildQuery,
 };

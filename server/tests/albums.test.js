@@ -22,7 +22,8 @@ async function authenticatedAgent() {
 
 describe('Catalogue API', () => {
   it('searches with validated query parameters and returns normalized album metadata', async () => {
-    const response = await request(app).get(`${api}/catalog/search`).query({ q: 'Rumours' });
+    const agent = await authenticatedAgent();
+    const response = await agent.get(`${api}/catalog/search`).query({ q: 'Rumours' });
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
       query: 'Rumours',
@@ -39,26 +40,29 @@ describe('Catalogue API', () => {
   });
 
   it('rejects empty or oversized search terms and accepts safe SQL-like input', async () => {
-    const empty = await request(app).get(`${api}/catalog/search`);
+    const agent = await authenticatedAgent();
+    expect((await request(app).get(`${api}/catalog/search`).query({ q: 'Rumours' })).status).toBe(401);
+    const empty = await agent.get(`${api}/catalog/search`);
     expect(empty.status).toBe(400);
 
-    const tooLong = await request(app).get(`${api}/catalog/search`).query({ q: 'x'.repeat(121) });
+    const tooLong = await agent.get(`${api}/catalog/search`).query({ q: 'x'.repeat(121) });
     expect(tooLong.status).toBe(400);
 
-    const injection = await request(app)
+    const injection = await agent
       .get(`${api}/catalog/search`)
       .query({ q: "'; DROP TABLE users; --" });
     expect(injection.status).toBe(200);
     const { rows } = await pool.query('SELECT count(*)::int AS users FROM users');
-    expect(rows[0].users).toBe(0);
+    expect(rows[0].users).toBe(1);
   });
 
   it('returns featured albums and album details with tracks', async () => {
-    const featured = await request(app).get(`${api}/catalog/featured`);
+    const agent = await authenticatedAgent();
+    const featured = await agent.get(`${api}/catalog/featured`);
     expect(featured.status).toBe(200);
     expect(featured.body.albums.length).toBeGreaterThan(0);
 
-    const detail = await request(app).get(`${api}/catalog/albums/594061854`);
+    const detail = await agent.get(`${api}/catalog/albums/594061854`);
     expect(detail.status).toBe(200);
     expect(detail.body.album.title).toBe('Test Album 594061854');
     expect(detail.body.album.tracks[0]).toMatchObject({
@@ -69,10 +73,11 @@ describe('Catalogue API', () => {
   });
 
   it('rejects malformed catalogue identifiers and surfaces upstream outages', async () => {
-    expect((await request(app).get(`${api}/catalog/albums/not-an-id`)).status).toBe(400);
+    const agent = await authenticatedAgent();
+    expect((await agent.get(`${api}/catalog/albums/not-an-id`)).status).toBe(400);
 
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 503 }));
-    const response = await request(app).get(`${api}/catalog/search`).query({ q: 'unavailable' });
+    const response = await agent.get(`${api}/catalog/search`).query({ q: 'unavailable' });
     expect(response.status).toBe(502);
     expect(response.body.error.code).toBe('UPSTREAM_UNAVAILABLE');
   });

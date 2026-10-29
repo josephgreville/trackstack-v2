@@ -21,7 +21,12 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Community from './pages/Community.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Wantlist from './pages/Wantlist.jsx';
+import ListeningHistory from './pages/ListeningHistory.jsx';
+import SharedCollection from './pages/SharedCollection.jsx';
+import PublicProfile from './pages/PublicProfile.jsx';
 import PageLoader from './components/PageLoader.jsx';
+import { PlayerProvider } from './context/PlayerContext.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -62,18 +67,22 @@ function GuestOnly() {
 export function AppRoutes() {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
-        <Route index element={<Home />} />
-        <Route path="browse" element={<Browse />} />
-        <Route path="album/catalog/:externalId" element={<AlbumDetail />} />
-        <Route element={<RequireAuth />}>
+      <Route element={<RequireAuth />}>
+        <Route element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route path="browse" element={<Browse />} />
+          <Route path="share/:token" element={<SharedCollection />} />
+          <Route path="users/:username" element={<PublicProfile />} />
+          <Route path="album/catalog/:externalId" element={<AlbumDetail />} />
           <Route path="album/:albumId" element={<AlbumDetail />} />
           <Route path="collections" element={<Collections />} />
           <Route path="collections/:collectionId" element={<CollectionDetail />} />
           <Route path="collections/:collectionId/add" element={<AddAlbum />} />
           <Route path="community" element={<Community />} />
+          <Route path="wantlist" element={<Wantlist />} />
+          <Route path="listening-history" element={<ListeningHistory />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route element={<GuestOnly />}>
@@ -91,8 +100,10 @@ export default function App() {
     <BrowserRouter>
       <ToastProvider>
         <AuthProvider>
-          <ScrollToTop />
-          <AppRoutes />
+          <PlayerProvider>
+            <ScrollToTop />
+            <AppRoutes />
+          </PlayerProvider>
         </AuthProvider>
       </ToastProvider>
     </BrowserRouter>

@@ -1,7 +1,20 @@
 import { Link } from 'react-router-dom';
 import { formatYear } from '../utils/format';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
+import { wantlistService } from '../services/index.js';
 
 export default function AlbumCard({ album }) {
+  const { user } = useAuth();
+  const { success, error } = useToast();
+  const addToWantlist = async () => {
+    try {
+      await wantlistService.add({ externalId: album.externalId });
+      success('Added to your wantlist.');
+    } catch (err) {
+      error(err.message ?? 'Could not add this album to your wantlist.');
+    }
+  };
   const artwork = album.artworkUrl ?? 'https://via.placeholder.com/300x300/dddde4/786b60';
   const subtitle = [album.artist, formatYear(album.releaseYear)].filter(Boolean).join(' � ');
 
@@ -23,6 +36,11 @@ export default function AlbumCard({ album }) {
           )}
         </div>
       </Link>
+      {user && album.externalId && (
+        <div className="px-4 pb-4">
+          <button type="button" className="catalog-wantlist-button" onClick={addToWantlist}>＋ Wantlist</button>
+        </div>
+      )}
     </article>
   );
 }

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
-import { cx } from '../utils/format';
 import Button from '../components/Button.jsx';
 
 export default function Register() {
@@ -35,39 +34,43 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-md">
-      <h2 className="text-3xl font-display font-700 text-center mb-8">Sign up</h2>
+    <div className="auth-form-shell">
+      <h2 className="auth-title">Registration</h2>
 
-      <form onSubmit={handleSubmit} className="bg-paper rounded-lg p-8 shadow-sm">
-        <div className="mb-4">
+      <form onSubmit={handleSubmit} className="auth-form">
+        <div className="auth-field">
           <div>
-            <label htmlFor="register-username" className="block text-sm text-brown mb-2">Username</label>
+            <label htmlFor="register-username" className="sr-only">Username</label>
             <input
               id="register-username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full rounded border line p-3"
+              placeholder="Username"
+              autoComplete="username"
+              className="auth-input"
             />
           </div>
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="register-email" className="block text-sm text-brown mb-2">Email</label>
+        <div className="auth-field">
+          <label htmlFor="register-email" className="sr-only">Email</label>
           <input
             id="register-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded border line p-3"
+            placeholder="Email address"
+            autoComplete="email"
+            className="auth-input"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="auth-field">
           <div>
-            <label htmlFor="register-password" className="block text-sm text-brown mb-2">Password</label>
+            <label htmlFor="register-password" className="sr-only">Password</label>
             <input
               id="register-password"
               type="password"
@@ -75,11 +78,15 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={8}
-              className="w-full rounded border line p-3"
+              placeholder="Password"
+              autoComplete="new-password"
+              className="auth-input"
             />
           </div>
+        </div>
+        <div className="auth-field">
           <div>
-            <label htmlFor="register-confirm-password" className="block text-sm text-brown mb-2">Confirm password</label>
+            <label htmlFor="register-confirm-password" className="sr-only">Confirm password</label>
             <input
               id="register-confirm-password"
               type="password"
@@ -87,17 +94,19 @@ export default function Register() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={8}
-              className="w-full rounded border line p-3"
+              placeholder="Confirm password"
+              autoComplete="new-password"
+              className="auth-input"
             />
           </div>
         </div>
 
-        <Button type="submit" className="w-full" loading={submitting}>
-          Create account
+        <Button type="submit" className="auth-submit" loading={submitting}>
+          Sign up
         </Button>
 
-        <p className="text-center mt-6 text-sm text-brown-line">
-          Already have an account? <a href="/login" className="text-orange underline">Log in</a>
+        <p className="auth-alternate">
+          Already have an account? <Link to="/login">Click here to login</Link>
         </p>
       </form>
     </div>

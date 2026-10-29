@@ -49,10 +49,11 @@ export const collectionUpdateSchema = z
       .trim()
       .max(500, 'Description must be 500 characters or fewer.')
       .optional(),
+    isPublic: z.boolean().optional(),
   })
   .strict()
-  .refine((value) => value.name !== undefined || value.description !== undefined, {
-    message: 'Provide a name or description to update.',
+  .refine((value) => value.name !== undefined || value.description !== undefined || value.isPublic !== undefined, {
+    message: 'Provide a collection detail to update.',
   });
 
 export const collectionIdSchema = z.object({ id: uuid });
@@ -84,6 +85,10 @@ export const searchQuerySchema = z.object({
   genre: z.string().trim().max(40).optional().default(''),
   limit: z.coerce.number().int().min(1).max(50).optional().default(24),
   page: z.coerce.number().int().min(1).max(20).optional().default(1),
+  artist: z.string().trim().max(120).optional().default(''),
+  yearFrom: z.coerce.number().int().min(1000).max(2100).optional(),
+  yearTo: z.coerce.number().int().min(1000).max(2100).optional(),
+  sort: z.enum(['relevance', 'title', 'artist', 'year']).optional().default('relevance'),
 });
 
 export const catalogAlbumParamsSchema = z.object({
@@ -93,6 +98,54 @@ export const catalogAlbumParamsSchema = z.object({
 export const albumIdSchema = z.object({ id: uuid });
 
 export const collectionAlbumsQuerySchema = z.object({
-  sort: z.enum(['added_at', 'title', 'artist', 'release_year']).optional().default('added_at'),
+  sort: z.enum(['added_at', 'title', 'artist', 'release_year', 'genre']).optional().default('added_at'),
   order: z.enum(['asc', 'desc']).optional().default('desc'),
+  q: z.string().trim().max(120).optional().default(''),
 });
+
+export const collectionAlbumUpdateSchema = z.object({
+  format: z.enum(['vinyl', 'cassette', 'cd', 'digital', 'other']).nullable().optional(),
+  condition: z.enum(['mint', 'near_mint', 'very_good', 'good', 'fair', 'poor']).nullable().optional(),
+  purchaseDate: z.string().date().nullable().optional(),
+  price: z.number().nonnegative().max(99999999).nullable().optional(),
+  editionNotes: z.string().trim().max(500).optional(),
+}).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a detail to update.' });
+
+export const wantlistCreateSchema = z.object({
+  externalId: z.union([z.string(), z.number()]).transform(String).pipe(z.string().regex(/^\d{1,20}$/)),
+  preferredEdition: z.string().trim().max(300).optional().default(''),
+  notes: z.string().trim().max(500).optional().default(''),
+}).strict();
+export const wantlistUpdateSchema = z.object({
+  preferredEdition: z.string().trim().max(300).optional(),
+  notes: z.string().trim().max(500).optional(),
+}).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a wantlist detail to update.' });
+
+export const historyCreateSchema = z.object({
+  albumId: uuid.optional(),
+  externalId: z.union([z.string(), z.number()]).transform(String).pipe(z.string().regex(/^\d{1,20}$/)).optional(),
+}).strict().refine((value) => Boolean(value.albumId || value.externalId), { message: 'Choose an album to log.' });
+
+export const historyReviewSchema = z.object({
+  rating: z.number().int().min(1).max(5).nullable().optional(),
+  review: z.string().trim().max(1000).nullable().optional(),
+}).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a rating or review.' });
+
+export const profileUpdateSchema = z.object({ profilePublic: z.boolean() }).strict();
+export const publicProfileParamsSchema = z.object({ username: z.string().min(2).max(40) });
+export const shareTokenParamsSchema = z.object({ token: uuid });
+export const historyIdParamsSchema = z.object({ historyId: uuid });
+
+export const collectionImportSchema = z.object({
+  albums: z.array(z.object({
+    title: trimmedText(1, 200, 'Album title'),
+    artist: trimmedText(1, 200, 'Artist'),
+    releaseYear: z.coerce.number().int().min(1000).max(2100).optional(),
+    genre: z.string().trim().max(60).optional().default(''),
+    format: z.enum(['vinyl', 'cassette', 'cd', 'digital', 'other']).optional(),
+    condition: z.enum(['mint', 'near_mint', 'very_good', 'good', 'fair', 'poor']).optional(),
+    purchaseDate: z.string().date().optional(),
+    price: z.coerce.number().nonnegative().max(99999999).optional(),
+    editionNotes: z.string().trim().max(500).optional().default(''),
+  }).strict()).max(500),
+}).strict();

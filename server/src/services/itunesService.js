@@ -123,16 +123,17 @@ async function cachedRequest(key, task) {
   return promise;
 }
 
-export async function searchAlbums({ q, genre, limit = 24, page = 1 }) {
+export async function searchAlbums({ q, genre, artist, yearFrom, yearTo, sort = 'relevance', limit = 24, page = 1 }) {
   const query = q?.trim() ?? '';
   const selectedGenre = genre?.trim() ?? '';
+  const selectedArtist = artist?.trim() ?? '';
 
-  if (!query && !selectedGenre) {
+  if (!query && !selectedGenre && !selectedArtist) {
     throw new BadRequestError('Enter an album, artist or genre to search.');
   }
 
-  const term = query || selectedGenre;
-  const key = `search:${term}:${selectedGenre}:${limit}:${page}`;
+  const term = query || selectedArtist || selectedGenre;
+  const key = `search:${term}:${selectedGenre}:${selectedArtist}:${yearFrom}:${yearTo}:${sort}:${limit}:${page}`;
 
   return cachedRequest(key, async () => {
     const payload = await fetchItunes('/search', {
@@ -148,6 +149,15 @@ export async function searchAlbums({ q, genre, limit = 24, page = 1 }) {
       .map(normaliseAlbum)
       .filter(Boolean)
       .filter((album) => genreMatches(album.genre, selectedGenre))
+      .filter((album) => !selectedArtist || album.artist.toLowerCase().includes(selectedArtist.toLowerCase()))
+      .filter((album) => album.releaseYear === null || (yearFrom === undefined || album.releaseYear >= yearFrom)
+        && (yearTo === undefined || album.releaseYear <= yearTo))
+      .sort((a, b) => {
+        if (sort === 'title') return a.title.localeCompare(b.title);
+        if (sort === 'artist') return a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title);
+        if (sort === 'year') return (a.releaseYear ?? 0) - (b.releaseYear ?? 0);
+        return 0;
+      })
       .slice(0, limit);
 
     return {
@@ -201,6 +211,7 @@ export async function getAlbumDetail(externalId) {
         trackNumber: Number.isInteger(track.trackNumber) ? track.trackNumber : null,
         discNumber: Number.isInteger(track.discNumber) ? track.discNumber : null,
         durationMs: Number.isFinite(track.trackTimeMillis) ? track.trackTimeMillis : null,
+        previewUrl: track.previewUrl ?? null,
       }))
       .sort((a, b) => (a.discNumber ?? 1) - (b.discNumber ?? 1) || (a.trackNumber ?? 0) - (b.trackNumber ?? 0));
 

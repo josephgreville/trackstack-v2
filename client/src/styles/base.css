@@ -17,7 +17,7 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -26,7 +26,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--cream);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.022'/%3E%3C/svg%3E");
+  background-image: none;
   color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -177,6 +177,13 @@ p {
   color: var(--orange-dark);
   text-decoration-color: var(--orange);
 }
+
+input, textarea, select {
+  background: var(--paper-deep);
+  border-color: var(--line-strong);
+  color: var(--charcoal);
+}
+input::placeholder, textarea::placeholder { color: var(--brown-light); }
 
 @media (prefers-reduced-motion: reduce) {
   *,

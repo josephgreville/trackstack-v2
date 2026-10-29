@@ -8,7 +8,7 @@ export async function requireAuth(req, _res, next) {
     if (!userId) throw new UnauthorizedError();
 
     const { rows } = await pool.query(
-      'SELECT id, username, email, created_at FROM users WHERE id = $1',
+      'SELECT id, username, email, created_at, profile_public FROM users WHERE id = $1',
       [userId],
     );
 
@@ -30,7 +30,7 @@ export async function optionalUser(req, _res, next) {
     if (!userId) return next();
 
     const { rows } = await pool.query(
-      'SELECT id, username, email, created_at FROM users WHERE id = $1',
+      'SELECT id, username, email, created_at, profile_public FROM users WHERE id = $1',
       [userId],
     );
     if (rows[0]) req.user = toPublicUser(rows[0]);

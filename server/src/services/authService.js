@@ -15,6 +15,7 @@ export function toPublicUser(row) {
     username: row.username,
     email: row.email,
     createdAt: row.created_at,
+    profilePublic: row.profile_public ?? false,
   };
 }
 
@@ -52,7 +53,7 @@ export async function registerUser({ username, email, password }) {
 
 export async function authenticateUser({ email, password }) {
   const { rows } = await pool.query(
-    'SELECT id, username, email, password_hash, created_at FROM users WHERE lower(email) = lower($1)',
+    'SELECT id, username, email, password_hash, created_at, profile_public FROM users WHERE lower(email) = lower($1)',
     [email],
   );
 
@@ -69,7 +70,7 @@ export async function authenticateUser({ email, password }) {
 
 export async function findUserById(id) {
   const { rows } = await pool.query(
-    'SELECT id, username, email, created_at FROM users WHERE id = $1',
+    'SELECT id, username, email, created_at, profile_public FROM users WHERE id = $1',
     [id],
   );
   return rows[0] ? toPublicUser(rows[0]) : null;

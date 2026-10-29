@@ -42,9 +42,15 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (details) => {
+    const result = await authService.updateProfile(details);
+    setUser((current) => current ? { ...current, profilePublic: result.profilePublic } : current);
+    return result;
+  }, []);
+
   const value = useMemo(
-    () => ({ user, isLoading, login, register, logout }),
-    [user, isLoading, login, register, logout],
+    () => ({ user, isLoading, login, register, logout, updateProfile }),
+    [user, isLoading, login, register, logout, updateProfile],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -5,29 +5,29 @@
 
 :root {
   /* Core palette — deliberately limited. */
-  --cream: #f5f0e6;
-  --paper: #fffcf6;
-  --paper-deep: #faf5eb;
-  --orange: #f47745;
-  --orange-dark: #d95d2d;
-  --orange-soft: #fde6da;
-  --charcoal: #292725;
-  --charcoal-soft: #3b3835;
-  --brown: #786b60;
-  --brown-light: #a39689;
-  --line: #ddd5c9;
-  --line-strong: #c9bfb1;
+  --cream: #1b1b1b;
+  --paper: #232323;
+  --paper-deep: #2c2c2c;
+  --orange: #ff7049;
+  --orange-dark: #ff8a5e;
+  --orange-soft: #482a22;
+  --charcoal: #f3eee9;
+  --charcoal-soft: #ddd5ce;
+  --brown: #b5aaa2;
+  --brown-light: #8e837b;
+  --line: #363331;
+  --line-strong: #504943;
 
   /* Supporting warm accents, used for genre labels and illustrations. */
   --olive: #74764f;
-  --olive-soft: #e9e7d2;
-  --rust: #a74f36;
-  --gold: #c79745;
-  --gold-soft: #f5e6c7;
+  --olive-soft: #343629;
+  --rust: #f08a63;
+  --gold: #e6b85d;
+  --gold-soft: #3e3524;
   --sage: #62756b;
-  --sage-soft: #dfe7df;
-  --rose: #b36b62;
-  --rose-soft: #f2deda;
+  --sage-soft: #2c3933;
+  --rose: #d9887e;
+  --rose-soft: #3d2d2b;
 
   /* Semantic aliases */
   --bg: var(--cream);
@@ -35,14 +35,14 @@
   --surface-muted: var(--paper-deep);
   --text: var(--charcoal);
   --text-muted: var(--brown);
-  --text-subtle: #998c80;
+  --text-subtle: #8e837b;
   --border: var(--line);
   --accent: var(--orange);
   --accent-hover: var(--orange-dark);
   --danger: #a33f32;
-  --danger-soft: #f5ddd7;
-  --success: #4f6b51;
-  --success-soft: #e2e9dd;
+  --danger-soft: #3f2824;
+  --success: #9fbe9f;
+  --success-soft: #2c3930;
 
   /* Type */
   --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
@@ -97,7 +97,7 @@
 
   /* Layout */
   --container: 1240px;
-  --container-narrow: 940px;
+  --container-narrow: 1180px;
   --header-height: 76px;
   --mobile-nav-height: 68px;
 }

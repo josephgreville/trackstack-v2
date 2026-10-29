@@ -17,9 +17,21 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CLIENT_DIST = path.resolve(HERE, '..', '..', 'client', 'dist');
 const PgStore = connectPgSimple(session);
 
+function isLocalDevelopmentOrigin(origin) {
+  if (env.isProduction) return false;
+  try {
+    const { protocol, hostname } = new URL(origin);
+    return protocol === 'http:'
+      && ['localhost', '127.0.0.1', '[::1]'].includes(hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 function isAllowedOrigin(req, origin) {
   if (!origin) return true;
   if (env.clientOrigins.includes(origin)) return true;
+  if (isLocalDevelopmentOrigin(origin)) return true;
   const ownOrigin = `${req.protocol}://${req.get('host')}`;
   return origin === ownOrigin;
 }
@@ -64,7 +76,7 @@ export function createApp() {
     cors({
       origin(origin, callback) {
         if (!origin) return callback(null, true);
-        return callback(null, env.clientOrigins.includes(origin));
+        return callback(null, env.clientOrigins.includes(origin) || isLocalDevelopmentOrigin(origin));
       },
       credentials: true,
       methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],

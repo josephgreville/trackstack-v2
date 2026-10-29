@@ -6,7 +6,10 @@ import {
   listCollections,
   removeAlbumFromCollection,
   updateCollection,
+  updateCollectionAlbum,
+  importCollectionAlbums,
 } from '../services/collectionsService.js';
+import { getCollectionStats } from '../services/personalFeaturesService.js';
 
 export async function index(req, res) {
   const collections = await listCollections(req.user.id);
@@ -49,4 +52,30 @@ export async function removeAlbum(req, res) {
     req.validated.params.albumId,
   );
   res.status(204).end();
+}
+
+export async function updateAlbumDetails(req, res) {
+  await updateCollectionAlbum(req.user.id, req.validated.params.id, req.validated.params.albumId, req.validated.body);
+  res.json({ updated: true });
+}
+
+export async function importAlbums(req, res) {
+  const result = await importCollectionAlbums(req.user.id, req.validated.params.id, req.validated.body.albums);
+  res.status(201).json(result);
+}
+
+export async function stats(req, res) {
+  res.json({ stats: await getCollectionStats(req.user.id, req.validated.params.id) });
+}
+
+export async function exportCollection(req, res) {
+  const collection = await getCollection(req.user.id, req.validated.params.id, { sort: 'added_at' });
+  const columns = ['title', 'artist', 'releaseYear', 'genre', 'format', 'condition', 'purchaseDate', 'price', 'editionNotes'];
+  const quote = (value) => {
+    const text = String(value ?? '');
+    const safe = /^[\t\r ]*[=+\-@]/.test(text) ? `'${text}` : text;
+    return `"${safe.replaceAll('"', '""')}"`;
+  };
+  const csv = [columns.join(','), ...collection.albums.map((album) => columns.map((key) => quote(album[key])).join(','))].join('\r\n');
+  res.type('text/csv').attachment(`${collection.name.replace(/[^a-z0-9-_]+/gi, '-') || 'trackstack-collection'}.csv`).send(csv);
 }

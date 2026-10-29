@@ -6,7 +6,11 @@ import {
   index,
   removeAlbum,
   show,
+  exportCollection,
+  importAlbums,
+  stats,
   update,
+  updateAlbumDetails,
 } from '../controllers/collectionsController.js';
 import { requireAuth } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
@@ -16,6 +20,8 @@ import {
   collectionCreateSchema,
   collectionIdSchema,
   collectionUpdateSchema,
+  collectionAlbumUpdateSchema,
+  collectionImportSchema,
   removeAlbumSchema,
 } from '../validators/schemas.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -36,6 +42,9 @@ router.patch(
   validate({ params: collectionIdSchema, body: collectionUpdateSchema }),
   asyncHandler(update),
 );
+router.get('/:id/stats', validate({ params: collectionIdSchema }), asyncHandler(stats));
+router.get('/:id/export', validate({ params: collectionIdSchema }), asyncHandler(exportCollection));
+router.post('/:id/import', validate({ params: collectionIdSchema, body: collectionImportSchema }), asyncHandler(importAlbums));
 router.delete('/:id', validate({ params: collectionIdSchema }), asyncHandler(destroy));
 router.post(
   '/:id/albums',
@@ -46,6 +55,11 @@ router.delete(
   '/:id/albums/:albumId',
   validate({ params: removeAlbumSchema }),
   asyncHandler(removeAlbum),
+);
+router.patch(
+  '/:id/albums/:albumId',
+  validate({ params: removeAlbumSchema, body: collectionAlbumUpdateSchema }),
+  asyncHandler(updateAlbumDetails),
 );
 
 export default router;
