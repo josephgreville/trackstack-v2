@@ -23,9 +23,9 @@ export default {
         olive: '#A8AA7C',
       },
       fontFamily: {
-        display: ['Fraunces', 'serif'],
-        sans: ['Manrope', 'sans-serif'],
-        mono: ['IBM Plex Mono', 'monospace'],
+        display: ['Fredoka', 'var(--font-display)', 'system-ui', 'sans-serif'],
+        sans: ['Nunito', 'var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'var(--font-mono)', 'monospace'],
       },
       boxShadow: {
         sm: '0 1px 2px rgba(41,39,37,0.06)',

@@ -45,10 +45,13 @@ export default function SearchBar({
         enterKeyHint="search"
       />
       {genreOptions.length > 0 && (
-        <label className="sr-only" htmlFor={`${id}-genre`}>
-          Filter by genre
+        <>
+          <label className="sr-only" htmlFor={`${id}-genre`}>
+            Filter by genre
+          </label>
           <select
             id={`${id}-genre`}
+            className="search-genre"
             value={selectedGenre?.name ?? selectedGenre ?? ''}
             onChange={(event) => onGenreChange?.(event.target.value)}
           >
@@ -59,7 +62,7 @@ export default function SearchBar({
               </option>
             ))}
           </select>
-        </label>
+        </>
       )}
       <button type="submit" className="search-submit" disabled={loading}>
         {loading ? <span className="spinner" aria-hidden="true" /> : buttonLabel}

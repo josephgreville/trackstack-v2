@@ -103,7 +103,7 @@ export function createApp() {
       rolling: true,
       cookie: {
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: env.cookieSameSite,
         secure: env.cookieSecure,
         maxAge: env.sessionMaxAgeMs,
         path: '/',

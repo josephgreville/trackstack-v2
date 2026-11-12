@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The TrackStack record, used for the splash screen. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="180dp"
+    android:height="180dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Grooves -->
+    <path
+        android:fillColor="#FFF5EC"
+        android:fillAlpha="0.14"
+        android:pathData="M54,14A40,40 0 1,1 53.9,14Z" />
+    <path
+        android:strokeColor="#FFF5EC"
+        android:strokeWidth="1.6"
+        android:strokeAlpha="0.5"
+        android:fillColor="#00000000"
+        android:pathData="M54,20A34,34 0 1,1 53.9,20Z" />
+    <path
+        android:strokeColor="#FFF5EC"
+        android:strokeWidth="1.4"
+        android:strokeAlpha="0.35"
+        android:fillColor="#00000000"
+        android:pathData="M54,27A27,27 0 1,1 53.9,27Z" />
+    <!-- Label -->
+    <path
+        android:fillColor="#FF7A4D"
+        android:pathData="M54,38A16,16 0 1,1 53.9,38Z" />
+    <!-- Spindle -->
+    <path
+        android:fillColor="#1E1A18"
+        android:pathData="M54,50.5A3.5,3.5 0 1,1 53.9,50.5Z" />
+</vector>

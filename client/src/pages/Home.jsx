@@ -130,8 +130,8 @@ export default function Home() {
 
           {/* Quick stats */}
           {user && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12" variants={listContainer} initial="hidden" animate="show">
-              <motion.div variants={listItem} className="stats-panel p-5">
+            <div className="home-stat-grid" variants={listContainer} initial="hidden" animate="show">
+              <motion.div variants={listItem} className="home-stat-card">
                 <h3>Collections</h3>
                 <div className="stat-row">
                   <span className="stat-label">Stacks you own</span>
@@ -141,7 +141,7 @@ export default function Home() {
                   <div style={{ width: Math.min(collectionCount * 33, 100) + '%' }}></div>
                 </div>
               </motion.div>
-              <motion.div variants={listItem} className="stats-panel p-5">
+              <motion.div variants={listItem} className="home-stat-card">
                 <h3>Albums</h3>
                 <div className="stat-row">
                   <span className="stat-label">Across your stacks</span>
@@ -151,11 +151,11 @@ export default function Home() {
                   <div style={{ width: Math.min(albumCount * 5, 100) + '%' }}></div>
                 </div>
               </motion.div>
-              <motion.div variants={listItem} className="stats-panel p-5">
+              <motion.div variants={listItem} className="home-stat-card">
                 <h3>Listening</h3>
                 <div className="stat-row">
-                  <span className="stat-label">Add to your queue</span>
-                  <strong>Tap play</strong>
+                  <span className="stat-label">Up next</span>
+                  <strong>→</strong>
                 </div>
                 <div className="stat-track">
                   <div style={{ width: '60%' }}></div>

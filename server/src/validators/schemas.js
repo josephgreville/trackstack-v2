@@ -78,6 +78,12 @@ const manualAlbumSchema = z
       .optional(),
     genre: z.string().trim().max(60).optional().default(''),
     artworkUrl: z.string().trim().url('Artwork must be a valid URL.').max(1000).optional().or(z.literal('')),
+    // Copy details can be captured straight away, matching CSV import.
+    format: z.enum(['vinyl', 'cassette', 'cd', 'digital', 'other']).optional(),
+    condition: z.enum(['mint', 'near_mint', 'very_good', 'good', 'fair', 'poor']).optional(),
+    purchaseDate: z.string().date().optional(),
+    price: z.number().nonnegative().max(99999999).optional(),
+    editionNotes: z.string().trim().max(500).optional(),
   })
   .strict();
 

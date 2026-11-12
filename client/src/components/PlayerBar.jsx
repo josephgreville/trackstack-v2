@@ -46,60 +46,59 @@ export default function PlayerBar() {
         onPause={() => player.setPlaying(false)}
         onError={() => player.setPlaying(false)}
       />
-      <div className="player-track">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          className="relative"
-        >
-          <img
-            src={current.artworkUrl || ''}
-            alt=""
-            className="w-full h-full object-cover border border-line shadow-sm"
-          />
-          {playing && (
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              variants={playPulse}
-            >
-              <span className="text-[10px] font-black text-orange tracking-widest uppercase">
-                playing
-              </span>
-            </motion.div>
-          )}
-        </motion.div>
-        <div className="player-track-copy">
-          <strong className="block">{current.title}</strong>
-          <span>{current.artist}</span>
-        </div>
-      </div>
-      <div className="player-controls">
-        <div className="player-buttons">
-          <button type="button" aria-label="Previous preview" onClick={player.previous}>|◀</button>
-          <motion.button
-            type="button"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="player-play"
-            aria-label={playing ? 'Pause preview' : 'Play preview'}
-            onClick={player.toggle}
+
+      <motion.div whileHover={{ scale: 1.08 }} className="player-art">
+        <img
+          src={current.artworkUrl || ''}
+          alt=""
+          className="w-full h-full object-cover border border-line shadow-sm"
+        />
+        {playing && (
+          <motion.span
+            className="player-art-badge"
+            variants={playPulse}
+            aria-hidden="true"
           >
-            {playing ? 'Ⅱ' : '▶'}
-          </motion.button>
-          <button type="button" aria-label="Next preview" onClick={player.next}>▶|</button>
-        </div>
-        <div className="player-progress">
-          <span>{timeLabel(currentTime)}</span>
-          <input
-            aria-label="Seek preview"
-            type="range"
-            min="0"
-            max={duration || 30}
-            value={Math.min(currentTime, duration || 30)}
-            onChange={(event) => player.seek(Number(event.target.value))}
-          />
-          <span>{timeLabel(duration)}</span>
-        </div>
+            <i />
+            <i />
+            <i />
+          </motion.span>
+        )}
+      </motion.div>
+
+      <div className="player-track-copy">
+        <strong className="block">{current.title}</strong>
+        <span>{current.artist}</span>
       </div>
+
+      <div className="player-buttons">
+        <button type="button" aria-label="Previous preview" onClick={player.previous}>|◀</button>
+        <motion.button
+          type="button"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="player-play"
+          aria-label={playing ? 'Pause preview' : 'Play preview'}
+          onClick={player.toggle}
+        >
+          {playing ? 'Ⅱ' : '▶'}
+        </motion.button>
+        <button type="button" aria-label="Next preview" onClick={player.next}>▶|</button>
+      </div>
+
+      <div className="player-progress">
+        <span className="player-time">{timeLabel(currentTime)}</span>
+        <input
+          aria-label="Seek preview"
+          type="range"
+          min="0"
+          max={duration || 30}
+          value={Math.min(currentTime, duration || 30)}
+          onChange={(event) => player.seek(Number(event.target.value))}
+        />
+        <span className="player-time">{timeLabel(duration)}</span>
+      </div>
+
       <span className="player-note">iTunes preview</span>
     </motion.aside>
   );

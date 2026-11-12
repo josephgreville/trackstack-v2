@@ -221,7 +221,8 @@ export default function AlbumDetail() {
         )}
 
         {collectionPickerOpen && (
-          <section aria-labelledby="collection-picker-title" className="mt-6 bg-paper rounded-lg p-6">
+          <section aria-labelledby="collection-picker-title" className="collection-picker mt-6 bg-paper rounded-lg p-6">
+            <div className="collection-picker-grip" aria-hidden="true" />
             <h2 id="collection-picker-title" className="text-xl font-display font-600 mb-4">
               Choose a collection
             </h2>

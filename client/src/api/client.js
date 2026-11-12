@@ -1,4 +1,32 @@
-const API_BASE = import.meta.env.VITE_API_URL ?? '/api/v1';
+const DEFAULT_API_BASE = import.meta.env.VITE_API_URL ?? '/api/v1';
+const API_BASE_KEY = 'trackstack.apiBase';
+
+/**
+ * The browser build talks to `/api/v1` on its own origin. The native Android
+ * app runs from `https://localhost`, so it needs the absolute address of the
+ * TrackStack API. That address can be set at build time with
+ * `VITE_API_URL`, or at runtime from the in-app server setting, which is
+ * stored locally so a rebuild is not needed to point the app somewhere else.
+ */
+export function getApiBase() {
+  try {
+    const stored = window.localStorage.getItem(API_BASE_KEY);
+    if (stored) return stored.replace(/\/+$/, '');
+  } catch {
+    // Private mode or a locked-down WebView: fall back to the build-time value.
+  }
+  return DEFAULT_API_BASE;
+}
+
+export function setApiBase(url) {
+  try {
+    const trimmed = String(url ?? '').trim().replace(/\/+$/, '');
+    if (trimmed) window.localStorage.setItem(API_BASE_KEY, trimmed);
+    else window.localStorage.removeItem(API_BASE_KEY);
+  } catch {
+    // Nothing to do: the build-time value stays in use.
+  }
+}
 
 export class ApiError extends Error {
   constructor(message, { status = 0, code = 'REQUEST_FAILED', details } = {}) {
@@ -25,7 +53,7 @@ async function request(path, { method = 'GET', body, signal } = {}) {
   let response;
 
   try {
-    response = await fetch(`${API_BASE}${path}`, {
+    response = await fetch(`${getApiBase()}${path}`, {
       method,
       credentials: 'include',
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
@@ -67,7 +95,7 @@ export const api = {
   download: async (path) => {
     let response;
     try {
-      response = await fetch(`${API_BASE}${path}`, { credentials: 'include' });
+      response = await fetch(`${getApiBase()}${path}`, { credentials: 'include' });
     } catch {
       throw new ApiError('We could not reach TrackStack. Check your connection and try again.', { code: 'NETWORK_ERROR' });
     }

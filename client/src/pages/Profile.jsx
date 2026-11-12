@@ -9,6 +9,8 @@ import StatCard from '../components/StatCard.jsx';
 import AchievementBadge from '../components/AchievementBadge.jsx';
 import Button from '../components/Button.jsx';
 import { listContainer, listItem } from '../components/motion.jsx';
+import { getApiBase, setApiBase } from '../api/client.js';
+import { isNative } from '../native/capacitor.js';
 
 const PROFILE_LINKS = [
   { to: '/wrapped', label: 'Wrapped', icon: '📊', blurb: 'Your year in music' },
@@ -29,6 +31,8 @@ export default function Profile() {
   const [stats, setStats] = useState({ collections: 0, albums: 0, listens: 0, followers: 0 });
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ bio: '', location: '' });
+  const [serverOpen, setServerOpen] = useState(false);
+  const [serverUrl, setServerUrl] = useState(() => getApiBase());
 
   const load = useCallback(() => {
     if (!user) return;
@@ -189,6 +193,45 @@ export default function Profile() {
                 <AchievementBadge key={achievement.id} achievement={achievement} />
               ))}
             </div>
+          </section>
+        )}
+
+        {/* The native app needs to know where the API lives. */}
+        {isNative() && (
+          <section className="profile-server">
+            <button
+              type="button"
+              className="profile-server-toggle"
+              onClick={() => setServerOpen((value) => !value)}
+              aria-expanded={serverOpen}
+            >
+              <span>Server connection</span>
+              <span aria-hidden="true">{serverOpen ? '▲' : '▼'}</span>
+            </button>
+            {serverOpen && (
+              <form
+                className="profile-server-form"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setApiBase(serverUrl);
+                  setServerUrl(getApiBase());
+                  success('Server address saved. Sign in again to use it.');
+                }}
+              >
+                <label htmlFor="api-base">TrackStack API address</label>
+                <input
+                  id="api-base"
+                  type="url"
+                  value={serverUrl}
+                  onChange={(event) => setServerUrl(event.target.value)}
+                  placeholder="https://your-server.com/api/v1"
+                />
+                <p className="profile-server-hint">
+                  Point the app at your own server. It is remembered on this device.
+                </p>
+                <Button type="submit" size="sm">Save address</Button>
+              </form>
+            )}
           </section>
         )}
       </div>

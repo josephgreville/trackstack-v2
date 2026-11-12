@@ -57,6 +57,9 @@ const env = {
   sessionSecret,
   sessionMaxAgeMs: numberFromEnv('SESSION_MAX_AGE_DAYS', 14) * 24 * 60 * 60 * 1000,
   cookieSecure: process.env.COOKIE_SECURE === 'true' || nodeEnv === 'production',
+  // The native Android app talks to the API from a different origin, so the
+  // session cookie has to be marked SameSite=None there.
+  cookieSameSite: process.env.COOKIE_SAMESITE ?? (nodeEnv === 'production' ? 'none' : 'lax'),
   trustProxy: process.env.TRUST_PROXY === 'true',
   clientOrigins,
   itunes: {

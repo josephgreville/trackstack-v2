@@ -1,0 +1,76 @@
+/* ==========================================================================
+   TrackStack native shell
+   Styles that only apply inside the Capacitor Android app.
+   ========================================================================== */
+
+body.is-native {
+  /* The native window has no browser chrome, so the app owns the full screen. */
+  background: var(--cream);
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Text fields must stay selectable. */
+body.is-native input,
+body.is-native textarea,
+body.is-native [contenteditable],
+body.is-native .selectable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* No tap highlight on the app chrome: the buttons already animate. */
+body.is-native a,
+body.is-native button,
+body.is-native [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Long-press on an image should not pop the Android media menu. */
+body.is-native img {
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+body.is-native a img,
+body.is-native button img {
+  pointer-events: auto;
+}
+
+/* The tab dock and the player clear the gesture bar and the notch. */
+body.is-native .app-tabbar {
+  padding-bottom: calc(.35rem + env(safe-area-inset-bottom, 0px));
+}
+
+body.is-native .player-bar {
+  inset: auto 0 calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px)) 0;
+}
+
+body.is-native .player-safe-area {
+  padding-bottom: calc(var(--tabbar-height) + 92px + env(safe-area-inset-bottom, 0px));
+}
+
+/* The sticky header clears the status bar inset. */
+body.is-native .app-mobile-header {
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(58px + env(safe-area-inset-top, 0px));
+}
+
+/* Content sits below the status bar rather than under it. */
+body.is-native .app-content {
+  padding-top: calc(.9rem + env(safe-area-inset-top, 0px));
+}
+
+/* The auth screen fills the whole native window. */
+body.is-native .auth-scene {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* The software keyboard sits over the page, so lift the focused field into view. */
+body.is-native .field-input:focus,
+body.is-native .auth-input:focus,
+body.is-native input:focus,
+body.is-native textarea:focus {
+  scroll-margin-bottom: 40vh;
+}

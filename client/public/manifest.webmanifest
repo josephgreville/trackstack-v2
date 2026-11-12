@@ -1,0 +1,20 @@
+{
+  "name": "TrackStack — your records, properly kept",
+  "short_name": "TrackStack",
+  "description": "Catalogue your records, cassettes and digital albums, share collections and discover something new.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1e1a18",
+  "theme_color": "#1e1a18",
+  "categories": ["music", "lifestyle", "entertainment"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

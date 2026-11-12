@@ -89,7 +89,7 @@ export default function Wrapped() {
         <div className="wrapped-grid">
           <WrappedCard
             title={`${data.label}`}
-            subtitle={`${data.totalListens} listens across ${data.uniqueAlbums} albums`}
+            subtitle={`${data.totalListens} ${data.totalListens === 1 ? 'listen' : 'listens'} across ${data.uniqueAlbums} ${data.uniqueAlbums === 1 ? 'album' : 'albums'}`}
             variant="hero"
             shareLabel="Share your recap"
             onShare={share}

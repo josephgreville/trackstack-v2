@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import { wantlistService } from '../services/index.js';
 import { hoverCard, hoverImage, listItem } from './motion.jsx';
+import AlbumArtwork from './AlbumArtwork.jsx';
 
 export default function AlbumCard({ album, index }) {
   const { user } = useAuth();
@@ -17,7 +18,6 @@ export default function AlbumCard({ album, index }) {
       error(err.message ?? 'Could not add this album to your wantlist.');
     }
   };
-  const artwork = album.artworkUrl ?? 'https://via.placeholder.com/300x300/dddde4/786b60';
   const subtitle = [album.artist, formatYear(album.releaseYear)].filter(Boolean).join(' · ');
 
   return (
@@ -38,9 +38,10 @@ export default function AlbumCard({ album, index }) {
           variants={hoverImage}
           className="relative w-full h-48 overflow-hidden"
         >
-          <img
-            src={artwork}
-            alt={`${album.title} artwork`}
+          <AlbumArtwork
+            src={album.artworkUrl}
+            title={album.title}
+            artist={album.artist}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {user && album.externalId && (

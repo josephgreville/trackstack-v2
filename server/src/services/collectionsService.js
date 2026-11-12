@@ -249,6 +249,7 @@ export async function addAlbumToCollection(userId, collectionId, payload) {
   const collection = await findOwnedCollection(userId, collectionId);
 
   let album;
+  let copyDetails = {};
 
   if (payload.externalId) {
     const existing = await findExternalAlbumInCollection(collection.id, payload.externalId);
@@ -265,13 +266,30 @@ export async function addAlbumToCollection(userId, collectionId, payload) {
       throw new ConflictError('That album is already in this collection.');
     }
     album = await insertManualAlbum(payload.manual);
+    copyDetails = {
+      format: payload.manual.format ?? null,
+      condition: payload.manual.condition ?? null,
+      purchaseDate: payload.manual.purchaseDate ?? null,
+      price: payload.manual.price ?? null,
+      editionNotes: payload.manual.editionNotes ?? '',
+    };
   }
 
   try {
     await withTransaction(async (client) => {
       await client.query(
-        'INSERT INTO collection_albums (collection_id, album_id) VALUES ($1, $2)',
-        [collection.id, album.id],
+        `INSERT INTO collection_albums
+          (collection_id, album_id, format, condition, purchase_date, price, edition_notes)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [
+          collection.id,
+          album.id,
+          copyDetails.format ?? null,
+          copyDetails.condition ?? null,
+          copyDetails.purchaseDate ?? null,
+          copyDetails.price ?? null,
+          copyDetails.editionNotes ?? '',
+        ],
       );
       await client.query('UPDATE collections SET updated_at = now() WHERE id = $1', [collection.id]);
     });

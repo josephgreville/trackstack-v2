@@ -1,0 +1,38 @@
+{
+  "appId": "com.trackstack.app",
+  "appName": "TrackStack",
+  "webDir": "client/dist",
+  "loggingBehavior": "none",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#1e1a18",
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": true,
+    "captureInput": true,
+    "webView": {
+      "mixedContentMode": "always"
+    }
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "launchAutoHide": true,
+      "backgroundColor": "#1e1a18",
+      "showSpinner": false,
+      "androidScaleType": "CENTER_CROP",
+      "splashFullScreen": true,
+      "splashImmersive": false
+    },
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#1e1a18",
+      "overlaysWebView": false
+    },
+    "Keyboard": {
+      "resize": "none",
+      "style": "LIGHT"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The TrackStack API is reached over HTTPS in production. Cleartext stays
+  enabled so the app can talk to a local development server over the LAN
+  (for example http://10.0.2.2:4000 from the Android emulator).
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

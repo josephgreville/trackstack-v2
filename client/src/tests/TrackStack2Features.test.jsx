@@ -269,8 +269,8 @@ describe('TrackStack 2.0 — Collection Room', () => {
     renderPage(<CollectionRoom />);
     expect(await screen.findByRole('button', { name: /Vinyl shelf/ })).toBeInTheDocument();
     await waitFor(() => expect(mocks.collectionsGet).toHaveBeenCalledWith('c1', { sort: 'added_at', order: 'desc' }));
-    expect(await screen.findByAltText('Blue cover')).toBeInTheDocument();
-    expect(screen.getByAltText('Hejira cover')).toBeInTheDocument();
+    expect(await screen.findByAltText(/Blue.*album cover/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/Hejira.*album cover/i)).toBeInTheDocument();
   });
 });
 

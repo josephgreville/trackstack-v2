@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { collectionsService } from '../services/index.js';
-import ShelfRoom, { SHELF_THEMES } from '../components/ShelfRoom.jsx';
+import ShelfRoom, { SHELF_THEMES, SHELF_SORTS } from '../components/ShelfRoom.jsx';
 import Button from '../components/Button.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import EmptyState from '../components/EmptyState.jsx';
@@ -99,6 +99,14 @@ export default function CollectionRoom() {
             </nav>
 
             <div className="room-controls">
+              <label>
+                Sort by
+                <select value={sort} onChange={(event) => setSort(event.target.value)}>
+                  {SHELF_SORTS.map((option) => (
+                    <option key={option.key} value={option.key}>{option.label}</option>
+                  ))}
+                </select>
+              </label>
               <label>
                 Order
                 <select value={order} onChange={(event) => setOrder(event.target.value)}>

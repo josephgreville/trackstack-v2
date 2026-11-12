@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TrackStack native palette, matching the web app design tokens. -->
+    <color name="trackstack_cream">#1E1A18</color>
+    <color name="trackstack_paper">#262220</color>
+    <color name="trackstack_paper_deep">#302926</color>
+    <color name="trackstack_charcoal">#FFF5EC</color>
+    <color name="trackstack_brown">#C4B3A6</color>
+    <color name="trackstack_orange">#FF7A4D</color>
+    <color name="trackstack_orange_dark">#FF9B6A</color>
+    <color name="trackstack_line">#3E3531</color>
+
+    <!-- Referenced by the AppCompat theme. -->
+    <color name="colorPrimary">@color/trackstack_orange</color>
+    <color name="colorPrimaryDark">@color/trackstack_cream</color>
+    <color name="colorAccent">@color/trackstack_orange</color>
+</resources>

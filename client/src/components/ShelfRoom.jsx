@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { listContainer, listItem } from './motion.jsx';
+import AlbumArtwork from './AlbumArtwork.jsx';
 
 export const SHELF_THEMES = {
   classic: { label: 'Classic Oak', wood: '#3a2a1e', highlight: '#5c4433' },
@@ -39,25 +40,6 @@ export default function ShelfRoom({
 
   return (
     <div className="shelf-room" style={{ '--shelf-wood': palette.wood, '--shelf-highlight': palette.highlight }}>
-      <div className="shelf-toolbar">
-        <label>
-          Sort shelves by
-          <select value={sort} onChange={(event) => onSortChange?.(event.target.value)}>
-            {SHELF_SORTS.map((option) => (
-              <option key={option.key} value={option.key}>{option.label}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Shelf theme
-          <select value={theme} onChange={(event) => onThemeChange?.(event.target.value)}>
-            {Object.entries(SHELF_THEMES).map(([key, value]) => (
-              <option key={key} value={key}>{value.label}</option>
-            ))}
-          </select>
-        </label>
-      </div>
-
       {!albums.length ? (
         <div className="shelf-empty">
           <p>This shelf is empty. Add albums to see them standing here.</p>
@@ -84,11 +66,11 @@ export default function ShelfRoom({
                     to={album.externalId ? `/album/catalog/${album.externalId}` : `/album/${album.id}`}
                     aria-label={`${album.title} by ${album.artist}`}
                   >
-                    <img
-                      src={album.artworkUrl || ''}
-                      alt={`${album.title} cover`}
-                      loading="lazy"
-                      style={{ '--spine-hue': (index * 37) % 360 }}
+                    <AlbumArtwork
+                      src={album.artworkUrl}
+                      title={album.title}
+                      artist={album.artist}
+                      className="shelf-cover"
                     />
                     <span className="shelf-spine" aria-hidden="true">
                       {album.title}

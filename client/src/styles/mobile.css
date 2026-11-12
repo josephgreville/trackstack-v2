@@ -1,0 +1,448 @@
+/* ==========================================================================
+   TrackStack mobile
+   A dedicated layer for phones and small tablets. Loaded last so it wins
+   over the desktop rules without needing !important.
+   ========================================================================== */
+
+/* --- Global phone ergonomics ------------------------------------------- */
+
+@media (max-width: 900px) {
+  /* Never allow a stray wide element to scroll the page sideways. */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* iOS zooms the page when a focused field is under 16px. */
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  /* Comfortable touch targets everywhere. */
+  .btn {
+    min-height: 46px;
+    padding-inline: 1.1rem;
+  }
+  .btn-sm { min-height: 40px; }
+
+  a, button, [role="button"], summary {
+    -webkit-tap-highlight-color: rgba(255, 122, 77, .18);
+  }
+
+  /* Finger-sized tap targets on the small inline controls. */
+  .range-tab { padding: .55rem .85rem; }
+  .app-tab { min-height: 56px; }
+  .room-tab { padding: .6rem 1rem; }
+  .genre-chip { padding: .55rem 1rem; }
+  .notification-mark-read { padding: .45rem .8rem; }
+  .recommendation-dismiss { padding: .5rem .7rem; }
+  .like-button { padding: .55rem 1rem; }
+  .follow-button { padding: .5rem 1rem; }
+
+  /* Page rhythm tightens up on small screens. */
+  .page-section { padding-block: 1.4rem 2rem; }
+  .page-heading { margin-bottom: 1.4rem; }
+  .page-heading h1, .collection-header h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .container-narrow, .container { width: min(100% - 1.5rem, 1320px); }
+  .app-content { width: 100%; padding: .9rem 0 0; }
+  .app-main { overflow-x: clip; }
+}
+
+/* --- Sticky header ----------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .app-mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    height: 58px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    border-bottom: 2px solid var(--line-strong);
+    background: rgba(38, 34, 32, .94);
+    backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .app-mobile-header .brand-word { font-size: 1.05rem; }
+  .app-mobile-header .brand-mark { width: 30px; height: 30px; }
+  .app-mobile-actions { display: flex; align-items: center; gap: .4rem; }
+  .app-menu-toggle { width: 40px; height: 40px; min-height: 40px; }
+  .notification-bell { width: 40px; height: 40px; }
+}
+
+/* --- Bottom tab dock --------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .app-tabbar {
+    position: fixed;
+    z-index: 65;
+    inset: auto 0 0 0;
+    display: flex;
+    height: auto;
+    min-height: var(--tabbar-height);
+    padding: .35rem .3rem calc(.35rem + env(safe-area-inset-bottom, 0px));
+    border-top: 2px solid var(--line-strong);
+    background: rgba(38, 34, 32, .97);
+    backdrop-filter: blur(20px) saturate(1.3);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, .35);
+  }
+  .app-tab {
+    display: grid;
+    flex: 1 1 0;
+    min-width: 0;
+    place-items: center;
+    gap: .1rem;
+    padding: .35rem .1rem;
+    color: var(--brown);
+    font-size: .58rem;
+    font-weight: 800;
+    letter-spacing: .01em;
+  }
+  .app-tab-icon {
+    display: grid;
+    width: 42px;
+    height: 32px;
+    place-items: center;
+    border-radius: var(--radius-pill);
+    transition: transform 200ms var(--ease-spring), background-color 200ms var(--ease), color 200ms var(--ease);
+  }
+  .app-tab-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .app-tab.is-active { color: var(--charcoal); }
+  .app-tab.is-active .app-tab-icon {
+    color: #2b1710;
+    background: var(--orange);
+    transform: translateY(-3px) rotate(-7deg) scale(1.08);
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  .app-tab-pill { inset: .1rem .25rem; }
+}
+
+/* --- Player bar -------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  /* The player sits directly above the tab dock. */
+  .player-bar {
+    position: fixed;
+    z-index: 60;
+    inset: auto 0 calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px)) 0;
+    width: 100%;
+    min-height: 66px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'art copy buttons'
+      'progress progress progress';
+    align-items: center;
+    gap: .4rem .7rem;
+    padding: .5rem .8rem .55rem;
+    border-top: 2px solid var(--line-strong);
+    background: var(--paper);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, .4);
+  }
+  .player-art { grid-area: art; width: 42px; height: 42px; }
+  .player-track-copy { grid-area: copy; }
+  .player-track-copy strong { font-size: var(--text-sm); }
+  .player-buttons { grid-area: buttons; gap: .2rem; }
+  .player-buttons button {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 50%;
+    font-size: .78rem;
+  }
+  .player-buttons .player-play {
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--ink);
+    color: #2b1710;
+    background: var(--orange);
+    box-shadow: var(--sticker-sm);
+  }
+  .player-progress {
+    grid-area: progress;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: .5rem;
+    width: 100%;
+  }
+  .player-time { display: block; font-size: .62rem; }
+  .player-progress input { width: 100%; height: 18px; accent-color: var(--orange); }
+  .player-note { display: none; }
+
+  /* Room for the player plus the tab dock. */
+  .player-safe-area { padding-bottom: calc(var(--tabbar-height) + 92px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* --- Grids go two-up on phones ----------------------------------------- */
+
+@media (max-width: 640px) {
+  .catalog-grid,
+  .collection-album-grid,
+  .recommendation-grid,
+  .collection-manage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .6rem;
+  }
+  .stats-grid { grid-template-columns: 1fr; }
+  .community-feature-grid { grid-template-columns: 1fr; }
+  .wrapped-grid { grid-template-columns: 1fr; }
+  .achievement-grid { grid-template-columns: 1fr; }
+  .profile-link-grid { grid-template-columns: 1fr; }
+  .listening-insights { grid-template-columns: 1fr 1fr; }
+  .listening-top-artists,
+  .listening-unplayed { grid-column: 1 / -1; }
+  .wrapped-hero-stats { grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+  .wrapped-hero-stats strong { font-size: clamp(1.5rem, 8vw, 2.2rem); }
+  .profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+}
+
+/* --- Cards get smaller artwork and tighter padding ---------------------- */
+
+@media (max-width: 640px) {
+  .feature-card { padding: .7rem; }
+  .feature-card h2 { font-size: var(--text-base); }
+  .feature-card p { font-size: var(--text-xs); }
+  .collection-album-copy { padding: .65rem .7rem .3rem; }
+  .collection-album-copy h2 { font-size: var(--text-base); }
+  .collection-album-link > img { aspect-ratio: 1; }
+  .collection-card-actions { flex-direction: column; }
+  .collection-card-actions .btn { width: 100%; }
+  .collection-actions { gap: .45rem; }
+  .collection-actions .btn, .collection-actions .button-like { flex: 1 1 46%; }
+  .button-like { justify-content: center; min-height: 46px; }
+  .dashboard-hero { padding: 1.25rem; border-radius: var(--radius-lg); }
+  .dashboard-hero h1 { font-size: clamp(1.6rem, 7.4vw, 2.2rem); }
+  .dashboard-hero > p:not(.eyebrow) { font-size: var(--text-base); }
+}
+
+/* --- Forms become single column ---------------------------------------- */
+
+@media (max-width: 640px) {
+  .collection-toolbar,
+  .browse-refinements { grid-template-columns: 1fr; }
+  .collection-toolbar label:first-child { grid-column: auto; }
+  .history-copy form { grid-template-columns: 1fr; }
+  .history-entry { grid-template-columns: 64px minmax(0, 1fr); gap: .8rem; padding: .8rem; }
+  .history-entry > img { width: 64px; height: 64px; }
+  .story-editor-row { grid-template-columns: 1fr; }
+  .comment-form { flex-direction: column; align-items: stretch; }
+  .comment-form .btn { width: 100%; }
+  .queue-builder { grid-template-columns: 1fr; }
+  .queue-builder > span { grid-column: auto; }
+  .queue-item { grid-template-columns: 1.5rem 48px minmax(0, 1fr); }
+  .queue-item > img { width: 48px; height: 48px; }
+  .queue-item-actions { grid-column: 2 / -1; justify-content: start; }
+  .queue-item-actions .btn { flex: 1; }
+  .copy-form-actions { flex-direction: column; }
+  .copy-form-actions .btn { width: 100%; }
+  .wantlist-acquire form { gap: .55rem; }
+}
+
+/* --- Sticky and scrollable strips -------------------------------------- */
+
+@media (max-width: 640px) {
+  /* The search bar stacks: query and button on one row, the filter below. */
+  .search-bar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'icon input submit'
+      'genre genre genre';
+    gap: .5rem;
+    padding: .5rem .5rem .5rem .9rem;
+    border-radius: var(--radius-lg);
+  }
+  .search-icon { grid-area: icon; }
+  .search-bar input { grid-area: input; min-width: 0; height: 40px; }
+  .search-genre {
+    grid-area: genre;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    min-height: 44px;
+  }
+  .search-submit { grid-area: submit; min-height: 44px; padding-inline: 1.1rem; }
+
+  .room-tabs {
+    margin-inline: -.75rem;
+    padding-inline: .75rem;
+    scroll-snap-type: x proximity;
+  }
+  .room-tab { scroll-snap-align: start; }
+  .discover-genre-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -.75rem;
+    padding-inline: .75rem;
+    padding-bottom: .35rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .discover-genre-chips .genre-chip { flex: 0 0 auto; scroll-snap-align: start; }
+  .range-switcher {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .range-tab { flex: 0 0 auto; white-space: nowrap; }
+}
+
+/* --- Collection room shelves scroll sideways --------------------------- */
+
+@media (max-width: 640px) {
+  .shelf-records {
+    overflow-x: auto;
+    min-height: 0;
+    padding-bottom: .4rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .shelf-record { flex: 0 0 104px; scroll-snap-align: start; }
+  .shelf-plank { display: none; }
+  .shelf { gap: .2rem; }
+  .room-controls { gap: .7rem; }
+  .room-theme-picker { justify-content: space-between; width: 100%; }
+  .room-theme-swatch { width: 34px; height: 34px; }
+}
+
+/* --- Album page -------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  /* The collection picker becomes a bottom sheet. */
+  .album-social-row { margin-top: .8rem; }
+  .story-editor-form { padding: .85rem; }
+  .story-timeline { padding-left: 1.2rem; }
+  .story-dot { left: -1.2rem; width: 9px; height: 9px; }
+  .story-card { padding: .85rem .9rem; }
+
+  .collection-picker {
+    position: fixed;
+    z-index: 80;
+    inset: auto 0 0 0;
+    max-height: 78vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 1rem 1.1rem calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    border-width: 2px 0 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    box-shadow: 0 -18px 50px rgba(0, 0, 0, .5);
+    animation: sheet-up 260ms var(--ease-spring) both;
+  }
+  .collection-picker-grip {
+    width: 42px;
+    height: 5px;
+    margin: 0 auto .9rem;
+    border-radius: 99px;
+    background: var(--line-strong);
+  }
+  .collection-picker .flex { display: grid; grid-template-columns: 1fr; }
+  .collection-picker .btn { width: 100%; }
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* --- Home quick actions ------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .home-stat-grid { gap: .5rem; margin-bottom: 1.5rem; }
+  .home-stat-card { padding: .7rem .75rem; border-radius: var(--radius-sm); box-shadow: var(--sticker-sm); }
+  .home-stat-card h3 { margin-bottom: .35rem; font-size: var(--text-base); }
+  .home-stat-card .stat-label { font-size: .62rem; }
+  .home-stat-card .stat-row strong { font-size: 1.25rem; }
+  .home-stat-card .stat-track { height: 5px; }
+
+  .home-quick-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+  .home-quick-action { padding: .65rem .7rem; }
+  .home-quick-icon { font-size: 1.25rem; }
+  .home-quick-copy strong { font-size: var(--text-xs); }
+  .home-quick-copy span { font-size: .66rem; }
+}
+
+/* --- Profile ----------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .profile-hero { padding: 1.1rem; gap: 1rem; border-radius: var(--radius-lg); }
+  .profile-avatar { width: 72px; height: 72px; flex: 0 0 72px; font-size: 1.9rem; }
+  .profile-hero-copy h1 { font-size: var(--text-xl); }
+  .profile-hero-actions .btn { flex: 1 1 46%; }
+}
+
+/* --- Toasts ------------------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .toast-viewport {
+    inset: auto 0 calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px)) 0;
+    display: grid;
+    gap: .4rem;
+    padding: .6rem .75rem;
+  }
+  .toast { width: 100%; }
+}
+
+/* --- Auth screens ------------------------------------------------------ */
+
+@media (max-width: 760px) {
+  .auth-scene { padding: 0; }
+  .auth-card {
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    border-radius: 0;
+  }
+  .auth-art { min-height: 0; padding: 1rem 1.25rem 1.25rem; }
+  .auth-record-art { top: 8%; left: 62%; width: min(40vw, 190px); }
+  .auth-art-copy h1 { margin-bottom: .25rem; font-size: 2.2rem; }
+  .auth-art-copy p { max-width: 14rem; font-size: .9rem; }
+  .auth-brand span { width: 30px; }
+  .auth-panel { align-content: start; padding: 4.5rem 1.25rem 2rem; }
+  .auth-switch { top: 1rem; right: 1rem; }
+  .auth-title { margin-bottom: 1.2rem; }
+  .auth-input { height: 50px; }
+  .auth-social { width: 46px; height: 46px; }
+}
+
+/* --- Small phones ------------------------------------------------------ */
+
+@media (max-width: 400px) {
+  .app-tab { font-size: .54rem; }
+  .app-tab-icon { width: 38px; height: 30px; }
+  .player-buttons button { width: 36px; height: 36px; }
+  .player-buttons .player-play { width: 40px; height: 40px; }
+  .home-quick-actions { grid-template-columns: 1fr 1fr; }
+  .catalog-grid, .collection-album-grid, .recommendation-grid { gap: .45rem; }
+}
+
+/* --- Landscape phones -------------------------------------------------- */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .app-tabbar { min-height: 58px; }
+  .app-tab { flex-direction: row; gap: .35rem; min-height: 48px; }
+  .app-tab-icon { width: 30px; height: 30px; }
+  .player-bar {
+    min-height: 58px;
+    grid-template-areas: 'art copy buttons progress';
+    grid-template-columns: auto minmax(0, 1fr) auto minmax(140px, 1fr);
+  }
+  .player-progress { grid-area: progress; grid-template-columns: auto minmax(0, 1fr) auto; }
+  .player-safe-area { padding-bottom: calc(var(--tabbar-height) + 70px); }
+}
+
+/* --- Coarse pointers get bigger hit areas ----------------------------- */
+
+@media (pointer: coarse) {
+  .player-buttons button,
+  .app-menu-toggle,
+  .notification-bell,
+  .room-theme-swatch,
+  .recommendation-dismiss { min-width: 44px; min-height: 44px; }
+  .recommendation-dismiss { display: grid; place-items: center; }
+}
