@@ -3,13 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { socialService } from '../services/index.js';
 import Button from '../components/Button.jsx';
 import { useToast } from '../context/ToastContext.jsx';
+import {
+  IconPeople, IconHeart, IconQuote, IconTarget, IconMedal,
+} from '../components/Icons.jsx';
 
-const ICONS = {
-  follow: '👤',
-  like: '♥',
-  comment: '💬',
-  price_alert: '🏷',
-  achievement: '★',
+const NOTIFICATION_ICONS = {
+  follow: IconPeople,
+  like: IconHeart,
+  comment: IconQuote,
+  price_alert: IconTarget,
+  achievement: IconMedal,
 };
 
 export default function Notifications() {
@@ -99,7 +102,10 @@ export default function Notifications() {
                   className={`notification-item ${notification.read ? 'is-read' : 'is-unread'}`}
                 >
                   <span className="notification-icon" aria-hidden="true">
-                    {ICONS[notification.type] ?? '•'}
+                    {(() => {
+                      const Icon = NOTIFICATION_ICONS[notification.type] ?? IconPeople;
+                      return <Icon size={17} />;
+                    })()}
                   </span>
                   <div className="notification-copy">
                     <p>{notification.message}</p>

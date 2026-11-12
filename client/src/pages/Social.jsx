@@ -40,9 +40,9 @@ export default function Social() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">Collectors you follow</p>
+          <p className="eyebrow">The feed</p>
           <h1>Community</h1>
-          <p>See what people are listening to and collecting right now.</p>
+          <p>What the collectors you follow are playing and adding.</p>
         </header>
 
         <div className="social-layout">

@@ -66,9 +66,9 @@ export default function DiscoverWeekly() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">Find your next favourite</p>
+          <p className="eyebrow">Search and recommendations</p>
           <h1>Discover</h1>
-          <p>Search the catalogue or let your own collection pick something for you.</p>
+          <p>Search the whole catalogue, or take a pick built from what you already own.</p>
         </header>
 
         <div className="discover-search">

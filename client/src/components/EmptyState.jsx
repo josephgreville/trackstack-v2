@@ -1,11 +1,10 @@
-/* Illustrated empty states with a gentle entrance animation. */
 import { motion } from 'framer-motion';
 import { fadeInUp } from './motion.jsx';
 
 export default function EmptyState({
   title,
   description,
-  icon = '♫',
+  Icon,
   action,
   actionLabel,
   className = '',
@@ -23,9 +22,11 @@ export default function EmptyState({
       role="status"
       aria-label={title}
     >
-      <div className="flex items-center justify-center w-20 h-20 rounded-full bg-orange-soft mb-4 text-orange">
-        <span className="text-3xl" aria-hidden="true">{icon}</span>
-      </div>
+      {Icon && (
+        <span className="empty-state-mark" aria-hidden="true">
+          <Icon size={30} />
+        </span>
+      )}
       <h3 className="text-lg font-display font-600 mb-2 text-charcoal">{title}</h3>
       <p className="text-brown text-center max-w-sm mb-6">{description}</p>
       {action && actionLabel && (

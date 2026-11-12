@@ -5,6 +5,7 @@ import { useToast } from '../context/ToastContext.jsx';
 import { usePlayer } from '../context/PlayerContext.jsx';
 import { catalogService, listeningQueueService } from '../services/index.js';
 import { albumHref } from '../utils/format.js';
+import { IconDisc } from '../components/Icons.jsx';
 
 export default function ListeningQueue() {
   const [queue, setQueue] = useState([]);
@@ -81,6 +82,6 @@ export default function ListeningQueue() {
         <div className="queue-item-copy"><Link to={albumHref(item)}><strong>{item.title}</strong></Link><span>{item.artist}{item.genre ? ` · ${item.genre}` : ''}</span></div>
         <div className="queue-item-actions"><Button size="sm" variant="outline" loading={busyId === item.queueId} onClick={() => playPreview(item)}>Preview</Button><Button size="sm" onClick={() => markListened(item)} loading={busyId === item.queueId}>Listened</Button><Button size="sm" variant="outline" onClick={() => remove(item)} disabled={busyId === item.queueId}>Remove</Button></div>
       </article>)}
-    </div> : <div className="queue-empty"><span aria-hidden="true">♫</span><h2>Your next listen is waiting</h2><p>Shuffle albums you haven’t heard yet from your collection. Marking one listened adds it to your journal.</p><Link className="community-link" to="/collections">Browse your collections</Link></div>}
+    </div> : <div className="queue-empty"><span aria-hidden="true"><IconDisc size={26} /></span><h2>Your next listen is waiting</h2><p>Shuffle albums you haven’t heard yet from your collection. Marking one listened adds it to your journal.</p><Link className="community-link" to="/collections">Browse your collections</Link></div>}
   </div></section>;
 }

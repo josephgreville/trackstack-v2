@@ -5,6 +5,7 @@ import { storiesService } from '../services/index.js';
 import Button from '../components/Button.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import EmptyState from '../components/EmptyState.jsx';
+import { IconJournal } from '../components/Icons.jsx';
 
 export default function Stories() {
   const [stories, setStories] = useState([]);
@@ -26,9 +27,9 @@ export default function Stories() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">The story behind the record</p>
+          <p className="eyebrow">Notes on your copies</p>
           <h1>Album stories</h1>
-          <p>Where you found it, who you were with, and why it still matters.</p>
+          <p>Where you found it, who you were with, and what it still reminds you of.</p>
         </header>
 
         <div className="range-switcher" role="tablist" aria-label="Story visibility">
@@ -53,7 +54,7 @@ export default function Stories() {
           <EmptyState
             title={showPublic ? 'Nothing published yet' : 'No stories yet'}
             description="Open an album in one of your collections and add the memory behind it."
-            icon="✎"
+            Icon={IconJournal}
             action={() => { window.location.href = '/collections'; }}
             actionLabel="Go to your collections"
           />

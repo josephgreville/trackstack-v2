@@ -54,7 +54,10 @@
 .btn-sm:hover:not(:disabled) { box-shadow: 3px 3px 0 var(--ink); }
 .btn-lg { min-height: 54px; padding: .85rem 1.4rem; }
 
-/* --- Cards: outlined like stickers --- */
+/* --- Cards: flat and editorial ---
+   The hard offset shadow is reserved for things you press. Cards get a
+   hairline edge and a soft depth instead, so the page is not a grid of
+   identical stickers. */
 .group.bg-paper,
 .feature-card,
 .collection-album-card,
@@ -72,10 +75,10 @@
 .queue-item,
 .social-side-card,
 .collection-card {
-  border-width: 2px;
+  border-width: 1px;
   border-color: var(--line-strong);
-  box-shadow: var(--sticker);
-  transition: transform 180ms var(--ease-spring), box-shadow 180ms var(--ease), border-color 180ms var(--ease);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .03), 0 14px 30px -22px rgba(0, 0, 0, .8);
+  transition: transform 180ms var(--ease), border-color 180ms var(--ease), box-shadow 180ms var(--ease);
 }
 .group.bg-paper:hover,
 .feature-card:hover,
@@ -83,8 +86,8 @@
 .stat-card:hover,
 .recommendation-card:hover,
 .achievement-badge:hover {
-  border-color: var(--orange);
-  box-shadow: 4px 4px 0 var(--ink);
+  border-color: rgba(255, 122, 77, .45);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .04), 0 22px 44px -26px rgba(0, 0, 0, .9);
 }
 
 /* --- Inputs: chunky and rounded --- */
@@ -220,13 +223,13 @@ input:focus, textarea:focus, select:focus {
 }
 .home-stat-card {
   padding: 1rem 1.1rem;
-  border: 2px solid var(--line-strong);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: #222;
-  box-shadow: var(--sticker);
-  transition: transform 180ms var(--ease-spring), border-color 180ms var(--ease);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .03), 0 14px 30px -22px rgba(0, 0, 0, .8);
+  transition: transform 180ms var(--ease), border-color 180ms var(--ease);
 }
-.home-stat-card:hover { transform: translateY(-3px); border-color: var(--orange); }
+.home-stat-card:hover { transform: translateY(-3px); border-color: rgba(255, 122, 77, .45); }
 .home-stat-card h3 { margin-bottom: .5rem; font-size: var(--text-lg); }
 .home-stat-card .stat-row { margin-top: 0; }
 .home-stat-card .stat-row strong { color: var(--orange); font: 700 1.5rem/1 var(--font-display); }
@@ -250,7 +253,7 @@ input:focus, textarea:focus, select:focus {
   transition: transform 160ms var(--ease-spring), box-shadow 160ms var(--ease), border-color 160ms var(--ease);
 }
 .home-quick-action:hover { transform: translate(-2px, -2px) rotate(-1deg); border-color: var(--orange); box-shadow: var(--sticker); }
-.home-quick-icon { font-size: 1.5rem; }
+.home-quick-icon { display: grid; place-items: center; color: var(--orange); }
 .home-quick-copy { display: grid; min-width: 0; gap: .1rem; }
 .home-quick-copy strong { color: var(--charcoal); font-size: var(--text-sm); }
 .home-quick-copy span { color: var(--brown-light); font-size: var(--text-xs); }
@@ -329,7 +332,7 @@ input:focus, textarea:focus, select:focus {
   transition: transform 160ms var(--ease-spring), box-shadow 160ms var(--ease), border-color 160ms var(--ease);
 }
 .profile-link-card:hover { transform: translate(-2px, -2px); border-color: var(--orange); box-shadow: var(--sticker); }
-.profile-link-icon { font-size: 1.35rem; }
+.profile-link-icon { display: grid; place-items: center; color: var(--orange); }
 .profile-link-copy { display: grid; min-width: 0; gap: .1rem; }
 .profile-link-copy strong { color: var(--charcoal); font-size: var(--text-sm); }
 .profile-link-copy span { color: var(--brown-light); font-size: var(--text-xs); }
@@ -388,13 +391,34 @@ input:focus, textarea:focus, select:focus {
 
 /* --- Stat cards --- */
 .stat-card-value { color: var(--orange); }
-.stat-card.coral .stat-card-value { color: var(--rose); }
-.stat-card.sage .stat-card-value { color: var(--sage); }
-.stat-card.gold .stat-card-value { color: var(--gold); }
+.stat-card-ochre .stat-card-value { color: var(--ochre); }
+.stat-card-slate .stat-card-value { color: var(--slate); }
+.stat-card-coral .stat-card-value { color: var(--orange-dark); }
 
-/* --- Achievement medals --- */
-.achievement-medal { border: 2px solid var(--ink); box-shadow: var(--sticker-sm); }
-.achievement-badge.is-earned { background: linear-gradient(140deg, rgba(255, 122, 77, .16), var(--paper) 62%); border-color: var(--orange); }
+/* --- Achievement medals ------------------------------------------------ */
+.achievement-medal {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  color: var(--orange);
+  background: var(--orange-soft);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.achievement-badge.is-locked .achievement-medal {
+  color: var(--brown-light);
+  background: #2b2b2b;
+  box-shadow: none;
+  border-color: var(--line-strong);
+}
+/* An earned badge reads like a stamp pressed slightly off-square. */
+.achievement-badge.is-earned { border-color: rgba(255, 122, 77, .38); background: linear-gradient(140deg, rgba(255, 122, 77, .1), #222 62%); }
+.achievement-badge.is-earned .achievement-copy strong { letter-spacing: -.01em; }
+.achievement-badge.is-earned .achievement-medal { transform: rotate(-7deg); }
+.achievement-badge.is-earned .achievement-meta { color: var(--ochre); }
 
 /* --- Wrapped cards --- */
 .wrapped-card { border-width: 2px; border-color: var(--line-strong); box-shadow: var(--sticker); }
@@ -478,6 +502,41 @@ input:focus, textarea:focus, select:focus {
 .search-bar-lg .search-submit { min-height: 50px; padding-inline: 1.6rem; }
 .search-bar-lg .search-bar input,
 .search-bar-lg input { height: 50px; }
+
+/* --- Stock label: the mark a record shop puts on a sleeve -------------- */
+.catalogue-label {
+  display: flex;
+  align-items: baseline;
+  gap: .4rem;
+  margin: 0 .9rem .85rem;
+  padding-top: .45rem;
+  border-top: 1px dashed var(--line-strong);
+  color: var(--brown-light);
+  font: 500 .62rem var(--font-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.catalogue-number { color: var(--orange); white-space: nowrap; }
+.catalogue-leader {
+  flex: 1;
+  height: 1px;
+  border-bottom: 1px dotted var(--line-strong);
+  transform: translateY(-3px);
+}
+.catalogue-format { white-space: nowrap; }
+
+/* --- Empty state ------------------------------------------------------ */
+.empty-state-mark {
+  display: grid;
+  width: 66px;
+  height: 66px;
+  margin-bottom: 1.1rem;
+  place-items: center;
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--orange);
+  background: var(--orange-soft);
+}
 
 /* --- Stat cards ------------------------------------------------------- */
 .stat-card {
@@ -935,8 +994,31 @@ textarea:focus-visible {
 @keyframes hero-enter { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes card-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes player-enter { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
-.dashboard-hero { position: relative; overflow: hidden; padding: clamp(1.5rem, 5vw, 3.25rem); border: 2px solid var(--line-strong); border-radius: var(--radius-xl); background: radial-gradient(circle at 94% 12%, rgba(255, 122, 77, .2), transparent 28%), linear-gradient(115deg, #2f2825, #262220 66%, #2c2522); box-shadow: var(--sticker-lg); }
-.dashboard-hero::after { position: absolute; right: -50px; bottom: -150px; width: 350px; aspect-ratio: 1; border: 1px solid rgba(255,112,73,.14); border-radius: 50%; box-shadow: 0 0 0 24px rgba(255,112,73,.025), 0 0 0 50px rgba(255,112,73,.02); content: ''; pointer-events: none; }
+/* The hero is grained like a record sleeve: grooves radiate from the
+   bottom-right corner rather than the usual generic glow. */
+.dashboard-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 5vw, 3.25rem);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xl);
+  background:
+    repeating-radial-gradient(circle at 92% 118%, transparent 0 15px, rgba(255, 122, 77, .085) 15px 16px),
+    linear-gradient(118deg, #2e2724, #262220 58%, #2a2320);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .04), 0 26px 60px -34px rgba(0, 0, 0, .9);
+}
+.dashboard-hero::after {
+  position: absolute;
+  right: -120px;
+  bottom: -190px;
+  width: 420px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 122, 77, .16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 30px rgba(255, 122, 77, .022), 0 0 0 62px rgba(255, 122, 77, .016);
+  content: '';
+  pointer-events: none;
+}
 .dashboard-hero > * { position: relative; z-index: 1; }
 .dashboard-hero h1 { max-width: 820px; margin-bottom: .8rem; font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1.08; }
 .dashboard-hero > p:not(.eyebrow) { max-width: 640px; color: var(--brown); }

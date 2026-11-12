@@ -350,6 +350,127 @@ export function IconExpand(props) {
   );
 }
 
+export function IconBell(props) {
+  return (
+    <Icon {...props}>
+      <path d="M18 8.5a6 6 0 1 0-12 0c0 5-2 6.5-2 6.5h16s-2-1.5-2-6.5z" />
+      <path d="M13.7 19a2 2 0 0 1-3.4 0" />
+    </Icon>
+  );
+}
+
+export function IconHeart(props) {
+  return (
+    <Icon {...props}>
+      <path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 7.9a4.1 4.1 0 0 1 7.5 2.7C19.5 15.4 12 20 12 20z" />
+    </Icon>
+  );
+}
+
+export function IconRecord(props) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="2.4" />
+      <path d="M12 3a9 9 0 0 1 6.4 2.6" />
+    </Icon>
+  );
+}
+
+export function IconStack(props) {
+  return (
+    <Icon {...props}>
+      <rect x="4" y="12.5" width="16" height="7" rx="1.4" />
+      <rect x="6.5" y="7" width="13" height="5.5" rx="1.4" />
+      <path d="M9 3.5h7" />
+    </Icon>
+  );
+}
+
+export function IconShelf(props) {
+  return (
+    <Icon {...props}>
+      <path d="M3 5h18M3 12h18M3 19h18" />
+      <path d="M6 3v4M10 3v4M14 3v4" />
+    </Icon>
+  );
+}
+
+export function IconHeadphones(props) {
+  return (
+    <Icon {...props}>
+      <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+      <rect x="2.5" y="13.5" width="4.5" height="7" rx="2" />
+      <rect x="17" y="13.5" width="4.5" height="7" rx="2" />
+    </Icon>
+  );
+}
+
+export function IconPeople(props) {
+  return (
+    <Icon {...props}>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3 20c.7-3.7 3-5.5 6-5.5s5.3 1.8 6 5.5" />
+      <path d="M16 5.4a3.2 3.2 0 0 1 0 5.2M17.5 14.9c2 .7 3.3 2.4 3.9 5.1" />
+    </Icon>
+  );
+}
+
+export function IconMedal(props) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="15" r="5.5" />
+      <path d="M8.5 10 6 3h12l-2.5 7" />
+      <path d="m12 12.6 1 2 2.2.3-1.6 1.6.4 2.2-2-1-2 1 .4-2.2L8.8 15l2.2-.3z" />
+    </Icon>
+  );
+}
+
+export function IconJournal(props) {
+  return (
+    <Icon {...props}>
+      <path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z" />
+      <path d="M5 19.5A1.5 1.5 0 0 1 6.5 18H19v3H6.5A1.5 1.5 0 0 1 5 19.5z" />
+      <path d="M9 7.5h6M9 11h4" />
+    </Icon>
+  );
+}
+
+export function IconTarget(props) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+    </Icon>
+  );
+}
+
+export function IconPin(props) {
+  return (
+    <Icon {...props}>
+      <path d="M12 21s6.5-6.1 6.5-10.5a6.5 6.5 0 1 0-13 0C5.5 14.9 12 21 12 21z" />
+      <circle cx="12" cy="10.4" r="2.4" />
+    </Icon>
+  );
+}
+
+export function IconChart(props) {
+  return (
+    <Icon {...props}>
+      <path d="M4 20V9M10 20V4M16 20v-7M22 20H2" />
+    </Icon>
+  );
+}
+
+export function IconQuote(props) {
+  return (
+    <Icon {...props}>
+      <path d="M9.5 6.5C6.6 7.8 5 10 5 13.2c0 2.4 1.3 4.3 3.4 4.3 1.8 0 3.1-1.3 3.1-3.1 0-1.7-1.1-2.9-2.7-2.9-.3 0-.6 0-.9.1.3-1.5 1.5-2.9 3.2-3.8zM20 6.5C17.1 7.8 15.5 10 15.5 13.2c0 2.4 1.3 4.3 3.4 4.3 1.8 0 3.1-1.3 3.1-3.1 0-1.7-1.1-2.9-2.7-2.9-.3 0-.6 0-.9.1.3-1.5 1.5-2.9 3.2-3.8z" />
+    </Icon>
+  );
+}
+
 export function IconSpark(props) {
   return (
     <Icon {...props}>

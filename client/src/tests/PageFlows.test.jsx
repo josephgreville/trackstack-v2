@@ -184,7 +184,7 @@ describe('Home page', () => {
 
     renderPage(<Home />);
 
-    expect(await screen.findByRole('heading', { name: /your music/i })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /your records, in order/i })).toBeInTheDocument();
     expect(await screen.findAllByRole('heading', { name: 'Rumours' })).toHaveLength(2);
     expect(screen.getByText('Favourites')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /create collection/i })).toHaveAttribute('href', '/collections?create=true');

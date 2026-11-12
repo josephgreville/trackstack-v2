@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { socialService } from '../services/index.js';
+import { IconHeart } from './Icons.jsx';
 
 export default function LikeButton({ targetType, targetId, initialCount = 0, initialLiked = false }) {
   const [liked, setLiked] = useState(initialLiked);
@@ -39,7 +40,7 @@ export default function LikeButton({ targetType, targetId, initialCount = 0, ini
       aria-pressed={liked}
       aria-label={liked ? 'Unlike' : 'Like'}
     >
-      <span aria-hidden="true">{liked ? '♥' : '♡'}</span>
+      <span aria-hidden="true"><IconHeart size={17} filled={liked} /></span>
       {count > 0 && <span className="like-count">{count}</span>}
     </motion.button>
   );

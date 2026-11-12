@@ -7,6 +7,7 @@ import StatCard from '../components/StatCard.jsx';
 import Button from '../components/Button.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import { listContainer } from '../components/motion.jsx';
+import { IconSpark, IconMedal, IconStack } from '../components/Icons.jsx';
 
 export default function Achievements() {
   const [profile, setProfile] = useState(null);
@@ -56,9 +57,9 @@ export default function Achievements() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">Your collector card</p>
+          <p className="eyebrow">Collector level</p>
           <h1>Achievements</h1>
-          <p>Every listen and every record moves you forward.</p>
+          <p>XP comes from plays and additions. Badges unlock at the milestones.</p>
         </header>
 
         {profile && (
@@ -76,9 +77,9 @@ export default function Achievements() {
               </div>
             </div>
             <div className="achievement-stats" variants={listContainer} initial="hidden" animate="show">
-              <StatCard label="Total XP" value={profile.xp.toLocaleString()} icon="✦" accent="orange" />
-              <StatCard label="Badges earned" value={`${earned.length}/${achievements.length}`} icon="★" accent="gold" />
-              <StatCard label="Collector level" value={profile.level} icon="◈" accent="coral" />
+              <StatCard label="Total XP" value={profile.xp.toLocaleString()} Icon={IconSpark} accent="orange" />
+              <StatCard label="Badges earned" value={`${earned.length}/${achievements.length}`} Icon={IconMedal} accent="ochre" />
+              <StatCard label="Collector level" value={profile.level} Icon={IconStack} accent="slate" />
             </div>
           </div>
         )}

@@ -34,6 +34,13 @@
   --grape: #b58fff;
   --grape-soft: #322a45;
 
+  /* The interface only leans on three of these: coral, a dull ochre and a
+     cold slate. The rest exist for illustrations only. */
+  --ochre: #c9a227;
+  --ochre-soft: #3b3319;
+  --slate: #8fa3ad;
+  --slate-soft: #26313a;
+
   /* Semantic aliases */
   --bg: var(--cream);
   --surface: var(--paper);

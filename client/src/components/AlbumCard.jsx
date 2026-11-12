@@ -7,6 +7,18 @@ import { wantlistService } from '../services/index.js';
 import { hoverCard, hoverImage, listItem } from './motion.jsx';
 import AlbumArtwork from './AlbumArtwork.jsx';
 
+/**
+ * A stable shelf reference for an album, in the style of a record shop
+ * stock number. Built from the catalogue id so it never changes.
+ */
+export function catalogueRef(album) {
+  const source = album.externalId ?? album.id ?? album.title ?? '';
+  const digits = String(source).replace(/\D/g, '');
+  const base = digits ? Number(digits) % 10000 : 0;
+  const letters = String(album.artist ?? '').replace(/[^a-zA-Z]/g, '').slice(0, 2).toUpperCase() || 'TS';
+  return `TS-${String(base).padStart(4, '0')}${letters ? `/${letters}` : ''}`;
+}
+
 export default function AlbumCard({ album, index }) {
   const { user } = useAuth();
   const { success, error } = useToast();
@@ -70,6 +82,12 @@ export default function AlbumCard({ album, index }) {
             </p>
           )}
         </div>
+        {/* Stock label, the way a record shop marks a sleeve. */}
+        <p className="catalogue-label">
+          <span className="catalogue-number">{catalogueRef(album)}</span>
+          <span className="catalogue-leader" aria-hidden="true" />
+          <span className="catalogue-format">{album.releaseYear ?? '—'}</span>
+        </p>
       </Link>
     </motion.article>
   );

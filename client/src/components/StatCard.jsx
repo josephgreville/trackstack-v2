@@ -1,11 +1,15 @@
 import { motion } from 'framer-motion';
 import { listItem } from './motion.jsx';
 
+/**
+ * A compact figure card. `Icon` is an icon component (not an emoji) so the
+ * whole app shares one consistent set of drawn marks.
+ */
 export default function StatCard({
   label,
   value,
   hint,
-  icon,
+  Icon,
   accent = 'orange',
   progress,
   index = 0,
@@ -22,7 +26,11 @@ export default function StatCard({
       whileTap={onClick ? { scale: 0.98 } : undefined}
       className={`stat-card stat-card-${accent} ${onClick ? 'stat-card-button' : ''}`}
     >
-      {icon && <span className="stat-card-icon" aria-hidden="true">{icon}</span>}
+      {Icon && (
+        <span className="stat-card-icon" aria-hidden="true">
+          <Icon size={17} />
+        </span>
+      )}
       <span className="stat-card-label">{label}</span>
       <strong className="stat-card-value">{value}</strong>
       {hint && <span className="stat-card-hint">{hint}</span>}

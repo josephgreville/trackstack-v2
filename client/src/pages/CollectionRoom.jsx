@@ -6,6 +6,7 @@ import ShelfRoom, { SHELF_THEMES, SHELF_SORTS } from '../components/ShelfRoom.js
 import Button from '../components/Button.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import EmptyState from '../components/EmptyState.jsx';
+import { IconShelf } from '../components/Icons.jsx';
 
 export default function CollectionRoom() {
   const [collections, setCollections] = useState([]);
@@ -68,16 +69,16 @@ export default function CollectionRoom() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">Your records, on the wall</p>
+          <p className="eyebrow">Shelf view</p>
           <h1>Collection room</h1>
-          <p>Walk through your stacks as if they were shelves in a record shop.</p>
+          <p>Every stack, laid out as a shelf you can walk down.</p>
         </header>
 
         {!collections.length ? (
           <EmptyState
             title="Your room is empty"
             description="Create a collection and it will appear here as a shelf you can browse."
-            icon="🪵"
+            Icon={IconShelf}
             action={() => { window.location.href = '/collections?create=true'; }}
             actionLabel="Create your first stack"
           />

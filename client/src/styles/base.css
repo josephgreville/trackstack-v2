@@ -35,6 +35,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* A faint paper grain over the whole app, so large flat panels never read
+   as untouched digital colour. */
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: '';
+  opacity: .32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
+}
+#root { position: relative; z-index: 1; }
+
 img,
 picture,
 svg,
@@ -140,7 +153,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--brown);
+  color: var(--brown-light);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 500;
@@ -152,7 +165,7 @@ p {
   content: '';
   width: 20px;
   height: 1px;
-  background: var(--orange);
+  background: var(--line-strong);
 }
 
 .muted {

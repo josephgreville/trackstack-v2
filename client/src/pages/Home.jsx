@@ -18,13 +18,17 @@ import {
   hoverCard,
   fadeInUp,
 } from '../components/motion.jsx';
+import {
+  IconShelf, IconCompass, IconChart, IconHeadphones, IconMedal,
+  IconRecord, IconStack, IconDisc, IconJournal,
+} from '../components/Icons.jsx';
 
 const QUICK_ACTIONS = [
-  { to: '/collection-room', label: 'Your room', icon: '🪵', blurb: 'See your shelves' },
-  { to: '/discover', label: 'Discover', icon: '🧭', blurb: 'Find something new' },
-  { to: '/wrapped', label: 'Wrapped', icon: '📊', blurb: 'Your year so far' },
-  { to: '/listen-next', label: 'Up next', icon: '🎧', blurb: 'Shuffle a queue' },
-  { to: '/achievements', label: 'Badges', icon: '🏅', blurb: 'Earn your next' },
+  { to: '/collection-room', label: 'Your room', Icon: IconShelf, blurb: 'See your shelves' },
+  { to: '/discover', label: 'Discover', Icon: IconCompass, blurb: 'Find something new' },
+  { to: '/wrapped', label: 'Wrapped', Icon: IconChart, blurb: 'Your listening year' },
+  { to: '/listen-next', label: 'Up next', Icon: IconHeadphones, blurb: 'Unplayed records' },
+  { to: '/achievements', label: 'Badges', Icon: IconMedal, blurb: 'Earn your next' },
 ];
 
 export default function Home() {
@@ -121,10 +125,10 @@ export default function Home() {
           <header className="dashboard-hero mb-12" variants={fadeInUp} initial="hidden" animate="show">
             {user && <p className="eyebrow">Welcome back, {user.username}</p>}
             <h1 className="text-3xl font-display font-700 tracking-tighter mb-4">
-              Your music. Your collection. Your story.
+              Your records, in order.
             </h1>
             <p className="text-lg text-brown max-w-2xl">
-              Discover new albums, catalogue your favourites, and build the record collection of your dreams.
+              Search the catalogue, build a stack, and mark off what you have actually played.
             </p>
           </header>
 
@@ -169,7 +173,7 @@ export default function Home() {
           {QUICK_ACTIONS.map((action) => (
             <motion.div key={action.to} variants={listItem}>
               <Link to={action.to} className="home-quick-action">
-                <span className="home-quick-icon" aria-hidden="true">{action.icon}</span>
+                <span className="home-quick-icon" aria-hidden="true"><action.Icon size={21} /></span>
                 <span className="home-quick-copy">
                   <strong>{action.label}</strong>
                   <span>{action.blurb}</span>
@@ -207,7 +211,7 @@ export default function Home() {
               <EmptyState
                 title="No featured albums right now"
                 description="Check back soon — new featured picks land here regularly."
-                icon="💿"
+                Icon={IconDisc}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -226,7 +230,7 @@ export default function Home() {
               <EmptyState
                 title="Nothing recently added"
                 description="Add your first album to a collection and it'll show up here."
-                icon="📭"
+                Icon={IconJournal}
               />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,7 +272,7 @@ export default function Home() {
                 <EmptyState
                   title="No collections yet"
                   description="Create one to start organising your albums into themed stacks."
-                  icon="🗂️"
+                  Icon={IconStack}
                   action={() => navigate('/collections?create=true')}
                   actionLabel="Create your first stack"
                 />

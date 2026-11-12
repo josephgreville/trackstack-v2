@@ -11,16 +11,20 @@ import Button from '../components/Button.jsx';
 import { listContainer, listItem } from '../components/motion.jsx';
 import { getApiBase, setApiBase } from '../api/client.js';
 import { isNative } from '../native/capacitor.js';
+import {
+  IconChart, IconMedal, IconJournal, IconTarget, IconShelf, IconBell,
+  IconRecord, IconStack, IconHeadphones, IconPeople, IconPin,
+} from '../components/Icons.jsx';
 
 const PROFILE_LINKS = [
-  { to: '/wrapped', label: 'Wrapped', icon: '📊', blurb: 'Your year in music' },
-  { to: '/achievements', label: 'Badges', icon: '🏅', blurb: 'XP, levels and milestones' },
-  { to: '/stories', label: 'Stories', icon: '📖', blurb: 'Memories behind the records' },
-  { to: '/wantlist', label: 'Wantlist', icon: '🎯', blurb: 'Records still to hunt down' },
-  { to: '/listening-history', label: 'Journal', icon: '📖', blurb: 'Every listen, rated and reviewed' },
-  { to: '/listen-next', label: 'Up next', icon: '🎧', blurb: 'Shuffle something unlistened' },
-  { to: '/collection-room', label: 'Room', icon: '🪵', blurb: 'Your shelves, as a record shop' },
-  { to: '/notifications', label: 'Alerts', icon: '🔔', blurb: 'Follows, likes and comments' },
+  { to: '/wrapped', label: 'Wrapped', Icon: IconChart, blurb: 'Your listening year' },
+  { to: '/achievements', label: 'Badges', Icon: IconMedal, blurb: 'Milestones and XP' },
+  { to: '/stories', label: 'Stories', Icon: IconJournal, blurb: 'Notes on your copies' },
+  { to: '/wantlist', label: 'Wantlist', Icon: IconTarget, blurb: 'Still to find' },
+  { to: '/listening-history', label: 'Journal', Icon: IconJournal, blurb: 'Every listen, rated' },
+  { to: '/listen-next', label: 'Up next', Icon: IconHeadphones, blurb: 'Unplayed records' },
+  { to: '/collection-room', label: 'Room', Icon: IconShelf, blurb: 'Your shelves' },
+  { to: '/notifications', label: 'Alerts', Icon: IconBell, blurb: 'Follows and comments' },
 ];
 
 export default function Profile() {
@@ -107,7 +111,11 @@ export default function Profile() {
               />
             )}
             {profile?.bio && <p className="profile-bio">{profile.bio}</p>}
-            {profile?.location && <p className="profile-location">📍 {profile.location}</p>}
+            {profile?.location && (
+              <p className="profile-location">
+                <IconPin size={14} /> {profile.location}
+              </p>
+            )}
 
             <div className="profile-hero-actions">
               <Button size="sm" variant="outline" onClick={() => setEditing((value) => !value)}>
@@ -158,10 +166,10 @@ export default function Profile() {
         )}
 
         <div className="profile-stats" variants={listContainer} initial="hidden" animate="show">
-          <StatCard label="Albums" value={stats.albums} icon="💿" accent="orange" />
-          <StatCard label="Stacks" value={stats.collections} icon="📚" accent="coral" />
-          <StatCard label="Listens" value={stats.listens} icon="🎧" accent="sage" />
-          <StatCard label="Followers" value={stats.followers} icon="👥" accent="gold" />
+          <StatCard label="Albums" value={stats.albums} Icon={IconRecord} accent="orange" />
+          <StatCard label="Stacks" value={stats.collections} Icon={IconStack} accent="coral" />
+          <StatCard label="Listens" value={stats.listens} Icon={IconHeadphones} accent="ochre" />
+          <StatCard label="Followers" value={stats.followers} Icon={IconPeople} accent="slate" />
         </div>
 
         <section className="profile-links-section">
@@ -170,7 +178,7 @@ export default function Profile() {
             {PROFILE_LINKS.map((link, index) => (
               <motion.div key={link.to} variants={listItem} initial="hidden" animate="show">
                 <Link to={link.to} className="profile-link-card">
-                  <span className="profile-link-icon" aria-hidden="true">{link.icon}</span>
+                  <span className="profile-link-icon" aria-hidden="true"><link.Icon size={20} /></span>
                   <span className="profile-link-copy">
                     <strong>{link.label}</strong>
                     <span>{link.blurb}</span>

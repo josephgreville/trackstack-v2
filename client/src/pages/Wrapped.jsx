@@ -65,9 +65,9 @@ export default function Wrapped() {
     <section className="page-section">
       <div className="container-narrow">
         <header className="page-heading">
-          <p className="eyebrow">Your year in music</p>
+          <p className="eyebrow">Counts, top artists, total minutes</p>
           <h1>TrackStack Wrapped</h1>
-          <p>A look back at everything you have been listening to.</p>
+          <p>What you listened to, and how long you spent on it.</p>
         </header>
 
         <div className="range-switcher" role="tablist" aria-label="Recap period">

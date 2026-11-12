@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { socialService } from '../services/index.js';
+import { IconBell } from './Icons.jsx';
 
 export default function NotificationBell() {
   const [count, setCount] = useState(0);
@@ -24,7 +25,7 @@ export default function NotificationBell() {
 
   return (
     <Link to="/notifications" className="notification-bell" aria-label={`Notifications${count ? `, ${count} unread` : ''}`}>
-      <span aria-hidden="true">🔔</span>
+      <span aria-hidden="true"><IconBell size={18} /></span>
       {count > 0 && (
         <motion.span
           key={count}

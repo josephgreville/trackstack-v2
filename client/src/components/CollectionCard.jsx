@@ -2,6 +2,7 @@ import { formatAddedDate } from '../utils/format';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { hoverCard, listItem } from './motion.jsx';
+import { IconDisc } from './Icons.jsx';
 
 export default function CollectionCard({ collection, index }) {
   return (
@@ -23,7 +24,7 @@ export default function CollectionCard({ collection, index }) {
           {collection.coverArtworks?.[0]
             ? <img src={collection.coverArtworks[0]} alt="" className="w-full h-full object-cover" />
             : <div className="collection-card-empty-cover">
-                <span className="collection-card-record">♫</span>
+                <span className="collection-card-record"><IconDisc size={30} /></span>
                 <span className="collection-card-cover-label">
                   {collection.albumCount ? 'Your collection' : 'Ready for its first album'}
                 </span>
