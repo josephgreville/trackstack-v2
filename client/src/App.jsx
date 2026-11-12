@@ -43,7 +43,11 @@ import Profile from './pages/Profile.jsx';
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Jump rather than animate: an animated scroll can be interrupted when
+    // the next page's content mounts, leaving the view part-way down.
+    window.scrollTo(0, 0);
+    const timer = setTimeout(() => window.scrollTo(0, 0), 120);
+    return () => clearTimeout(timer);
   }, [pathname]);
   return null;
 }

@@ -4,7 +4,9 @@
   "webDir": "client/dist",
   "loggingBehavior": "none",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "url": "http://10.10.9.61:5173",
+    "cleartext": true
   },
   "android": {
     "backgroundColor": "#1e1a18",
