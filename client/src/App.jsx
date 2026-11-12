@@ -28,6 +28,7 @@ import SharedCollection from './pages/SharedCollection.jsx';
 import PublicProfile from './pages/PublicProfile.jsx';
 import PageLoader from './components/PageLoader.jsx';
 import { PlayerProvider } from './context/PlayerContext.jsx';
+import { PageTransition } from './components/motion.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -66,34 +67,38 @@ function GuestOnly() {
 }
 
 export function AppRoutes() {
-  return (
-    <Routes>
-      <Route element={<RequireAuth />}>
-        <Route element={<AppLayout />}>
-          <Route index element={<Home />} />
-          <Route path="browse" element={<Browse />} />
-          <Route path="share/:token" element={<SharedCollection />} />
-          <Route path="users/:username" element={<PublicProfile />} />
-          <Route path="album/catalog/:externalId" element={<AlbumDetail />} />
-          <Route path="album/:albumId" element={<AlbumDetail />} />
-          <Route path="collections" element={<Collections />} />
-          <Route path="collections/:collectionId" element={<CollectionDetail />} />
-          <Route path="collections/:collectionId/add" element={<AddAlbum />} />
-          <Route path="community" element={<Community />} />
-          <Route path="wantlist" element={<Wantlist />} />
-          <Route path="listening-history" element={<ListeningHistory />} />
-          <Route path="listen-next" element={<ListeningQueue />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Route>
+  const location = useLocation();
 
-      <Route element={<GuestOnly />}>
-        <Route element={<AuthLayout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+  return (
+    <PageTransition>
+      <Routes key={location.pathname}>
+        <Route element={<RequireAuth />}>
+          <Route element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path="browse" element={<Browse />} />
+            <Route path="share/:token" element={<SharedCollection />} />
+            <Route path="users/:username" element={<PublicProfile />} />
+            <Route path="album/catalog/:externalId" element={<AlbumDetail />} />
+            <Route path="album/:albumId" element={<AlbumDetail />} />
+            <Route path="collections" element={<Collections />} />
+            <Route path="collections/:collectionId" element={<CollectionDetail />} />
+            <Route path="collections/:collectionId/add" element={<AddAlbum />} />
+            <Route path="community" element={<Community />} />
+            <Route path="wantlist" element={<Wantlist />} />
+            <Route path="listening-history" element={<ListeningHistory />} />
+            <Route path="listen-next" element={<ListeningQueue />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+
+        <Route element={<GuestOnly />}>
+          <Route element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+        </Route>
+      </Routes>
+    </PageTransition>
   );
 }
 

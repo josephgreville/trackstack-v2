@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useOptionalPlayer } from '../context/PlayerContext.jsx';
+import { playPulse } from './motion.jsx';
 
 function timeLabel(seconds) {
   const value = Math.floor(seconds || 0);
@@ -27,7 +29,14 @@ export default function PlayerBar() {
   if (!player || !current) return null;
 
   return (
-    <aside className="player-bar" aria-label="Music player">
+    <motion.aside
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+      className="player-bar"
+      aria-label="Music player"
+    >
       <audio
         ref={audioRef}
         onTimeUpdate={(event) => player.setCurrentTime(event.currentTarget.currentTime)}
@@ -38,18 +47,44 @@ export default function PlayerBar() {
         onError={() => player.setPlaying(false)}
       />
       <div className="player-track">
-        <img src={current.artworkUrl || ''} alt="" />
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="relative"
+        >
+          <img
+            src={current.artworkUrl || ''}
+            alt=""
+            className="w-full h-full object-cover border border-line shadow-sm"
+          />
+          {playing && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              variants={playPulse}
+            >
+              <span className="text-[10px] font-black text-orange tracking-widest uppercase">
+                playing
+              </span>
+            </motion.div>
+          )}
+        </motion.div>
         <div className="player-track-copy">
-          <strong>{current.title}</strong>
+          <strong className="block">{current.title}</strong>
           <span>{current.artist}</span>
         </div>
       </div>
       <div className="player-controls">
         <div className="player-buttons">
           <button type="button" aria-label="Previous preview" onClick={player.previous}>|◀</button>
-          <button type="button" className="player-play" aria-label={playing ? 'Pause preview' : 'Play preview'} onClick={player.toggle}>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="player-play"
+            aria-label={playing ? 'Pause preview' : 'Play preview'}
+            onClick={player.toggle}
+          >
             {playing ? 'Ⅱ' : '▶'}
-          </button>
+          </motion.button>
           <button type="button" aria-label="Next preview" onClick={player.next}>▶|</button>
         </div>
         <div className="player-progress">
@@ -66,6 +101,6 @@ export default function PlayerBar() {
         </div>
       </div>
       <span className="player-note">iTunes preview</span>
-    </aside>
+    </motion.aside>
   );
 }

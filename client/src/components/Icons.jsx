@@ -184,6 +184,24 @@ export function IconInfo(props) {
   );
 }
 
+export function IconMail(props) {
+  return (
+    <Icon {...props}>
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </Icon>
+  );
+}
+
+export function IconLock(props) {
+  return (
+    <Icon {...props}>
+      <rect x="7" y="13" width="10" height="11" rx="2" ry="2" />
+      <path d="M7 13V7c0-3 3-3 3 3h0c3 0 3 3 3 3v6" />
+    </Icon>
+  );
+}
+
 export function IconMusic(props) {
   return (
     <Icon {...props}>
