@@ -55,7 +55,13 @@ export default function ListeningQueue() {
       const { album } = await catalogService.album(item.externalId);
       const playable = (album.tracks ?? []).filter((track) => track.previewUrl);
       if (!playable.length) { info('No preview is available for this album.'); return; }
-      player.playQueue(playable);
+      player.playQueue(playable.map((track) => ({
+        ...track,
+        title: album.title ?? track.title,
+        artist: album.artist,
+        artworkUrl: album.artworkUrl,
+        albumId: item.id,
+      })));
     } catch (err) { error(err.message ?? 'Could not load album previews.'); }
     finally { setBusyId(null); }
   };

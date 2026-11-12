@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { wrappedService } from '../services/index.js';
 
 const PlayerContext = createContext(null);
 
@@ -22,11 +23,23 @@ export function PlayerProvider({ children }) {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
-  /* Auto-advance when a track ends. */
+  /* Auto-advance when a track ends, and record the listen for the recap. */
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     const onEnded = () => {
+      const finished = queue[index];
+      if (finished?.albumId) {
+        // Listening time feeds the TrackStack Wrapped recap. A failure here
+        // must never interrupt playback.
+        wrappedService
+          .recordSession({
+            albumId: finished.albumId,
+            durationMs: Math.round((audio.duration || 30) * 1000),
+            completed: true,
+          })
+          .catch(() => {});
+      }
       if (repeat) {
         audio.currentTime = 0;
         audio.play().catch(() => {});
@@ -41,7 +54,7 @@ export function PlayerProvider({ children }) {
     };
     audio.addEventListener('ended', onEnded);
     return () => audio.removeEventListener('ended', onEnded);
-  }, [index, queue.length, shuffle, repeat, shuffledOrder]);
+  }, [index, queue, shuffle, repeat, shuffledOrder]);
 
   const playQueue = useCallback((tracks, startIndex = 0) => {
     const playable = tracks.filter((track) => track.previewUrl);

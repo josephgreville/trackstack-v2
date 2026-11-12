@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const uuid = z.string().uuid('That identifier is not valid.');
+export const uuid = z.string().uuid('That identifier is not valid.');
 const trimmedText = (min, max, label) =>
   z
     .string({ required_error: `${label} is required.` })
@@ -50,11 +50,19 @@ export const collectionUpdateSchema = z
       .max(500, 'Description must be 500 characters or fewer.')
       .optional(),
     isPublic: z.boolean().optional(),
+    shelfTheme: z
+      .enum(['classic', 'charcoal', 'coral', 'midnight', 'walnut'])
+      .optional(),
   })
   .strict()
-  .refine((value) => value.name !== undefined || value.description !== undefined || value.isPublic !== undefined, {
-    message: 'Provide a collection detail to update.',
-  });
+  .refine(
+    (value) =>
+      value.name !== undefined
+      || value.description !== undefined
+      || value.isPublic !== undefined
+      || value.shelfTheme !== undefined,
+    { message: 'Provide a collection detail to update.' },
+  );
 
 export const collectionIdSchema = z.object({ id: uuid });
 
@@ -96,6 +104,7 @@ export const catalogAlbumParamsSchema = z.object({
 });
 
 export const albumIdSchema = z.object({ id: uuid });
+export const albumIdParamSchema = z.object({ albumId: uuid });
 
 export const collectionAlbumsQuerySchema = z.object({
   sort: z.enum(['added_at', 'title', 'artist', 'release_year', 'genre']).optional().default('added_at'),
@@ -149,6 +158,18 @@ export const historyReviewSchema = z.object({
 }).strict().refine((value) => Object.keys(value).length > 0, { message: 'Provide a rating or review.' });
 
 export const profileUpdateSchema = z.object({ profilePublic: z.boolean() }).strict();
+
+/* TrackStack 2.0 collector profile: public-facing details about the collector. */
+export const collectorProfileUpdateSchema = z
+  .object({
+    bio: z.string().trim().max(500).optional(),
+    location: z.string().trim().max(100).optional(),
+    website: z.string().trim().url('Enter a valid URL.').max(254).optional().or(z.literal('')),
+  })
+  .strict()
+  .refine((value) => Object.keys(value).length > 0, {
+    message: 'Provide a profile detail to update.',
+  });
 export const publicProfileParamsSchema = z.object({ username: z.string().min(2).max(40) });
 export const shareTokenParamsSchema = z.object({ token: uuid });
 export const historyIdParamsSchema = z.object({ historyId: uuid });

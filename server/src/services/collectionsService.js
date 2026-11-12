@@ -28,12 +28,14 @@ function toCollection(row) {
     updatedAt: row.updated_at,
     isPublic: row.is_public ?? false,
     shareToken: row.share_token ?? null,
+    shelfTheme: row.shelf_theme ?? 'classic',
   };
 }
 
 export async function listCollections(userId) {
   const { rows } = await pool.query(
     `SELECT c.id, c.name, c.description, c.created_at, c.updated_at, c.is_public, c.share_token,
+            c.shelf_theme,
             count(ca.album_id)::int AS album_count,
             COALESCE(
               json_agg(a.artwork_url ORDER BY ca.added_at DESC)
@@ -118,16 +120,17 @@ export async function createCollection(userId, { name, description }) {
   }
 }
 
-export async function updateCollection(userId, collectionId, { name, description, isPublic }) {
+export async function updateCollection(userId, collectionId, { name, description, isPublic, shelfTheme }) {
   try {
     const { rows } = await pool.query(
       `UPDATE collections
        SET name = COALESCE($3, name),
            description = COALESCE($4, description),
-           is_public = COALESCE($5, is_public)
+           is_public = COALESCE($5, is_public),
+           shelf_theme = COALESCE($6, shelf_theme)
        WHERE id = $1 AND user_id = $2
        RETURNING *`,
-      [collectionId, userId, name ?? null, description ?? null, isPublic ?? null],
+      [collectionId, userId, name ?? null, description ?? null, isPublic ?? null, shelfTheme ?? null],
     );
     if (!rows[0]) throw new NotFoundError('That collection could not be found.');
     return toCollection(rows[0]);

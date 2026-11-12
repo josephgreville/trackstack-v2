@@ -27,6 +27,11 @@ const mocks = vi.hoisted(() => ({
   collectionsRemove: vi.fn(),
   collectionsRemoveAlbum: vi.fn(),
   collectionsAddAlbum: vi.fn(),
+  socialNotificationCount: vi.fn(),
+  socialNotifications: vi.fn(),
+  socialComments: vi.fn(),
+  socialLikeStatus: vi.fn(),
+  storiesGetStory: vi.fn(),
 }));
 
 vi.mock('../context/AuthContext.jsx', () => ({
@@ -48,6 +53,36 @@ vi.mock('../services/index.js', () => ({
     remove: mocks.collectionsRemove,
     removeAlbum: mocks.collectionsRemoveAlbum,
     addAlbum: mocks.collectionsAddAlbum,
+  },
+  socialService: {
+    notificationCount: mocks.socialNotificationCount,
+    notifications: mocks.socialNotifications,
+    comments: mocks.socialComments,
+    likeStatus: mocks.socialLikeStatus,
+    like: vi.fn(),
+    unlike: vi.fn(),
+    addComment: vi.fn(),
+    follow: vi.fn(),
+    unfollow: vi.fn(),
+    followStatus: vi.fn(),
+    followers: vi.fn(),
+    following: vi.fn(),
+    activity: vi.fn(),
+    globalActivity: vi.fn(),
+    markNotificationRead: vi.fn(),
+    markAllNotificationsRead: vi.fn(),
+  },
+  storiesService: {
+    getStory: mocks.storiesGetStory,
+    upsertStory: vi.fn(),
+    listStories: vi.fn(),
+    addPhoto: vi.fn(),
+    deletePhoto: vi.fn(),
+    publicStoriesForAlbum: vi.fn(),
+  },
+  wrappedService: {
+    get: vi.fn(),
+    recordSession: vi.fn().mockResolvedValue({ session: { id: 'session-1' } }),
   },
 }));
 
@@ -107,6 +142,11 @@ beforeEach(() => {
   mocks.collectionsRemove.mockResolvedValue(null);
   mocks.collectionsRemoveAlbum.mockResolvedValue(null);
   mocks.collectionsAddAlbum.mockResolvedValue({ album: savedAlbum });
+  mocks.socialNotificationCount.mockResolvedValue({ count: 0 });
+  mocks.socialNotifications.mockResolvedValue({ notifications: [] });
+  mocks.socialComments.mockResolvedValue({ comments: [] });
+  mocks.socialLikeStatus.mockResolvedValue({ liked: false, count: 0 });
+  mocks.storiesGetStory.mockResolvedValue({ story: null });
 });
 
 afterEach(() => {
@@ -115,7 +155,7 @@ afterEach(() => {
 });
 
 describe('Home page', () => {
-  it('shows TrackStack branding and primary navigation', () => {
+  it('shows TrackStack branding and the five primary tabs', () => {
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
     render(
       <MemoryRouter>
@@ -125,8 +165,12 @@ describe('Home page', () => {
       </MemoryRouter>,
     );
     expect(screen.getAllByRole('link', { name: /trackstack/i })).toHaveLength(2);
-    expect(screen.getAllByRole('link', { name: 'Browse' })).toHaveLength(1);
-    expect(screen.getAllByRole('link', { name: 'My Collections' })).toHaveLength(1);
+
+    // The app is organised as five tabs: Home, Discover, Stacks, Community, You.
+    for (const label of ['Home', 'Discover', 'Stacks', 'Community', 'You']) {
+      // Each tab is rendered twice: once in the desktop rail, once in the mobile dock.
+      expect(screen.getAllByRole('link', { name: label }).length).toBeGreaterThan(0);
+    }
     expect(screen.getByRole('button', { name: 'Open navigation' })).toHaveAttribute('aria-expanded', 'false');
   });
 

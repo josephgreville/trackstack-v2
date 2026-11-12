@@ -32,7 +32,7 @@ export default function Button({
 
   const Component = as ?? (to ? Link : href ? 'a' : 'button');
   const isDomElement = typeof Component === 'string';
-  const MotionTag = isDomElement ? motion[Component] : motion(Component);
+  const MotionTag = isDomElement ? motion[Component] : motion.create(Component);
 
   return (
     <MotionTag

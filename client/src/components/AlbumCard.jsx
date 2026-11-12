@@ -44,14 +44,20 @@ export default function AlbumCard({ album, index }) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {user && album.externalId && (
-            <button
+            <motion.button
               type="button"
-              className="absolute top-3 right-3 z-10 catalog-wantlist-button"
-              onClick={addToWantlist}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="absolute top-3 right-3 z-10 wantlist-quick-button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addToWantlist();
+              }}
               aria-label={`Add ${album.title} to wantlist`}
             >
-              ＋ Wantlist
-            </button>
+              ＋
+            </motion.button>
           )}
         </motion.div>
         <div className="p-4">

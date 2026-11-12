@@ -62,3 +62,71 @@ export const albumsService = {
   recent: (signal) => api.get('/albums/recent', { signal }),
   saved: (id, signal) => api.get(`/albums/${id}`, { signal }),
 };
+
+/* ========================================================================
+   TrackStack 2.0 services
+   ======================================================================== */
+
+/* Gamification + profile (mounted at /2) */
+export const achievementsService = {
+  me: () => api.get('/2/me'),
+  updateProfile: (payload) => api.patch('/2/profile', payload),
+  listAchievements: () => api.get('/2/achievements'),
+  checkAchievements: () => api.post('/2/achievements/check'),
+};
+
+/* Social: follows, activity, notifications, likes, comments (mounted at /2/social) */
+export const socialService = {
+  follow: (userId) => api.post(`/2/social/follow/${userId}`),
+  unfollow: (userId) => api.delete(`/2/social/follow/${userId}`),
+  followers: (userId) => api.get(`/2/social/followers/${userId}`),
+  following: (userId) => api.get(`/2/social/following/${userId}`),
+  followStatus: (userId) => api.get(`/2/social/follow-status/${userId}`),
+  activity: ({ limit = 20, offset = 0 } = {}) =>
+    api.get(`/2/social/activity${api.query({ limit, offset })}`),
+  globalActivity: ({ limit = 30, offset = 0 } = {}) =>
+    api.get(`/2/social/activity/global${api.query({ limit, offset })}`),
+  notifications: ({ unread = false } = {}) =>
+    api.get(`/2/social/notifications${api.query({ unread })}`),
+  notificationCount: () => api.get('/2/social/notifications/count'),
+  markNotificationRead: (notificationId) =>
+    api.patch(`/2/social/notifications/${notificationId}/read`),
+  markAllNotificationsRead: () => api.patch('/2/social/notifications/read-all'),
+  like: (targetType, targetId) => api.post(`/2/social/like/${targetType}/${targetId}`),
+  unlike: (targetType, targetId) => api.delete(`/2/social/like/${targetType}/${targetId}`),
+  likeStatus: (targetType, targetId) =>
+    api.get(`/2/social/like/${targetType}/${targetId}`),
+  addComment: (targetType, targetId, body) =>
+    api.post(`/2/social/comments/${targetType}/${targetId}`, { body }),
+  comments: (targetType, targetId, { limit = 20 } = {}) =>
+    api.get(`/2/social/comments/${targetType}/${targetId}${api.query({ limit })}`),
+};
+
+/* Stories: album stories + photos (mounted at /2/stories) */
+export const storiesService = {
+  getStory: (albumId) => api.get(`/2/stories/albums/${albumId}/story`),
+  upsertStory: (albumId, payload) =>
+    api.put(`/2/stories/albums/${albumId}/story`, payload),
+  deleteStory: (storyId) => api.delete(`/2/stories/stories/${storyId}`),
+  listStories: ({ publicOnly = false } = {}) =>
+    api.get(`/2/stories/stories${api.query({ publicOnly })}`),
+  addPhoto: (storyId, payload) =>
+    api.post(`/2/stories/stories/${storyId}/photos`, payload),
+  deletePhoto: (photoId) => api.delete(`/2/stories/photos/${photoId}`),
+  publicStoriesForAlbum: (albumId, { limit = 20 } = {}) =>
+    api.get(`/2/stories/albums/${albumId}/stories/public${api.query({ limit })}`),
+};
+
+/* Recommendations: discover weekly (mounted at /2/recommendations) */
+export const recommendationsService = {
+  list: ({ kind, limit = 12 } = {}) =>
+    api.get(`/2/recommendations${api.query({ kind, limit })}`),
+  dismiss: (id) => api.delete(`/2/recommendations/${id}/dismiss`),
+  discoverWeekly: () => api.post('/2/recommendations/discover-weekly'),
+};
+
+/* Wrapped: yearly/monthly recap (mounted at /2/wrapped) */
+export const wrappedService = {
+  get: ({ range = 'year' } = {}) => api.get(`/2/wrapped${api.query({ range })}`),
+  recordSession: (payload) => api.post('/2/wrapped/sessions', payload),
+};

@@ -1,33 +1,38 @@
 /* ==========================================================================
    TrackStack design tokens
-   A warm, paper-and-ink system inspired by independent record shops.
+   A playful, sticker-book system: warm charcoal darks, chunky coral, and
+   rounded shapes that feel drawn rather than engineered.
    ========================================================================== */
 
 :root {
-  /* Core palette — deliberately limited. */
-  --cream: #1b1b1b;
-  --paper: #232323;
-  --paper-deep: #2c2c2c;
-  --orange: #ff7049;
-  --orange-dark: #ff8a5e;
-  --orange-soft: #482a22;
-  --charcoal: #f3eee9;
-  --charcoal-soft: #ddd5ce;
-  --brown: #b5aaa2;
-  --brown-light: #8e837b;
-  --line: #363331;
-  --line-strong: #504943;
+  /* Core palette — warm, soft darks with a lively coral. */
+  --cream: #1e1a18;
+  --paper: #262220;
+  --paper-deep: #302926;
+  --orange: #ff7a4d;
+  --orange-dark: #ff9b6a;
+  --orange-soft: #4a2a20;
+  --charcoal: #fff5ec;
+  --charcoal-soft: #e6d9cf;
+  --brown: #c4b3a6;
+  --brown-light: #9c8c80;
+  --line: #3e3531;
+  --line-strong: #5b4c44;
 
-  /* Supporting warm accents, used for genre labels and illustrations. */
-  --olive: #74764f;
-  --olive-soft: #343629;
-  --rust: #f08a63;
-  --gold: #e6b85d;
-  --gold-soft: #3e3524;
-  --sage: #62756b;
-  --sage-soft: #2c3933;
-  --rose: #d9887e;
-  --rose-soft: #3d2d2b;
+  /* Playful supporting accents, used for genre labels and illustrations. */
+  --olive: #b6b96b;
+  --olive-soft: #383a24;
+  --rust: #ff9f7a;
+  --gold: #ffd166;
+  --gold-soft: #453a20;
+  --sage: #7fd1b9;
+  --sage-soft: #23403a;
+  --rose: #ff8fb1;
+  --rose-soft: #442832;
+  --sky: #8ec5ff;
+  --sky-soft: #22323f;
+  --grape: #b58fff;
+  --grape-soft: #322a45;
 
   /* Semantic aliases */
   --bg: var(--cream);
@@ -35,29 +40,29 @@
   --surface-muted: var(--paper-deep);
   --text: var(--charcoal);
   --text-muted: var(--brown);
-  --text-subtle: #8e837b;
+  --text-subtle: #9c8c80;
   --border: var(--line);
   --accent: var(--orange);
   --accent-hover: var(--orange-dark);
-  --danger: #a33f32;
-  --danger-soft: #3f2824;
-  --success: #9fbe9f;
-  --success-soft: #2c3930;
+  --danger: #ff7a6b;
+  --danger-soft: #452623;
+  --success: #7fd1b9;
+  --success-soft: #23403a;
 
-  /* Type */
-  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-  --font-sans: 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  /* Type — rounded, friendly faces for a drawn-in feel. */
+  --font-display: 'Fredoka', 'Baloo 2', 'Comic Sans MS', 'Chalkboard SE', system-ui, sans-serif;
+  --font-sans: 'Nunito', 'Manrope', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Cascadia Mono', Consolas, monospace;
 
-  --text-xs: 0.72rem;
-  --text-sm: 0.82rem;
-  --text-base: 0.94rem;
-  --text-md: 1.05rem;
-  --text-lg: 1.22rem;
-  --text-xl: 1.5rem;
-  --text-2xl: clamp(1.8rem, 3vw, 2.45rem);
-  --text-3xl: clamp(2.35rem, 5vw, 4rem);
-  --text-hero: clamp(2.7rem, 6.4vw, 5.6rem);
+  --text-xs: 0.74rem;
+  --text-sm: 0.85rem;
+  --text-base: 0.97rem;
+  --text-md: 1.08rem;
+  --text-lg: 1.3rem;
+  --text-xl: 1.6rem;
+  --text-2xl: clamp(1.9rem, 3vw, 2.6rem);
+  --text-3xl: clamp(2.5rem, 5.4vw, 4.2rem);
+  --text-hero: clamp(2.9rem, 6.8vw, 5.8rem);
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -73,22 +78,33 @@
   --space-16: 4rem;
   --space-20: 5rem;
 
-  /* Shape */
-  --radius-xs: 5px;
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 26px;
+  /* Shape — chunkier and rounder than a typical dark UI. */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
   --radius-pill: 999px;
 
-  /* Depth — soft ink on paper, never glassy. */
-  --shadow-xs: 0 1px 0 rgba(41, 39, 37, 0.06);
-  --shadow-sm: 0 3px 10px rgba(74, 60, 45, 0.07);
-  --shadow: 0 12px 30px -16px rgba(74, 60, 45, 0.32);
-  --shadow-lg: 0 28px 60px -30px rgba(41, 39, 37, 0.45);
-  --shadow-orange: 0 12px 24px -14px rgba(217, 93, 45, 0.62);
+  /* Depth — hard offset shadows read like stickers on a page. */
+  --ink: #14100e;
+  --shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-sm: 0 4px 12px rgba(20, 16, 14, 0.35);
+  --shadow: 0 14px 34px -18px rgba(20, 16, 14, 0.6);
+  --shadow-lg: 0 30px 70px -34px rgba(20, 16, 14, 0.75);
+  --shadow-orange: 0 12px 26px -14px rgba(255, 122, 77, 0.7);
 
-  /* Motion */
+  /* Sticker shadows: solid offset blocks with no blur. */
+  --sticker: 3px 3px 0 var(--ink);
+  --sticker-sm: 2px 2px 0 var(--ink);
+  --sticker-lg: 5px 5px 0 var(--ink);
+  --sticker-accent: 3px 3px 0 var(--orange-dark);
+  --sticker-mint: 3px 3px 0 var(--sage);
+  --sticker-gold: 3px 3px 0 var(--gold);
+  --sticker-sky: 3px 3px 0 var(--sky);
+  --sticker-grape: 3px 3px 0 var(--grape);
+
+  /* Motion — bouncy springs for a lively, cartoon feel. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 140ms;
@@ -99,11 +115,24 @@
   --container: 1240px;
   --container-narrow: 1180px;
   --header-height: 76px;
-  --mobile-nav-height: 68px;
+  --mobile-nav-height: 76px;
+  --tabbar-height: 74px;
 }
 
 @media (max-width: 760px) {
   :root {
     --header-height: 66px;
+  }
+}
+
+/* Respect the system reduced-motion setting across every animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

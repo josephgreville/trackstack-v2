@@ -19,6 +19,14 @@ import {
   fadeInUp,
 } from '../components/motion.jsx';
 
+const QUICK_ACTIONS = [
+  { to: '/collection-room', label: 'Your room', icon: '🪵', blurb: 'See your shelves' },
+  { to: '/discover', label: 'Discover', icon: '🧭', blurb: 'Find something new' },
+  { to: '/wrapped', label: 'Wrapped', icon: '📊', blurb: 'Your year so far' },
+  { to: '/listen-next', label: 'Up next', icon: '🎧', blurb: 'Shuffle a queue' },
+  { to: '/achievements', label: 'Badges', icon: '🏅', blurb: 'Earn your next' },
+];
+
 export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -156,7 +164,22 @@ export default function Home() {
             </div>
           )}
 
-          {/* Search & filters */}
+          {/* Quick actions — the app in one glance */}
+        <div className="home-quick-actions" variants={listContainer} initial="hidden" animate="show">
+          {QUICK_ACTIONS.map((action) => (
+            <motion.div key={action.to} variants={listItem}>
+              <Link to={action.to} className="home-quick-action">
+                <span className="home-quick-icon" aria-hidden="true">{action.icon}</span>
+                <span className="home-quick-copy">
+                  <strong>{action.label}</strong>
+                  <span>{action.blurb}</span>
+                </span>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Search & filters */}
           <div className="bg-paper rounded-lg p-6 mb-12 shadow-sm" variants={fadeInUp} initial="hidden" animate="show">
             <SearchBar
               value={query}

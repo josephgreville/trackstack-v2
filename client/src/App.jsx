@@ -30,6 +30,16 @@ import PageLoader from './components/PageLoader.jsx';
 import { PlayerProvider } from './context/PlayerContext.jsx';
 import { PageTransition } from './components/motion.jsx';
 
+/* TrackStack 2.0 pages */
+import Wrapped from './pages/Wrapped.jsx';
+import CollectionRoom from './pages/CollectionRoom.jsx';
+import DiscoverWeekly from './pages/DiscoverWeekly.jsx';
+import Achievements from './pages/Achievements.jsx';
+import Social from './pages/Social.jsx';
+import Notifications from './pages/Notifications.jsx';
+import Stories from './pages/Stories.jsx';
+import Profile from './pages/Profile.jsx';
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -83,10 +93,18 @@ export function AppRoutes() {
             <Route path="collections" element={<Collections />} />
             <Route path="collections/:collectionId" element={<CollectionDetail />} />
             <Route path="collections/:collectionId/add" element={<AddAlbum />} />
-            <Route path="community" element={<Community />} />
+            <Route path="community" element={<Navigate to="/social" replace />} />
             <Route path="wantlist" element={<Wantlist />} />
             <Route path="listening-history" element={<ListeningHistory />} />
             <Route path="listen-next" element={<ListeningQueue />} />
+            <Route path="wrapped" element={<Wrapped />} />
+            <Route path="collection-room" element={<CollectionRoom />} />
+            <Route path="discover" element={<DiscoverWeekly />} />
+            <Route path="achievements" element={<Achievements />} />
+            <Route path="social" element={<Social />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="stories" element={<Stories />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>

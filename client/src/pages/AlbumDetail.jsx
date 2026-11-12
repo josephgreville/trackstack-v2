@@ -6,6 +6,9 @@ import { formatYear, formatDuration } from '../utils/format';
 import { albumsService, catalogService, collectionsService, listeningService, wantlistService } from '../services/index';
 import Button from '../components/Button.jsx';
 import { useOptionalPlayer } from '../context/PlayerContext.jsx';
+import StoryEditor from '../components/StoryEditor.jsx';
+import LikeButton from '../components/LikeButton.jsx';
+import CommentSection from '../components/CommentSection.jsx';
 
 export default function AlbumDetail() {
   const { externalId, albumId } = useParams();
@@ -159,7 +162,13 @@ export default function AlbumDetail() {
                     {track.durationMs && <span className="text-brown-light">{formatDuration(track.durationMs)}</span>}
                     {track.previewUrl && (
                       <button type="button" className="track-play" onClick={() => player?.playQueue(
-                        tracks.map((item) => ({ ...item, title: item.title, artist: album.artist, artworkUrl: album.artworkUrl })), index,
+                        tracks.map((item) => ({
+                          ...item,
+                          title: item.title,
+                          artist: album.artist,
+                          artworkUrl: album.artworkUrl,
+                          albumId: album.id,
+                        })), index,
                       )}>
                         Play preview
                       </button>
@@ -200,6 +209,17 @@ export default function AlbumDetail() {
         </Button>
         {album.externalId && <Button className="mt-6 ms-3" variant="outline" onClick={saveToWantlist}>Add to wantlist</Button>}
         <Button className="mt-6 ms-3" variant="outline" loading={loggingListen} onClick={logListen}>Log listen</Button>
+
+        <div className="album-social-row">
+          <LikeButton targetType="album" targetId={String(album.id)} />
+        </div>
+
+        {albumId && (
+          <div className="mt-6">
+            <StoryEditor albumId={albumId} albumTitle={album.title} />
+          </div>
+        )}
+
         {collectionPickerOpen && (
           <section aria-labelledby="collection-picker-title" className="mt-6 bg-paper rounded-lg p-6">
             <h2 id="collection-picker-title" className="text-xl font-display font-600 mb-4">
@@ -234,6 +254,10 @@ export default function AlbumDetail() {
             </Button>
           </section>
         )}
+
+        <section className="mt-8">
+          <CommentSection targetType="album" targetId={String(album.id)} />
+        </section>
       </div>
     </section>
   );

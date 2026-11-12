@@ -37,7 +37,12 @@ export async function resetTestDatabase() {
   vi.stubGlobal('fetch', mockItunesFetch);
   mockItunesFetch.mockClear();
   await pool.query(
-    'TRUNCATE users, collections, albums, collection_albums, sessions RESTART IDENTITY CASCADE',
+    `TRUNCATE users, collections, albums, collection_albums, sessions,
+              wantlist_items, listening_queue_items, listening_history,
+              user_achievements, user_follows, activity_feed, notifications,
+              likes, comments, album_stories, album_photos,
+              recommendations, listening_sessions
+     RESTART IDENTITY CASCADE`,
   );
   clearCatalogCache();
 }
