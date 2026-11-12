@@ -81,7 +81,7 @@ export default function Login() {
             type="button"
             onClick={togglePassword}
             className="auth-password-toggle"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={showPassword ? 'Hide' : 'Show'}
           >
             {showPassword ? <IconEyeOff size={16} /> : <IconEye size={16} />}
           </button>

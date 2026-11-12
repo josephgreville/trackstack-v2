@@ -307,6 +307,49 @@ export function IconTape(props) {
   );
 }
 
+export function IconVolume(props) {
+  return (
+    <Icon {...props}>
+      <path d="M5 9v6l6-5.5V9z" />
+      <path d="M11.5 15c2.16 0 3.78-.92 4.64-2.32l1.27 1.43c-1.08 1.74-3 2.89-4.91 2.89z" />
+    </Icon>
+  );
+}
+
+export function IconVolumeOff(props) {
+  return (
+    <Icon {...props}>
+      <path d="M5 9v6l6-5.5V9z" />
+      <circle cx="11.5" cy="11.5" r="3.5" />
+      <line x1="17" y1="6" x2="6" y2="17" />
+    </Icon>
+  );
+}
+
+export function IconShuffle(props) {
+  return (
+    <Icon {...props}>
+      <path d="M9 16L17 6M2 6h12l-2 4M2 18l2-4h12" />
+    </Icon>
+  );
+}
+
+export function IconRepeat(props) {
+  return (
+    <Icon {...props}>
+      <path d="M17 17v-6c0-.55-.45-1-1-1h-5c-.55 0-1 .45-1 1v3.5c0 .28.22.5.5.5h2c.28 0 .5-.22.5-.5V8c0-1.1-.9-2-2-2h-3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h3c1.1 0 2-.9 2-2v-3.5c0-.28-.22-.5-.5-.5h-2c-.28 0-.5.22-.5.5V17z" />
+    </Icon>
+  );
+}
+
+export function IconExpand(props) {
+  return (
+    <Icon {...props}>
+      <path d="M5 3h5l10 10-M5 19h5l10-10" />
+    </Icon>
+  );
+}
+
 export function IconSpark(props) {
   return (
     <Icon {...props}>
