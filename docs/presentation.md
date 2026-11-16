@@ -89,8 +89,8 @@ endpoint. No hard-coded data anywhere — the demo account was registered ten mi
 
 **Pre-flight checklist:**
 - [ ] App tab open at `https://<your-host>` (or `http://localhost:5173`)
-- [ ] Registered demo account, one collection with 3–4 albums, one wantlist item, one listening history entry
-- [ ] A second account followed, so the feed isn't empty
+- [ ] Logged in as `joey@example.com` / `Password123!` — seeded with 3 collections, a wantlist, a journal, a story and a follower
+- [ ] The public "Vinyl Shelf" collection is shared, so the share link works signed out
 - [ ] Browser at ~1100 px for desktop shots, then drag to 390 px for mobile
 - [ ] Audio muted (iTunes previews play 30-second clips)
 

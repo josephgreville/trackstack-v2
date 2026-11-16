@@ -231,12 +231,18 @@ curl -s https://trackstack.onrender.com/api/v1/health
 # 2. The database is reachable and migrated
 npm run db:migrate
 
-# 3. The tests pass against a fresh test database
+# 3. The demo data is in place (safe to re-run; only touches the demo accounts)
+npm run db:seed
+
+# 4. The tests pass against a fresh test database
 npm test
 
-# 4. The client builds
+# 5. The client builds
 npm run build
 ```
+
+Demo logins: `joey@example.com` / `Password123!` (the collector) and `sam@example.com` /
+`Password123!` (a second collector who follows them).
 
 Then, in the browser:
 

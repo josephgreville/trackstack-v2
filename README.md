@@ -72,8 +72,14 @@ Copy `.env.example` to `.env`, set the PostgreSQL connection values, then run:
 ```sh
 npm install
 npm run db:migrate
+npm run db:seed      # optional: demo collector, collections, journal, social graph
 npm run dev
 ```
+
+`npm run db:seed` creates two demo accounts — `joey@example.com` and `sam@example.com`, both with
+the password `Password123!` — with collections, copy details, a wantlist, a listening journal, an
+album story and a small social graph, so the app is never empty during a demo. The seed is
+repeatable and only touches those two accounts.
 
 The web app runs on Vite and the API runs on Express. Run `npm test` for the client and server test suites; `npm run build` creates the production client bundle.
 
