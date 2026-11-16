@@ -1,0 +1,38 @@
+# Render Blueprint for TrackStack.
+#
+# Creates the API/web service and its PostgreSQL database in one click.
+# The service serves both /api/v1/* and the built client, so the app lives
+# on a single origin and the session cookie can stay SameSite=Lax.
+#
+# Docs: docs/hosting.md
+
+services:
+  - type: web
+    name: trackstack
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: trackstack-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        value: https://trackstack.onrender.com
+      - key: COOKIE_SAMESITE
+        value: lax
+      - key: TRUST_PROXY
+        value: "true"
+      - key: ITUNES_COUNTRY
+        value: GB
+
+databases:
+  - name: trackstack-db
+    plan: free
+    postgresMajorVersion: "16"

@@ -1,0 +1,29 @@
+# Netlify configuration for the split deployment (Option B in docs/hosting.md).
+#
+# Build settings
+#   Base directory:  (leave empty - the repo root holds the npm workspaces)
+#   Build command:   npm ci && npm run build --workspace client
+#   Publish directory: client/dist
+
+[build]
+  command = "npm ci && npm run build --workspace client"
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Client-side routing: every path is handled by React Router.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# API proxy. Point this at your API host so the browser keeps talking to a
+# single origin and the session cookie stays first-party (SameSite=Lax).
+# Replace the host below with your own.
+#
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://trackstack-api.up.railway.app/api/:splat"
+#   status = 200
+#   force = true

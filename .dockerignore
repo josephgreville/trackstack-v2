@@ -1,0 +1,13 @@
+node_modules
+npm-cache
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+client/dist
+coverage
+android
+docs
+test-output.txt
+*.log

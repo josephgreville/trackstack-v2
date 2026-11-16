@@ -82,6 +82,9 @@ The web app runs on Vite and the API runs on Express. Run `npm test` for the cli
 - `client/` — React 19, React Router 7, Vite, Tailwind CSS and Framer Motion.
 - `server/` — Express 5 REST API with PostgreSQL, zod validation and server-side sessions.
 
+Full stack rationale, data model, endpoint reference, security notes and risk register:
+**[`docs/architecture.md`](docs/architecture.md)**.
+
 TrackStack 2.0 endpoints are grouped under `/api/v1/2`:
 
 | Route | Purpose |
@@ -94,3 +97,17 @@ TrackStack 2.0 endpoints are grouped under `/api/v1/2`:
 | `/2/stories/*` | Album stories and photos |
 
 All personal data is scoped to the signed-in collector. Private collections, listening history, wantlist entries and unpublished stories are never returned by another user's request.
+
+## Hosting
+
+The recommended deployment is a single Docker service (API + built client + managed PostgreSQL).
+Build and deploy instructions, environment variable reference, a pre-demo checklist and
+troubleshooting: **[`docs/hosting.md`](docs/hosting.md)**.
+
+```sh
+docker build -t trackstack .
+docker run -p 4000:4000 --env-file .env trackstack
+```
+
+`render.yaml` (Render Blueprint), `netlify.toml` (split CDN + API) and `Dockerfile` are in the
+repository root.
