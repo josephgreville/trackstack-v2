@@ -72,6 +72,43 @@ curl https://trackstack.onrender.com/api/v1/health
 
 Then open the URL in a browser, register an account and add one album to a collection.
 
+**Step 6 — seed the demo data (optional but recommended)**
+
+The service container has the seed script, so use Render's **Shell** tab on the service:
+
+```sh
+npm run db:seed
+```
+
+```
+Seed complete.
+  demo_joey  ·  joey@example.com  ·  Password123!
+  sam_beats  ·  sam@example.com   ·  Password123!
+```
+
+> **If your URL is not `https://trackstack.onrender.com`** (the name is taken, or you renamed the
+> service), update `CLIENT_ORIGIN` in the service's *Environment* tab to your exact URL, then
+> **Save & Deploy**. If it doesn't match, login silently fails — the cookie is rejected and the
+> browser bounces you back to the login screen.
+
+**Step 7 — verify the whole thing**
+
+```sh
+# API
+curl -s https://trackstack.onrender.com/api/v1/health
+
+# SPA served by the same container
+curl -s -o /dev/null -w '%{http_code}\n' https://trackstack.onrender.com/
+# 200
+
+# Deep link falls back to index.html
+curl -s -o /dev/null -w '%{http_code}\n' https://trackstack.onrender.com/collections
+# 200
+```
+
+Then open the site, log in as `joey@example.com` / `Password123!`, and walk the demo journey in
+`docs/presentation.md`.
+
 ### Redeploying after a code change
 
 Push to `main` and Render redeploys automatically. Migrations are idempotent, so re-running them is
