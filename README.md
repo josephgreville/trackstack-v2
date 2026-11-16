@@ -111,3 +111,13 @@ docker run -p 4000:4000 --env-file .env trackstack
 
 `render.yaml` (Render Blueprint), `netlify.toml` (split CDN + API) and `Dockerfile` are in the
 repository root.
+
+## Project documents
+
+| Document | What it covers |
+|---|---|
+| [`docs/architecture.md`](docs/architecture.md) | Stack rationale, data model, endpoint reference, security, risks |
+| [`docs/hosting.md`](docs/hosting.md) | Deployment runbook, env reference, pre-demo checklist |
+| [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
+| [`docs/presentation.md`](docs/presentation.md) | 10-minute presentation: slides, demo journey, Q&A prep |
+| [`docs/testing.md`](docs/testing.md) | How the test suites are structured and run |
