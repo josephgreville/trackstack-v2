@@ -126,4 +126,5 @@ repository root.
 | [`docs/hosting.md`](docs/hosting.md) | Deployment runbook, env reference, pre-demo checklist |
 | [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
 | [`docs/presentation.md`](docs/presentation.md) | 10-minute presentation: slides, demo journey, Q&A prep |
+| [`docs/presentation/index.html`](docs/presentation/index.html) | The slide deck itself — open it in a browser and present |
 | [`docs/testing.md`](docs/testing.md) | How the test suites are structured and run |

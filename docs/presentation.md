@@ -1,5 +1,20 @@
 # TrackStack — Presentation
 
+**The deck itself is [`presentation/index.html`](presentation/index.html)** — a self-contained slide
+deck. Open it in a browser and present it; this document is the script and the Q&A prep behind it.
+
+| | |
+|---|---|
+| **Deck** | `docs/presentation/index.html` — open in Chrome or Edge, no install, works offline |
+| **Navigate** | `→` / `Space` next · `←` previous · `Home` / `End` jump · `F` fullscreen |
+| **Speaker notes** | press `N` — each slide's script and timing are built in |
+| **Timer** | press `T` to start/pause, `R` to reset — the six-minute budget is in the notes |
+| **PDF** | `Ctrl` + `P` prints one slide per page at 16:9 |
+| **Deep link** | `…/index.html#slide-7` opens straight to a slide |
+
+**Before you present:** change the live URL on the closing slide (search the file for
+`trackstack.onrender.com`) once Render has given you one.
+
 **Format:** 10 minutes total — 6 minutes presenting, 4 minutes questions.
 **Slides:** keep to the words shown. The script notes are what you *say*, not what you read.
 

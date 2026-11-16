@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TrackStack — Final Project Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #1e1c1b;
+    --card: #262423;
+    --card-2: #2f2c2a;
+    --cream: #F3EEE9;
+    --muted: #B5AAA2;
+    --coral: #FF7049;
+    --rust: #F08A63;
+    --gold: #E6B85D;
+    --sage: #9BAE9F;
+    --rose: #D9887E;
+    --line: #3B3937;
+    --display: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+    --sans: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', 'Consolas', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #0e0d0c;
+    color: var(--cream);
+    font-family: var(--sans);
+    overflow: hidden;
+  }
+
+  /* ---------- stage ---------- */
+  #stage {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background:
+      radial-gradient(1100px 600px at 88% -10%, rgba(255,112,73,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(155,174,159,.12), transparent 60%),
+      var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 22px;
+    padding: 58px 72px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  }
+
+  .slide.active { display: flex; animation: in .28s ease-out; }
+  @keyframes in { from { opacity: 0; transform: translateY(10px) scale(var(--s,1)); } to { opacity: 1; } }
+
+  .slide::after {
+    content: '';
+    position: absolute;
+    right: -60px; bottom: -70px;
+    width: 220px; height: 220px;
+    border: 2px solid rgba(255,112,73,.25);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* ---------- type ---------- */
+  h1 { font-family: var(--display); font-size: 66px; line-height: 1.02; margin: 0 0 14px; font-weight: 600; letter-spacing: -.02em; }
+  h2 { font-family: var(--display); font-size: 40px; margin: 0 0 22px; font-weight: 600; letter-spacing: -.01em; }
+  h3 { font-family: var(--display); font-size: 21px; margin: 0 0 8px; font-weight: 600; color: var(--coral); }
+  p  { font-size: 21px; line-height: 1.45; margin: 0 0 14px; color: var(--cream); }
+  .lead { font-size: 25px; color: var(--muted); }
+  .small { font-size: 17px; color: var(--muted); }
+  .mono { font-family: var(--mono); }
+  .accent { color: var(--coral); }
+  .muted { color: var(--muted); }
+  .gold { color: var(--gold); }
+  .sage { color: var(--sage); }
+  .rose { color: var(--rose); }
+
+  .kicker {
+    display: inline-block;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--coral);
+    border: 1px solid rgba(255,112,73,.4);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 22px;
+  }
+
+  /* ---------- layout helpers ---------- */
+  .grow { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .row { display: flex; gap: 22px; }
+  .row.grow { flex-direction: row; align-items: center; }
+  .col { flex: 1; }
+  .center { text-align: center; align-items: center; justify-content: center; }
+
+  .card {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 24px;
+  }
+  .card.hi { border-color: rgba(255,112,73,.55); box-shadow: 6px 6px 0 rgba(255,112,73,.18); }
+  .card p { font-size: 17px; margin: 0; color: var(--muted); }
+  .card h3 { color: var(--cream); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-4 { display: grid; grid-columns: repeat(4, 1fr); gap: 16px; }
+
+  ul.clean { list-style: none; padding: 0; margin: 0; }
+  ul.clean li {
+    font-size: 20px;
+    padding: 9px 0 9px 30px;
+    position: relative;
+    line-height: 1.35;
+  }
+  ul.clean li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--coral);
+  }
+  ul.clean li b { color: var(--cream); }
+  ul.clean li span { color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; }
+  td, th { text-align: left; padding: 11px 12px; font-size: 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--display); font-weight: 500; color: var(--coral); font-size: 16px; letter-spacing: .04em; text-transform: uppercase; }
+  td:first-child { font-family: var(--mono); font-size: 16px; color: var(--gold); white-space: nowrap; }
+  td.why { color: var(--muted); font-size: 17px; }
+
+  /* ---------- schema diagram ---------- */
+  .schema { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; }
+  .entity {
+    background: var(--card-2);
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .entity .t { font-family: var(--display); font-size: 20px; color: var(--cream); }
+  .entity .f { font-family: var(--mono); font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .entity.hi { border-color: var(--coral); }
+  .entity.hi .t { color: var(--coral); }
+  .link { font-family: var(--mono); font-size: 15px; color: var(--sage); text-align: center; }
+
+  /* ---------- stack diagram ---------- */
+  .pipe { display: flex; flex-direction: column; gap: 10px; }
+  .node {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 13px 18px;
+    background: var(--card);
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .node .tag { font-family: var(--mono); font-size: 12px; color: var(--paper); background: var(--muted); border-radius: 999px; padding: 3px 10px; }
+  .node .name { font-family: var(--display); font-size: 19px; }
+  .node .desc { font-size: 15px; color: var(--muted); margin-left: auto; }
+  .node.c { border-color: rgba(255,112,73,.5); }
+  .node.c .tag { background: var(--coral); }
+  .node.p { border-color: rgba(155,174,159,.45); }
+  .node.p .tag { background: var(--sage); color: #1e1c1b; }
+  .node.g { border-color: rgba(230,184,93,.45); }
+  .node.g .tag { background: var(--gold); color: #1e1c1b; }
+  .arrow { text-align: center; color: var(--coral); font-size: 20px; line-height: 1; }
+
+  /* ---------- journey ---------- */
+  .journey { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .step {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 12px 13px;
+    position: relative;
+  }
+  .step .n {
+    font-family: var(--mono); font-size: 12px; color: var(--coral);
+    display: block; margin-bottom: 5px;
+  }
+  .step .t { font-family: var(--display); font-size: 16px; line-height: 1.15; }
+  .step.demo { border-color: var(--coral); background: rgba(255,112,73,.12); }
+
+  /* ---------- device mock ---------- */
+  .device {
+    background: var(--card-2);
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .device .bar { display: flex; gap: 5px; margin-bottom: 9px; }
+  .device .bar i { width: 22px; height: 6px; border-radius: 3px; background: var(--line); display: block; }
+  .device .bar i.on { background: var(--coral); }
+  .dock {
+    margin-top: 12px;
+    background: rgba(255,112,73,.16);
+    border: 1px solid rgba(255,112,73,.4);
+    border-radius: 999px;
+    padding: 7px;
+    text-align: center;
+    font-family: var(--display);
+    font-size: 12px;
+    color: var(--coral);
+    letter-spacing: .06em;
+  }
+  .rail { display: flex; flex-direction: column; gap: 6px; }
+  .rail i { display: block; height: 8px; border-radius: 4px; background: var(--line); }
+  .rail i.on { background: var(--coral); }
+
+  /* ---------- timeline / chrome ---------- */
+  #chrome {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    height: 42px;
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 18px;
+    font-family: var(--mono); font-size: 12px; color: #6f6862;
+    background: linear-gradient(to top, rgba(14,13,12,.95), transparent);
+    z-index: 20;
+  }
+  #progress { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--coral); z-index: 30; transition: width .25s ease; }
+  #counter { color: var(--coral); }
+  #clock { color: var(--muted); }
+  #chrome .spacer { flex: 1; }
+  #chrome kbd {
+    font-family: var(--mono); font-size: 11px;
+    border: 1px solid #3a3735; border-radius: 5px; padding: 2px 6px; color: #8d857e;
+  }
+
+  #notes {
+    position: fixed; left: 0; right: 0; bottom: 42px;
+    max-height: 46vh; overflow: auto;
+    background: #141312;
+    border-top: 2px solid var(--coral);
+    padding: 18px 26px 22px;
+    font-size: 16px; line-height: 1.5; color: var(--muted);
+    z-index: 25; display: none;
+  }
+  #notes.open { display: block; }
+  #notes b { color: var(--cream); }
+  #notes .lbl { font-family: var(--mono); font-size: 12px; color: var(--coral); letter-spacing: .14em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+
+  #help {
+    position: fixed; inset: 0; background: rgba(10,9,9,.92); z-index: 40;
+    display: none; place-items: center;
+  }
+  #help.open { display: grid; }
+  #help .box { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 32px 40px; min-width: 420px; }
+  #help h3 { color: var(--cream); margin-bottom: 14px; }
+  #help table td { font-size: 17px; }
+
+  .title-slide { justify-content: center; }
+  .title-slide h1 { font-size: 92px; }
+  .rule { height: 3px; background: var(--coral); width: 92px; border-radius: 3px; margin: 6px 0 26px; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 26px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12.5px; color: #6f6862; }
+  .pagenum { color: var(--coral); }
+
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body { overflow: visible; background: #fff; }
+    #chrome, #notes, #help, #progress { display: none !important; }
+    #stage { position: static; display: block; }
+    .slide { display: flex !important; transform: none !important; page-break-after: always; box-shadow: none; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- 1 ─────────────────────────────────────────────── -->
+  <section class="slide title-slide">
+    <span class="kicker">Final Project · Vibe Coding Web App</span>
+    <h1>TrackStack</h1>
+    <div class="rule"></div>
+    <p class="lead">A home for your record collection — browse a catalogue, build shelves,<br/>track every copy, share the room.</p>
+    <div class="row" style="margin-top:44px; gap:44px">
+      <div><p class="small" style="margin:0">Route B<br/><span class="accent">records</span></p></div>
+      <div><p class="small" style="margin:0">Stack<br/><span class="accent">React · Express · PostgreSQL</span></p></div>
+      <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
+    </div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">01</span></div>
+  </section>
+
+  <!-- 2 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">The brief</span>
+    <h2>People who share an interest,<br/>sharing their things</h2>
+    <div class="grow row">
+      <div class="col">
+        <ul class="clean">
+          <li><b>Every user</b> → many collections</li>
+          <li><b>Every collection</b> → many records</li>
+          <li>Records come from a <b>real catalogue</b> — iTunes</li>
+          <li>Each <b>copy</b> has format, condition, price</li>
+        </ul>
+      </div>
+      <div class="col card hi">
+        <h3>Why records?</h3>
+        <p>The data is genuinely relational: one record can sit in many
+        collections, and every copy is its own thing with its own
+        condition and price. The modelling problem is the interesting part —
+        not the CRUD.</p>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02</span></div>
+  </section>
+
+  <!-- 3 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Data model</span>
+    <h2>Catalogue entry ≠ your copy</h2>
+    <div class="schema" style="margin-bottom:26px">
+      <div class="entity hi"><div class="t">users</div><div class="f">id · username · email<br/>password_hash · xp · level</div></div>
+      <div class="link">1 —<br/>many</div>
+      <div class="entity"><div class="t">collections</div><div class="f">user_id · name<br/>is_public · share_token<br/>shelf_theme</div></div>
+      <div class="link">1 —<br/>many</div>
+      <div class="entity hi"><div class="t">collection_albums</div><div class="f">collection_id · album_id<br/>format · condition<br/>price · edition_notes</div></div>
+      <div class="link">many —<br/>one</div>
+      <div class="entity"><div class="t">albums</div><div class="f">title · artist · year<br/>genre · artwork_url<br/>external_id</div></div>
+    </div>
+    <div class="row" style="gap:18px">
+      <div class="col card hi">
+        <h3>Metadata is global</h3>
+        <p>One <span class="mono">albums</span> row per record, shared by everyone. Two people owning the same pressing never duplicate it.</p>
+      </div>
+      <div class="col card">
+        <h3>Your copy is personal</h3>
+        <p>Format, condition, price and notes live on the join table — the copy, not the catalogue entry.</p>
+      </div>
+      <div class="col card">
+        <h3>Plus 12 more tables</h3>
+        <p>wantlist · history · follows · likes · comments · stories · photos · badges · recommendations · sessions · wrapped</p>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03</span></div>
+  </section>
+
+  <!-- 4 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">The app</span>
+    <h2>Seven screens, one system</h2>
+    <div class="grid-4" style="margin-bottom:16px">
+      <div class="card"><h3>Home</h3><p>Dashboard, featured records, recent adds</p></div>
+      <div class="card"><h3>Browse</h3><p>Search the live catalogue by genre, artist, year</p></div>
+      <div class="card"><h3>Album detail</h3><p>Tracks, 30s previews, related albums</p></div>
+      <div class="card"><h3>Collection</h3><p>Your shelf: copy details, stats, share link</p></div>
+    </div>
+    <div class="grid-4">
+      <div class="card"><h3>My collections</h3><p>Every shelf, plus the record-shelf room</p></div>
+      <div class="card"><h3>Add / edit</h3><p>Search the catalogue or add it by hand</p></div>
+      <div class="card"><h3>Log in / register</h3><p>Deep links survive the login detour</p></div>
+      <div class="card hi"><h3>Plus</h3><p>Wantlist, journal, stories, community, badges, Wrapped</p></div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04</span></div>
+  </section>
+
+  <!-- 5 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Live demo</span>
+    <h2>The journey</h2>
+    <div class="journey">
+      <div class="step demo"><span class="n">01</span><span class="t">Register</span></div>
+      <div class="step demo"><span class="n">02</span><span class="t">Home dashboard</span></div>
+      <div class="step demo"><span class="n">03</span><span class="t">Browse &amp; search</span></div>
+      <div class="step demo"><span class="n">04</span><span class="t">Album detail</span></div>
+      <div class="step demo"><span class="n">05</span><span class="t">Add to a shelf</span></div>
+      <div class="step demo"><span class="n">06</span><span class="t">Copy details</span></div>
+      <div class="step demo"><span class="n">07</span><span class="t">Collection stats</span></div>
+      <div class="step demo"><span class="n">08</span><span class="t">Shelf room</span></div>
+      <div class="step demo"><span class="n">09</span><span class="t">Share link</span></div>
+      <div class="step demo"><span class="n">10</span><span class="t">Wantlist &amp; journal</span></div>
+      <div class="step demo"><span class="n">11</span><span class="t">Community</span></div>
+      <div class="step demo"><span class="n">12</span><span class="t">Wrapped &amp; badges</span></div>
+      <div class="step demo"><span class="n">13</span><span class="t">Resize to phone</span></div>
+      <div class="step demo"><span class="n">14</span><span class="t">Public profile</span></div>
+      <div class="step demo"><span class="n">15</span><span class="t">Signed-out share</span></div>
+    </div>
+    <p class="small" style="margin-top:26px">Nothing is hard-coded. Every screen is one React route talking to one Express endpoint — the account was created minutes before this talk.</p>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05</span></div>
+  </section>
+
+  <!-- 6 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Architecture</span>
+    <h2>The shape of it</h2>
+    <div class="row grow">
+      <div class="col pipe">
+        <div class="node c"><span class="tag">CLIENT</span><span class="name">React 19 + Vite</span><span class="desc">Router 7 · Tailwind · Framer Motion</span></div>
+        <div class="arrow">↓</div>
+        <div class="node c"><span class="tag">API</span><span class="name">Express 5 on Node 20</span><span class="desc">zod validation · sessions · rate limits</span></div>
+        <div class="arrow">↓</div>
+        <div class="node p"><span class="tag">DATA</span><span class="name">PostgreSQL 16</span><span class="desc">FKs · CHECK constraints · jsonb</span></div>
+        <div class="arrow">↗</div>
+        <div class="node g"><span class="tag">3RD PARTY</span><span class="name">iTunes Search API</span><span class="desc">called from the server only</span></div>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px">
+          <h3>Layers</h3>
+          <p class="mono" style="font-size:14px; color:var(--gold); margin:0 0 8px">routes → controllers → services → SQL</p>
+          <p>Controllers never write SQL. Services never touch <span class="mono">req</span>/<span class="mono">res</span>. That is what makes it testable.</p>
+        </div>
+        <div class="card">
+          <h3>One repo</h3>
+          <p>npm workspaces, one <span class="mono">npm install</span>, one <span class="mono">npm run dev</span>, one push ships client and API together.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06</span></div>
+  </section>
+
+  <!-- 7 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Architecture</span>
+    <h2>Why these choices</h2>
+    <table>
+      <tbody>
+        <tr><td>PostgreSQL</td><td class="why">The data is relational — I wanted the database to enforce it: foreign keys, CHECK constraints on format and condition, unique indexes on lower(email). A document store means hand-rolling integrity.</td></tr>
+        <tr><td>No ORM</td><td class="why">Explicit SQL, so I can explain every query and every index. That was the part I was asked to understand.</td></tr>
+        <tr><td>Sessions, not JWT</td><td class="why">The cookie holds only a signed id — an XSS bug can't read it, and I can revoke a session server-side.</td></tr>
+        <tr><td>Own API</td><td class="why">Our Express API is the source of truth for users, collections, copies. iTunes only supplies catalogue metadata.</td></tr>
+        <tr><td>Monorepo</td><td class="why">Client and API in one repo, one install, one dev command, one deploy.</td></tr>
+      </tbody>
+    </table>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07</span></div>
+  </section>
+
+  <!-- 8 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Architecture</span>
+    <h2>The API</h2>
+    <div class="row grow">
+      <div class="col">
+        <div class="card" style="height:100%">
+          <h3 class="mono" style="color:var(--gold); font-size:19px">/api/v1</h3>
+          <p class="mono" style="font-size:14.5px; color:var(--muted); line-height:1.9; margin:0">
+            POST&nbsp;&nbsp;&nbsp;/auth/register<br/>
+            POST&nbsp;&nbsp;&nbsp;/auth/login<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/catalog/search<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/collections<br/>
+            POST&nbsp;&nbsp;&nbsp;/collections/:id/albums<br/>
+            PATCH /collections/:id/albums/:albumId<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/me/wantlist<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/public/share/:token
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="height:100%">
+          <h3 class="mono" style="color:var(--coral); font-size:19px">/api/v1/2</h3>
+          <p class="mono" style="font-size:14.5px; color:var(--muted); line-height:1.9; margin:0">
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/me&nbsp;&nbsp;(xp, level)<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/achievements<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/wrapped?range=year<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/recommendations<br/>
+            POST&nbsp;&nbsp;&nbsp;/social/follow/:userId<br/>
+            POST&nbsp;&nbsp;&nbsp;/social/like/:type/:id<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/stories/albums/:id/story<br/>
+            GET&nbsp;&nbsp;&nbsp;&nbsp;/social/activity
+          </p>
+        </div>
+      </div>
+    </div>
+    <p class="small" style="margin-top:18px">Every body, param and query is validated with <span class="accent">zod</span> before it reaches SQL. One JSON error shape for everything. Version 1 never changed shape — the 2.0 features live under <span class="mono">/2</span>.</p>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08</span></div>
+  </section>
+
+  <!-- 9 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Security</span>
+    <h2>Keys, sessions, and other people's data</h2>
+    <div class="grid-3 grow">
+      <div class="card">
+        <h3>API keys</h3>
+        <p><b style="color:var(--cream)">There are none.</b><br/>The iTunes Search API needs no key, and every call is made from the server — so no key <i>can</i> reach the browser bundle. The only secrets are <span class="mono">DATABASE_URL</span> and <span class="mono">SESSION_SECRET</span>, both in environment variables, and <span class="mono">.env</span> is git-ignored.</p>
+      </div>
+      <div class="card">
+        <h3>Sessions</h3>
+        <p>Server-side, stored in Postgres, signed id in an <span class="mono">httpOnly</span> cookie, <span class="mono">SameSite</span>, <span class="mono">Secure</span> in production, revocable server-side. bcrypt for passwords. Rate limits on login.</p>
+      </div>
+      <div class="card hi">
+        <h3>Ownership</h3>
+        <p>Every personal query is scoped by <span class="mono">user_id</span> from the session <i>inside the service</i>, not the route. Another user's collection returns <b style="color:var(--cream)">404</b> — it never confirms the thing exists. There are tests for exactly this.</p>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09</span></div>
+  </section>
+
+  <!-- 10 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Design</span>
+    <h2>One layout, two shapes</h2>
+    <div class="row grow">
+      <div class="col card">
+        <h3>Desktop</h3>
+        <div class="row" style="gap:16px; margin-top:10px">
+          <div class="device" style="width:110px">
+            <div class="rail"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="device" style="flex:1">
+            <div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+            <div style="height:70px; background:rgba(255,112,73,.12); border-radius:8px"></div>
+          </div>
+        </div>
+        <p style="margin-top:14px">Five tabs in a left rail. Multi-column grids. Type ramp stays tight.</p>
+      </div>
+      <div class="col card">
+        <h3>Mobile</h3>
+        <div class="row" style="gap:16px; margin-top:10px">
+          <div class="device" style="width:126px">
+            <div style="height:40px; background:rgba(255,112,73,.12); border-radius:8px"></div>
+            <div style="height:26px; background:rgba(255,112,73,.12); border-radius:8px; margin-top:8px"></div>
+            <div class="dock">HOME · STACKS</div>
+          </div>
+          <div class="device" style="flex:1">
+            <div style="font-family:var(--display); color:var(--cream); font-size:15px; margin-bottom:8px">Same five tabs</div>
+            <p style="font-size:14px; margin:0">A thumb reaches the bottom of a phone, not the top. So the tabs move to a floating bottom dock — with safe-area padding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="small" style="margin-top:16px">Sticker-book aesthetic: 2px outlines, solid offset shadows, no blur, pill buttons, spring motion. The palette lives in one token file — a colour change is one edit. Every animation respects <span class="mono">prefers-reduced-motion</span>.</p>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10</span></div>
+  </section>
+
+  <!-- 11 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Hosting</span>
+    <h2>One container, one origin</h2>
+    <div class="row grow">
+      <div class="col pipe">
+        <div class="node c"><span class="tag">DOCKER</span><span class="name">Vite build → Node runtime</span><span class="desc">client/dist + Express</span></div>
+        <div class="arrow">↓</div>
+        <div class="node c"><span class="tag">RENDER</span><span class="name">trackstack.onrender.com</span><span class="desc">one service, HTTPS</span></div>
+        <div class="arrow">↓</div>
+        <div class="node p"><span class="tag">POSTGRES</span><span class="name">Managed Postgres 16</span><span class="desc">migrations run at boot</span></div>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:14px">
+          <h3>Why one service</h3>
+          <p>Same origin → the cookie stays <span class="mono">SameSite=Lax</span>, no CORS, one URL for the demo. Migrations are numbered SQL files and run at container start; they're idempotent, so every redeploy is safe.</p>
+        </div>
+        <div class="card">
+          <h3>Also documented</h3>
+          <p>The split option — Netlify for the client, Railway for the API — plus a local-only <span class="mono">docker compose</span> path. The image is portable to any container host.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">11</span></div>
+  </section>
+
+  <!-- 12 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Verification</span>
+    <h2>How do I know it works?</h2>
+    <div class="grid-3 grow">
+      <div class="card hi">
+        <h3>128 tests</h3>
+        <p>13 files. Server suites run the real Express app against a real Postgres test database via Supertest — migrations, constraints, ownership and authz included.</p>
+      </div>
+      <div class="card">
+        <h3>Real container</h3>
+        <p>The production image builds, boots, migrates, serves the SPA and the API, handles deep links, and logs in — verified locally before deploying.</p>
+      </div>
+      <div class="card">
+        <h3>Seeded demo</h3>
+        <p>One repeatable seed: two collectors, three shelves, copy details, wantlist, journal, a story, a follower. Never an empty screen.</p>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">12</span></div>
+  </section>
+
+  <!-- 13 ─────────────────────────────────────────────── -->
+  <section class="slide">
+    <span class="kicker">Reflection</span>
+    <h2>What went well, what didn't</h2>
+    <div class="grid-3 grow">
+      <div class="card">
+        <h3 class="sage">Worked</h3>
+        <p style="margin-bottom:10px">• Schema decided first — every feature followed from it<br/>• Small commits, one feature at a time<br/>• AI wrote the code; I chose the boundaries<br/>• Layers kept generated code coherent</p>
+      </div>
+      <div class="card">
+        <h3 class="rose">Didn't</h3>
+        <p style="margin-bottom:10px">• Scope — the 2.0 features took twice as long as 1.0<br/>• First pass looked like every other AI app<br/>• Free hosting sleeps; a demo-day risk<br/>• No backups on a free database</p>
+      </div>
+      <div class="card hi">
+        <h3>Learnt</h3>
+        <p style="margin-bottom:10px">• A "collection" is a join table plus copy details, not a list of ids<br/>• Testing the real database caught what mocks hid<br/>• Scope control is a technical skill</p>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">13</span></div>
+  </section>
+
+  <!-- 14 ─────────────────────────────────────────────── -->
+  <section class="slide title-slide">
+    <span class="kicker">Thanks</span>
+    <h1>Questions?</h1>
+    <div class="rule"></div>
+    <p class="lead">Happy to go deeper on the schema, the API,<br/>the security model or the deployment.</p>
+    <div class="row" style="margin-top:44px; gap:44px">
+      <div><p class="small" style="margin:0">Live<br/><span class="accent" id="live-url">trackstack.onrender.com</span></p></div>
+      <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
+      <div><p class="small" style="margin:0">Docs<br/><span class="accent">docs/architecture.md</span></p></div>
+    </div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">14</span></div>
+  </section>
+
+</div>
+
+<div id="progress" style="width:0"></div>
+<div id="chrome">
+  <span id="counter">1 / 14</span>
+  <span id="clock">00:00</span>
+  <span class="spacer"></span>
+  <span><kbd>←</kbd> <kbd>→</kbd> navigate</span>
+  <span><kbd>N</kbd> notes</span>
+  <span><kbd>T</kbd> timer</span>
+  <span><kbd>F</kbd> fullscreen</span>
+  <span><kbd>?</kbd> help</span>
+</div>
+
+<div id="notes">
+  <span class="lbl">Speaker notes</span>
+  <div id="notes-body"></div>
+</div>
+
+<div id="help">
+  <div class="box">
+    <h3>Keyboard</h3>
+    <table>
+      <tbody>
+        <tr><td>→ / Space / PageDown</td><td>next slide</td></tr>
+        <tr><td>← / PageUp</td><td>previous slide</td></tr>
+        <tr><td>Home / End</td><td>first / last slide</td></tr>
+        <tr><td>N</td><td>show or hide speaker notes</td></tr>
+        <tr><td>T</td><td>start / pause the timer</td></tr>
+        <tr><td>R</td><td>reset the timer</td></tr>
+        <tr><td>F</td><td>fullscreen</td></tr>
+        <tr><td>Ctrl + P</td><td>print / export to PDF</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const NOTES = [
+    `0:00 — Title. Say: "This is TrackStack — a web app for people who collect records. You browse a catalogue, build multiple collections, track the condition and price of each copy, keep a wantlist, and share your shelves."`,
+
+    `0:20 — The brief. "The brief asked for people who share an interest to share information about their things. I chose records because the data is genuinely relational — one record can sit in many collections, and each copy has its own format, condition and price. That's the interesting modelling problem in it."
+If asked why not books: "The schema is nearly identical — swap album for book and add ISBN/author instead of iTunes ids."`,
+
+    `0:50 — Data model. "Album metadata is global — one row per record, shared. But my copy of it is personal: format, condition, price, purchase date live on the join table. Two people owning the same pressing never duplicate the row. Sixteen tables in total."
+Extra sentence if needed: "Likes and comments use a polymorphic target_type + target_id instead of two nullable foreign keys — one index serves both; the trade-off is the database can't check the reference, so the service looks the target up before every write."`,
+
+    `1:15 — Screens. Don't read the list. Say: "Seven screens from the brief, plus the extras — wantlist, journal, stories, community, badges and Wrapped."`,
+
+    `1:30 — Demo. Switch to the app now. Twelve to fifteen steps, roughly ninety seconds. Narrate the journey, not the UI elements.
+Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, the public "Vinyl Shelf" shared, browser at ~1100px then dragged to 390px, audio muted.`,
+
+    `2:50 — Architecture. "One monorepo: React 19 client, Express 5 API, PostgreSQL 16. iTunes is the third-party catalogue — but every call goes through our server, never from the browser."
+Point at the layers box: "routes → controllers → services → SQL. Controllers never write SQL, services never touch req/res — that's what makes it testable."`,
+
+    `3:30 — Why. Pick two or three rows, don't read all five. Postgres is the strongest answer: "I wanted the database to enforce it — foreign keys, CHECK constraints on format and condition, unique indexes on lower(email)."`,
+
+    `4:00 — API. "Version 1 is the original surface; the 2.0 features live under /2 so the published endpoints never changed shape. Every body, param and query is validated with zod before it reaches SQL, and there's one JSON error shape for everything."`,
+
+    `4:20 — Security. "There are no API keys to leak — the iTunes API doesn't need one, and all calls are server-side. The only secrets are DATABASE_URL and SESSION_SECRET, in environment variables, with .env git-ignored. Sessions are server-side in Postgres and revocable. Every personal query is scoped by user_id inside the service layer, and another user's collection returns 404 rather than 403, so it doesn't even confirm it exists."`,
+
+    `4:40 — Design. "The layout was designed before the code. On desktop the five tabs are a left rail; under 768px they become a floating dock at the bottom, because a thumb reaches the bottom of a phone but not the top. The visual language is a sticker book — two-pixel outlines, solid offset shadows with no blur, pill buttons, spring motion — and the whole palette is token-driven."
+If asked about process: "The first pass was generic. I rebuilt it with a deliberate voice."`,
+
+    `4:55 — Hosting. "One container runs the API and serves the built client, so the app sits on a single origin — that keeps the session cookie first-party and removes CORS entirely. Migrations are numbered SQL files that run at container start, and they're idempotent, so redeploys are safe. The split Netlify-plus-Railway option is documented too."`,
+
+    `5:10 — Verification. "128 tests across 13 files, running the real app against a real Postgres test database — migrations, constraints, ownership, authz. I also built and ran the production container locally before deploying it: boot, migrate, serve the SPA, handle deep links, log in."`,
+
+    `5:20 — Reflection. "What went well: the schema was decided first, and it made every feature obvious. What didn't: the 2.0 feature set took twice as long as the original app, and I should have cut it earlier — and the first version of the UI was generic AI output that I had to push into something with a voice. What I learnt: the interesting part of this brief isn't the CRUD, it's modelling a copy versus a catalogue entry."`,
+
+    `5:50 — Close. "Happy to go deeper on the schema, the API, the security model or the deployment." Then stop talking and let the questions come.`
+  ];
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const notes = document.getElementById('notes');
+  const notesBody = document.getElementById('notes-body');
+  const clock = document.getElementById('clock');
+  const help = document.getElementById('help');
+  let index = 0;
+
+  function fit() {
+    const scale = Math.min(window.innerWidth / 1300, (window.innerHeight - 60) / 740);
+    slides.forEach(s => s.style.setProperty('--s', scale));
+    slides.forEach(s => { s.style.transform = `scale(${scale})`; });
+  }
+
+  function show(i) {
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, n) => s.classList.toggle('active', n === index));
+    counter.textContent = `${index + 1} / ${slides.length}`;
+    progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+    notesBody.textContent = NOTES[index] || '';
+    location.hash = `slide-${index + 1}`;
+  }
+
+  let seconds = 0, timerId = null;
+  function paintClock() {
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    clock.textContent = `${m}:${s}`;
+  }
+  function toggleTimer() {
+    if (timerId) { clearInterval(timerId); timerId = null; clock.style.color = ''; }
+    else { timerId = setInterval(() => { seconds++; paintClock(); }, 1000); clock.style.color = 'var(--coral)'; }
+  }
+  function resetTimer() { seconds = 0; paintClock(); }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { help.classList.remove('open'); return; }
+    if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); show(index + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(index - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key.toLowerCase() === 'n') notes.classList.toggle('open');
+    else if (e.key.toLowerCase() === 't') toggleTimer();
+    else if (e.key.toLowerCase() === 'r') resetTimer();
+    else if (e.key.toLowerCase() === 'f') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+    else if (e.key === '?') help.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#help') && e.target.id === 'help') help.classList.remove('open');
+    if (e.target.closest('#chrome')) return;
+    show(index + (e.clientX > window.innerWidth * 0.35 ? 1 : -1));
+  });
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', () => {
+    const m = location.hash.match(/slide-(\d+)/);
+    if (m) show(Number(m[1]) - 1);
+  });
+
+  const start = (location.hash.match(/slide-(\d+)/) || [])[1];
+  fit();
+  show(start ? Number(start) - 1 : 0);
+  paintClock();
+</script>
+</body>
+</html>
