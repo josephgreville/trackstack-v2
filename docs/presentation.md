@@ -6,6 +6,7 @@ deck. Open it in a browser and present it; this document is the script and the Q
 | | |
 |---|---|
 | **Deck** | `docs/presentation/index.html` — open in Chrome or Edge, no install, works offline |
+| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx` — 14 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
 | **Navigate** | `→` / `Space` next · `←` previous · `Home` / `End` jump · `F` fullscreen |
 | **Speaker notes** | press `N` — each slide's script and timing are built in |
 | **Timer** | press `T` to start/pause, `R` to reset — the six-minute budget is in the notes |

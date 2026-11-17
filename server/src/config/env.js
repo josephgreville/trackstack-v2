@@ -56,7 +56,11 @@ const env = {
         ),
   sessionSecret,
   sessionMaxAgeMs: numberFromEnv('SESSION_MAX_AGE_DAYS', 14) * 24 * 60 * 60 * 1000,
-  cookieSecure: process.env.COOKIE_SECURE === 'true' || nodeEnv === 'production',
+  // Production defaults to Secure, but an explicit false is honoured so the
+  // production image can be smoke-tested locally over plain HTTP.
+  cookieSecure:
+    process.env.COOKIE_SECURE === 'true' ||
+    (process.env.COOKIE_SECURE !== 'false' && nodeEnv === 'production'),
   // The native Android app talks to the API from a different origin, so the
   // session cookie has to be marked SameSite=None there.
   cookieSameSite: process.env.COOKIE_SAMESITE ?? (nodeEnv === 'production' ? 'none' : 'lax'),

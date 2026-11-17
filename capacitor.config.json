@@ -5,7 +5,7 @@
   "loggingBehavior": "none",
   "server": {
     "androidScheme": "https",
-    "url": "http://10.10.9.61:5173",
+    "url": "http://10.0.2.2:4001",
     "cleartext": true
   },
   "android": {

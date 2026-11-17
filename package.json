@@ -25,6 +25,7 @@
     "test:client": "vitest run --project client",
     "test:coverage": "npm run db:test:setup && vitest run --coverage --maxWorkers=1",
     "verify": "npm run test && npm run build",
+    "deck:pptx": "node scripts/build-pptx.cjs",
     "android:sync": "npx cap sync android",
     "android:build": "npm run build --workspace client -- --mode mobile && npx cap sync android",
     "android:open": "npx cap open android",
@@ -40,6 +41,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "concurrently": "^9.1.2",
     "jsdom": "^26.1.0",
+    "pptxgenjs": "^4.0.1",
     "supertest": "^7.1.1",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
