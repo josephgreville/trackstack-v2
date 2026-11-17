@@ -15,7 +15,6 @@
     --cream: #F3EEE9;
     --muted: #B5AAA2;
     --coral: #FF7049;
-    --rust: #F08A63;
     --gold: #E6B85D;
     --sage: #9BAE9F;
     --rose: #D9887E;
@@ -37,12 +36,7 @@
   }
 
   /* ---------- stage ---------- */
-  #stage {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-  }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
 
   .slide {
     width: 1280px;
@@ -53,10 +47,10 @@
       var(--paper);
     border: 2px solid var(--line);
     border-radius: 22px;
-    padding: 58px 72px;
+    padding: 46px 64px 70px;
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     overflow: hidden;
     transform-origin: center center;
@@ -78,11 +72,12 @@
 
   /* ---------- type ---------- */
   h1 { font-family: var(--display); font-size: 66px; line-height: 1.02; margin: 0 0 14px; font-weight: 600; letter-spacing: -.02em; }
-  h2 { font-family: var(--display); font-size: 40px; margin: 0 0 22px; font-weight: 600; letter-spacing: -.01em; }
-  h3 { font-family: var(--display); font-size: 21px; margin: 0 0 8px; font-weight: 600; color: var(--coral); }
-  p  { font-size: 21px; line-height: 1.45; margin: 0 0 14px; color: var(--cream); }
-  .lead { font-size: 25px; color: var(--muted); }
-  .small { font-size: 17px; color: var(--muted); }
+  h2 { font-family: var(--display); font-size: 38px; line-height: 1.12; margin: 0 0 8px; font-weight: 600; letter-spacing: -.01em; }
+  h3 { font-family: var(--display); font-size: 19px; line-height: 1.2; margin: 0 0 8px; font-weight: 600; color: var(--cream); }
+  p  { font-size: 18px; line-height: 1.45; margin: 0; color: var(--cream); }
+  .lead { font-size: 24px; line-height: 1.4; color: var(--muted); }
+  .subtitle { font-size: 18px; line-height: 1.4; color: var(--muted); max-width: 980px; margin: 0; }
+  .small { font-size: 15px; color: var(--muted); }
   .mono { font-family: var(--mono); }
   .accent { color: var(--coral); }
   .muted { color: var(--muted); }
@@ -94,137 +89,143 @@
     display: inline-block;
     align-self: flex-start;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: .18em;
     text-transform: uppercase;
     color: var(--coral);
     border: 1px solid rgba(255,112,73,.4);
     border-radius: 999px;
-    padding: 6px 14px;
-    margin-bottom: 22px;
+    padding: 5px 13px;
+    margin-bottom: 16px;
   }
 
+  /* ---------- page frame ---------- */
+  .slide-head { flex: none; }
+  .content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-top: 20px; min-height: 0; }
+  .content > * { min-height: 0; }
+  .foot {
+    position: absolute; left: 64px; right: 64px; bottom: 22px;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 12px; color: #6f6862;
+  }
+  .pagenum { color: var(--coral); }
+
   /* ---------- layout helpers ---------- */
-  .grow { flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .row { display: flex; gap: 22px; }
-  .row.grow { flex-direction: row; align-items: center; }
-  .col { flex: 1; }
-  .center { text-align: center; align-items: center; justify-content: center; }
+  .col { flex: 1; min-width: 0; }
+  .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 26px; align-items: stretch; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: stretch; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: stretch; }
+  .grid-3.rows-2 { grid-template-rows: repeat(2, 1fr); }
 
   .card {
     background: var(--card);
     border: 2px solid var(--line);
     border-radius: 16px;
-    padding: 22px 24px;
+    padding: 20px 22px;
   }
-  .card.hi { border-color: rgba(255,112,73,.55); box-shadow: 6px 6px 0 rgba(255,112,73,.18); }
-  .card p { font-size: 17px; margin: 0; color: var(--muted); }
-  .card h3 { color: var(--cream); }
-
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .grid-4 { display: grid; grid-columns: repeat(4, 1fr); gap: 16px; }
+  .card.hi { border-color: rgba(255,112,73,.55); box-shadow: 6px 6px 0 rgba(255,112,73,.16); }
+  .card p { font-size: 16px; line-height: 1.42; margin: 0; color: var(--muted); }
+  .card h3 { margin-bottom: 7px; }
 
   ul.clean { list-style: none; padding: 0; margin: 0; }
   ul.clean li {
-    font-size: 20px;
-    padding: 9px 0 9px 30px;
+    font-size: 19px;
+    padding: 10px 0 10px 28px;
     position: relative;
     line-height: 1.35;
   }
-  ul.clean li::before {
-    content: '▸';
-    position: absolute; left: 0;
-    color: var(--coral);
-  }
+  ul.clean li::before { content: '▸'; position: absolute; left: 0; color: var(--coral); }
   ul.clean li b { color: var(--cream); }
-  ul.clean li span { color: var(--muted); }
 
-  table { width: 100%; border-collapse: collapse; }
-  td, th { text-align: left; padding: 11px 12px; font-size: 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { font-family: var(--display); font-weight: 500; color: var(--coral); font-size: 16px; letter-spacing: .04em; text-transform: uppercase; }
-  td:first-child { font-family: var(--mono); font-size: 16px; color: var(--gold); white-space: nowrap; }
-  td.why { color: var(--muted); font-size: 17px; }
+  ul.tight { list-style: none; padding: 0; margin: 0; }
+  ul.tight li {
+    font-size: 16px; line-height: 1.35; color: var(--muted);
+    padding: 7px 0 7px 20px; position: relative;
+  }
+  ul.tight li::before { content: '•'; position: absolute; left: 2px; color: var(--coral); }
 
-  /* ---------- schema diagram ---------- */
-  .schema { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; }
-  .entity {
-    background: var(--card-2);
+  /* ---------- demo roadmap ---------- */
+  .step {
+    background: var(--card);
     border: 2px solid var(--line);
     border-radius: 14px;
-    padding: 14px 16px;
-    text-align: center;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
   }
-  .entity .t { font-family: var(--display); font-size: 20px; color: var(--cream); }
-  .entity .f { font-family: var(--mono); font-size: 12.5px; color: var(--muted); line-height: 1.6; }
-  .entity.hi { border-color: var(--coral); }
-  .entity.hi .t { color: var(--coral); }
-  .link { font-family: var(--mono); font-size: 15px; color: var(--sage); text-align: center; }
+  .step.demo { border-color: var(--coral); background: rgba(255,112,73,.10); box-shadow: 5px 5px 0 rgba(255,112,73,.14); }
+  .step .num {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    color: var(--coral); margin-bottom: 10px;
+  }
+  .step h3 { font-size: 17px; margin-bottom: 10px; }
+  .step p { font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .step .cue { margin-top: auto; padding-top: 12px; font-size: 13px; color: var(--sage); font-family: var(--mono); }
 
-  /* ---------- stack diagram ---------- */
-  .pipe { display: flex; flex-direction: column; gap: 10px; }
+  /* ---------- flow diagram ---------- */
+  .flow { display: flex; flex-direction: column; gap: 8px; }
   .node {
     border: 2px solid var(--line);
     border-radius: 14px;
-    padding: 13px 18px;
+    padding: 15px 18px;
     background: var(--card);
-    display: flex; align-items: baseline; gap: 12px;
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    align-items: center;
+    gap: 14px;
   }
-  .node .tag { font-family: var(--mono); font-size: 12px; color: var(--paper); background: var(--muted); border-radius: 999px; padding: 3px 10px; }
-  .node .name { font-family: var(--display); font-size: 19px; }
-  .node .desc { font-size: 15px; color: var(--muted); margin-left: auto; }
+  .node .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--paper); background: var(--muted); border-radius: 999px; padding: 4px 10px; text-align: center; }
+  .node .name { font-family: var(--display); font-size: 19px; display: block; }
+  .node .desc { font-size: 14px; color: var(--muted); display: block; margin-top: 2px; }
   .node.c { border-color: rgba(255,112,73,.5); }
   .node.c .tag { background: var(--coral); }
   .node.p { border-color: rgba(155,174,159,.45); }
   .node.p .tag { background: var(--sage); color: #1e1c1b; }
   .node.g { border-color: rgba(230,184,93,.45); }
   .node.g .tag { background: var(--gold); color: #1e1c1b; }
-  .arrow { text-align: center; color: var(--coral); font-size: 20px; line-height: 1; }
+  .arrow { text-align: center; color: var(--coral); font-size: 15px; line-height: 1; }
 
-  /* ---------- journey ---------- */
-  .journey { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-  .step {
-    background: var(--card);
-    border: 2px solid var(--line);
-    border-radius: 12px;
-    padding: 12px 12px 13px;
-    position: relative;
+  /* ---------- comparison ---------- */
+  .compare { display: grid; grid-template-columns: 1fr 132px 1fr; gap: 16px; align-items: stretch; }
+  .compare-card { padding: 22px 24px; }
+  .tagline { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--coral); text-transform: uppercase; display: block; margin-bottom: 8px; }
+  .tagline.sage { color: var(--sage); }
+  .fields { font-family: var(--mono); font-size: 15px; line-height: 1.75; color: var(--cream); margin: 4px 0 14px; }
+  .compare-mid {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; color: var(--sage); font-family: var(--mono); font-size: 12px; line-height: 1.5;
   }
-  .step .n {
-    font-family: var(--mono); font-size: 12px; color: var(--coral);
-    display: block; margin-bottom: 5px;
+  .compare-mid .big { font-size: 26px; color: var(--coral); line-height: 1; margin-bottom: 8px; }
+  .callout {
+    margin-top: 18px;
+    border-left: 4px solid var(--coral);
+    background: rgba(255,112,73,.08);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    font-size: 17px;
+    color: var(--cream);
   }
-  .step .t { font-family: var(--display); font-size: 16px; line-height: 1.15; }
-  .step.demo { border-color: var(--coral); background: rgba(255,112,73,.12); }
+
+  /* ---------- stats ---------- */
+  .stat { text-align: left; display: flex; flex-direction: column; }
+  .stat .big { font-family: var(--display); font-size: 58px; line-height: 1; color: var(--coral); margin-bottom: 10px; }
+  .stat h3 { font-size: 18px; margin-bottom: 6px; }
+  .stat p { font-size: 15px; }
 
   /* ---------- device mock ---------- */
-  .device {
-    background: var(--card-2);
-    border: 2px solid var(--line);
-    border-radius: 14px;
-    padding: 14px;
-    font-size: 13px;
-    color: var(--muted);
-  }
+  .device { background: var(--card-2); border: 2px solid var(--line); border-radius: 14px; padding: 14px; }
   .device .bar { display: flex; gap: 5px; margin-bottom: 9px; }
   .device .bar i { width: 22px; height: 6px; border-radius: 3px; background: var(--line); display: block; }
   .device .bar i.on { background: var(--coral); }
-  .dock {
-    margin-top: 12px;
-    background: rgba(255,112,73,.16);
-    border: 1px solid rgba(255,112,73,.4);
-    border-radius: 999px;
-    padding: 7px;
-    text-align: center;
-    font-family: var(--display);
-    font-size: 12px;
-    color: var(--coral);
-    letter-spacing: .06em;
-  }
+  .dock { margin-top: 12px; background: rgba(255,112,73,.16); border: 1px solid rgba(255,112,73,.4); border-radius: 999px; padding: 7px; text-align: center; font-family: var(--display); font-size: 12px; color: var(--coral); letter-spacing: .06em; }
   .rail { display: flex; flex-direction: column; gap: 6px; }
   .rail i { display: block; height: 8px; border-radius: 4px; background: var(--line); }
   .rail i.on { background: var(--coral); }
 
-  /* ---------- timeline / chrome ---------- */
+  /* ---------- chrome ---------- */
   #chrome {
     position: fixed; left: 0; right: 0; bottom: 0;
     height: 42px;
@@ -238,10 +239,7 @@
   #counter { color: var(--coral); }
   #clock { color: var(--muted); }
   #chrome .spacer { flex: 1; }
-  #chrome kbd {
-    font-family: var(--mono); font-size: 11px;
-    border: 1px solid #3a3735; border-radius: 5px; padding: 2px 6px; color: #8d857e;
-  }
+  #chrome kbd { font-family: var(--mono); font-size: 11px; border: 1px solid #3a3735; border-radius: 5px; padding: 2px 6px; color: #8d857e; }
 
   #notes {
     position: fixed; left: 0; right: 0; bottom: 42px;
@@ -256,20 +254,18 @@
   #notes b { color: var(--cream); }
   #notes .lbl { font-family: var(--mono); font-size: 12px; color: var(--coral); letter-spacing: .14em; text-transform: uppercase; display: block; margin-bottom: 8px; }
 
-  #help {
-    position: fixed; inset: 0; background: rgba(10,9,9,.92); z-index: 40;
-    display: none; place-items: center;
-  }
+  #help { position: fixed; inset: 0; background: rgba(10,9,9,.92); z-index: 40; display: none; place-items: center; }
   #help.open { display: grid; }
-  #help .box { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 32px 40px; min-width: 420px; }
+  #help .box { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 32px 40px; min-width: 460px; }
   #help h3 { color: var(--cream); margin-bottom: 14px; }
-  #help table td { font-size: 17px; }
+  #help table td { font-size: 16px; padding: 6px 12px; border-bottom: 1px solid var(--line); }
+  #help table td:first-child { font-family: var(--mono); color: var(--gold); white-space: nowrap; }
 
-  .title-slide { justify-content: center; }
+  /* ---------- title slides ---------- */
+  .title-slide { justify-content: center; padding-bottom: 46px; }
   .title-slide h1 { font-size: 92px; }
   .rule { height: 3px; background: var(--coral); width: 92px; border-radius: 3px; margin: 6px 0 26px; }
-  .foot { position: absolute; left: 72px; right: 72px; bottom: 26px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12.5px; color: #6f6862; }
-  .pagenum { color: var(--coral); }
+  .title-slide .foot { bottom: 22px; }
 
   @media print {
     @page { size: 1280px 720px; margin: 0; }
@@ -283,266 +279,345 @@
 <body>
 
 <div id="stage">
-  <!-- 1 ─────────────────────────────────────────────── -->
+
+  <!-- 1 · title -->
   <section class="slide title-slide">
     <span class="kicker">Final Project · Route B — records</span>
     <h1>TrackStack</h1>
     <div class="rule"></div>
     <p class="lead">A home for your record collection.<br/>Find a record, add your copy, organise a shelf, share it.</p>
-    <div style="margin-top:40px">
-      <p class="small" style="margin:0 0 10px">What this talk covers</p>
-      <p style="font-family:var(--display); font-size:21px; color:var(--cream); margin:0">
+    <div style="margin-top:38px">
+      <p class="small" style="margin:0 0 8px">What this talk covers</p>
+      <p style="font-family:var(--display); font-size:20px; color:var(--cream); margin:0">
         Idea &nbsp;→&nbsp; Demo &nbsp;→&nbsp; How it works &nbsp;→&nbsp; Design &nbsp;→&nbsp; Proof &nbsp;→&nbsp; Reflection
       </p>
     </div>
-    <div class="foot"><span>Joseph Greville</span><span class="pagenum">01</span></div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">01 / 11</span></div>
   </section>
 
-  <!-- 2 ─────────────────────────────────────────────── -->
+  <!-- 2 · the idea -->
   <section class="slide">
-    <span class="kicker">1 · What it is</span>
-    <h2>One record.<br/>Many collections.</h2>
-    <div class="grow row">
-      <div class="col">
-        <ul class="clean">
-          <li><b>A record</b> lives in a shared catalogue</li>
-          <li><b>Your copy</b> has its own format, condition and price</li>
-          <li><b>A collection</b> is a shelf you can share</li>
-          <li><b>The brief</b> offers Route A or B — I chose records</li>
-        </ul>
-      </div>
-      <div class="col card hi">
-        <h3>The interesting part</h3>
-        <p>One album can sit in many collections, but your copy is personal. Its condition and
-        price belong to you, not to the album. That is the relationship this app is built around.</p>
+    <div class="slide-head">
+      <span class="kicker">1 · The idea — what it is</span>
+      <h2>One album. Many collections. Your copy.</h2>
+      <p class="subtitle">The album is shared. The physical record on your shelf is personal.</p>
+    </div>
+    <div class="content">
+      <div class="split">
+        <div>
+          <ul class="clean">
+            <li><b>A record</b> lives in a shared catalogue.</li>
+            <li><b>Your copy</b> has its own format, condition and price.</li>
+            <li><b>A collection</b> is a shelf you can share.</li>
+            <li><b>The brief</b> offers Route A or B — I chose records.</li>
+          </ul>
+        </div>
+        <div class="card hi">
+          <h3>The interesting part</h3>
+          <p>One album can sit in many collections, but your copy is personal. Its condition and
+          price belong to you, not to the album. That is the relationship this app is built
+          around.</p>
+        </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02 / 11</span></div>
   </section>
 
-  <!-- 3 ─────────────────────────────────────────────── -->
+  <!-- 3 · six things -->
   <section class="slide">
-    <span class="kicker">1 · What it is</span>
-    <h2>Six things you can do</h2>
-    <div class="grid-3 grow">
-      <div class="card hi"><h3>Find a record</h3><p>Search the iTunes catalogue by artist, title or genre.</p></div>
-      <div class="card"><h3>Add your copy</h3><p>Choose the format, condition, price and notes.</p></div>
-      <div class="card"><h3>Build shelves</h3><p>Keep as many collections as you like.</p></div>
-      <div class="card"><h3>Keep a wantlist</h3><p>Track the records you are still hunting for.</p></div>
-      <div class="card"><h3>Share a shelf</h3><p>Send a read-only link that opens without an account.</p></div>
-      <div class="card"><h3>Follow collectors</h3><p>See activity, like and comment.</p></div>
+    <div class="slide-head">
+      <span class="kicker">1 · The idea — what you can do</span>
+      <h2>Six things you can do</h2>
+      <p class="subtitle">Find it, keep it, organise it, share it, and follow other collectors.</p>
     </div>
-    <p class="small" style="margin-top:14px">Plus a listening journal, album stories, badges and a yearly recap.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03</span></div>
-  </section>
-
-  <!-- 4 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">2 · Demo</span>
-    <h2>One record's journey</h2>
-    <p class="small" style="margin:0 0 20px">I'll follow one record from search to a shared shelf.</p>
-    <div class="grid-4 grow">
-      <div class="card hi">
-        <h3>1 · Start</h3>
-        <p>Register<br/>Home dashboard</p>
-      </div>
-      <div class="card">
-        <h3>2 · Find</h3>
-        <p>Browse &amp; search<br/>Album detail</p>
-      </div>
-      <div class="card">
-        <h3>3 · Add &amp; organise</h3>
-        <p>Add to a shelf<br/>Copy details &amp; stats<br/>Shelf room, wantlist, journal</p>
-      </div>
-      <div class="card">
-        <h3>4 · Share</h3>
-        <p>Read-only link<br/>Community &amp; Wrapped<br/>Resize to phone</p>
+    <div class="content">
+      <div class="grid-3 rows-2">
+        <div class="card hi"><h3>1 · Find a record</h3><p>Search the iTunes catalogue by artist, title or genre.</p></div>
+        <div class="card"><h3>2 · Add your copy</h3><p>Choose the format, condition, price and notes.</p></div>
+        <div class="card"><h3>3 · Build shelves</h3><p>Keep as many collections as you like.</p></div>
+        <div class="card"><h3>4 · Keep a wantlist</h3><p>Track the records you are still hunting for.</p></div>
+        <div class="card"><h3>5 · Share a shelf</h3><p>Send a read-only link that opens without an account.</p></div>
+        <div class="card"><h3>6 · Follow collectors</h3><p>See activity, like and comment.</p></div>
       </div>
     </div>
-    <p class="small" style="margin-top:18px">The account was created minutes before this talk. Nothing on screen is hard-coded.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03 / 11</span></div>
   </section>
 
-  <!-- 5 ─────────────────────────────────────────────── -->
+  <!-- 4 · demo -->
   <section class="slide">
-    <span class="kicker">3 · How it works</span>
-    <h2>Browser → our API → database</h2>
-    <div class="row grow">
-      <div class="col pipe">
-        <div class="node c"><span class="tag">CLIENT</span><span class="name">The browser</span><span class="desc">React pages · Tailwind · motion</span></div>
-        <div class="arrow">↓</div>
-        <div class="node c"><span class="tag">API</span><span class="name">Our Express API</span><span class="desc">checks input · applies the rules</span></div>
-        <div class="arrow">↓</div>
-        <div class="node p"><span class="tag">DATA</span><span class="name">PostgreSQL 16</span><span class="desc">users · shelves · copies</span></div>
-        <div class="arrow">↗</div>
-        <div class="node g"><span class="tag">3RD PARTY</span><span class="name">iTunes catalogue</span><span class="desc">metadata only · called by the API</span></div>
+    <div class="slide-head">
+      <span class="kicker">2 · Demo — what I will show you</span>
+      <h2>The demo: one record's journey</h2>
+      <p class="subtitle">From a search to a shared shelf in about ninety seconds.</p>
+    </div>
+    <div class="content">
+      <div class="grid-4">
+        <div class="step demo">
+          <span class="num">STEP 1</span>
+          <h3>Start</h3>
+          <p>Register, then land on the home dashboard.</p>
+          <span class="cue">→ app</span>
+        </div>
+        <div class="step">
+          <span class="num">STEP 2</span>
+          <h3>Find</h3>
+          <p>Browse and search. Open the album detail page.</p>
+          <span class="cue">→ app</span>
+        </div>
+        <div class="step">
+          <span class="num">STEP 3</span>
+          <h3>Add &amp; organise</h3>
+          <p>Add the copy, then show the shelf, stats and wantlist.</p>
+          <span class="cue">→ app</span>
+        </div>
+        <div class="step">
+          <span class="num">STEP 4</span>
+          <h3>Share</h3>
+          <p>Open the read-only link, then resize to phone width.</p>
+          <span class="cue">→ app</span>
+        </div>
       </div>
-      <div class="col">
-        <div class="card" style="margin-bottom:16px">
-          <h3>One job each</h3>
-          <p>The browser shows pages. The API checks what is allowed. The database stores the
-          relationships.</p>
+      <p class="small" style="margin-top:16px">The account was created minutes before this talk. Nothing on screen is hard-coded.</p>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04 / 11</span></div>
+  </section>
+
+  <!-- 5 · how it works -->
+  <section class="slide">
+    <div class="slide-head">
+      <span class="kicker">3 · How it works — the three layers</span>
+      <h2>Browser → our API → database</h2>
+      <p class="subtitle">Each layer has one job. The browser never talks to the database directly.</p>
+    </div>
+    <div class="content">
+      <div class="split">
+        <div class="flow">
+          <div class="node c">
+            <span class="tag">CLIENT</span>
+            <span><span class="name">The browser</span><span class="desc">React pages — shows what you see</span></span>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node c">
+            <span class="tag">API</span>
+            <span><span class="name">Our Express API</span><span class="desc">Checks every request and applies the rules</span></span>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node p">
+            <span class="tag">DATA</span>
+            <span><span class="name">PostgreSQL 16</span><span class="desc">Stores users, shelves and copies</span></span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
+          <div class="card">
+            <h3>Where iTunes fits</h3>
+            <p>iTunes supplies album information only. Our API calls it — the browser never does.</p>
+          </div>
+          <div class="card">
+            <h3>One repo</h3>
+            <p>Client and API ship together: one install, one dev command, one deploy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05 / 11</span></div>
+  </section>
+
+  <!-- 6 · the key idea -->
+  <section class="slide">
+    <div class="slide-head">
+      <span class="kicker">3 · How it works — the one idea that matters</span>
+      <h2>Shared album. Personal copy.</h2>
+      <p class="subtitle">Store the album once. Store each person's copy separately.</p>
+    </div>
+    <div class="content">
+      <div class="compare">
+        <div class="card compare-card hi">
+          <span class="tagline">Shared</span>
+          <h3>The album</h3>
+          <p class="fields">title · artist · year</p>
+          <p>One row per record. Everyone sees the same album, so the catalogue is never duplicated.</p>
+        </div>
+        <div class="compare-mid">
+          <div class="big">↔</div>
+          <div>linked by<br/><b>collection_albums</b></div>
+        </div>
+        <div class="card compare-card">
+          <span class="tagline sage">Personal</span>
+          <h3>Your copy</h3>
+          <p class="fields">format · condition<br/>price · notes</p>
+          <p>One row per shelf. Only you can change it, and only you see your condition and price.</p>
+        </div>
+      </div>
+      <div class="callout">Editing your copy never changes anyone else's album. The database enforces the link.</div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06 / 11</span></div>
+  </section>
+
+  <!-- 7 · design -->
+  <section class="slide">
+    <div class="slide-head">
+      <span class="kicker">4 · Design — one app, two screens</span>
+      <h2>Same app, two shapes</h2>
+      <p class="subtitle">One set of components. The navigation moves to where your thumb can reach.</p>
+    </div>
+    <div class="content">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Desktop</h3>
+          <div class="row" style="gap:16px; margin-top:8px; align-items:stretch">
+            <div class="device" style="width:104px">
+              <div class="rail"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="device" style="flex:1">
+              <div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+              <div style="height:64px; background:rgba(255,112,73,.12); border-radius:8px"></div>
+            </div>
+          </div>
+          <p style="margin-top:14px">A left rail with five tabs and multi-column grids.</p>
         </div>
         <div class="card">
-          <h3>One repo</h3>
-          <p>Client and API ship together: one install, one dev command, one deploy.</p>
+          <h3>Mobile</h3>
+          <div class="row" style="gap:16px; margin-top:8px; align-items:stretch">
+            <div class="device" style="width:124px">
+              <div style="height:36px; background:rgba(255,112,73,.12); border-radius:8px"></div>
+              <div style="height:24px; background:rgba(255,112,73,.12); border-radius:8px; margin-top:8px"></div>
+              <div class="dock">HOME · STACKS</div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center">
+              <div style="font-family:var(--display); color:var(--cream); font-size:15px; margin-bottom:8px">Same five tabs</div>
+              <p style="font-size:14px; line-height:1.4">The tabs move to a floating bottom dock, within thumb reach.</p>
+            </div>
+          </div>
+          <p style="margin-top:14px">The same pages, stacked into a single column.</p>
         </div>
       </div>
+      <p class="small" style="margin-top:16px">Thick outlines, solid shadows, pill buttons and springy motion — and every animation respects reduced motion.</p>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07 / 11</span></div>
   </section>
 
-  <!-- 6 ─────────────────────────────────────────────── -->
+  <!-- 8 · hosting -->
   <section class="slide">
-    <span class="kicker">3 · How it works</span>
-    <h2>Shared catalogue.<br/>Personal copy.</h2>
-    <div class="schema" style="margin-bottom:24px">
-      <div class="entity hi"><div class="t">users</div><div class="f">id · username · email</div></div>
-      <div class="link">1 —<br/>many</div>
-      <div class="entity"><div class="t">collections</div><div class="f">name · owner · share link</div></div>
-      <div class="link">1 —<br/>many</div>
-      <div class="entity hi"><div class="t">collection_albums</div><div class="f">format · condition<br/>price · notes</div></div>
-      <div class="link">many —<br/>one</div>
-      <div class="entity"><div class="t">albums</div><div class="f">title · artist · year</div></div>
+    <div class="slide-head">
+      <span class="kicker">5 · Proof — where it runs</span>
+      <h2>One container, one URL</h2>
+      <p class="subtitle">The pages and the API share one address, so login just works.</p>
     </div>
-    <div class="row" style="gap:18px">
-      <div class="col card hi">
-        <h3>Shared</h3>
-        <p>One <span class="mono">albums</span> row per record. Two people owning the same pressing do not duplicate it.</p>
-      </div>
-      <div class="col card">
-        <h3>Personal</h3>
-        <p>Format, condition, price and notes live on the link between your shelf and the record.</p>
-      </div>
-      <div class="col card">
-        <h3>Why it matters</h3>
-        <p>Edit your copy without changing anyone else's. The database enforces the links.</p>
-      </div>
-    </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06</span></div>
-  </section>
-
-  <!-- 7 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">4 · Design</span>
-    <h2>Same app, two shapes</h2>
-    <div class="row grow">
-      <div class="col card">
-        <h3>Desktop</h3>
-        <div class="row" style="gap:16px; margin-top:10px">
-          <div class="device" style="width:110px">
-            <div class="rail"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="split">
+        <div class="flow">
+          <div class="node c">
+            <span class="tag">DOCKER</span>
+            <span><span class="name">One image</span><span class="desc">The built client and the Express API</span></span>
           </div>
-          <div class="device" style="flex:1">
-            <div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
-            <div style="height:70px; background:rgba(255,112,73,.12); border-radius:8px"></div>
+          <div class="arrow">↓</div>
+          <div class="node c">
+            <span class="tag">RENDER</span>
+            <span><span class="name">One service</span><span class="desc">trackstack-zin9.onrender.com · HTTPS</span></span>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node p">
+            <span class="tag">POSTGRES</span>
+            <span><span class="name">Managed database</span><span class="desc">Postgres 16 — data and sessions</span></span>
           </div>
         </div>
-        <p style="margin-top:14px">A left rail with five tabs and multi-column grids.</p>
-      </div>
-      <div class="col card">
-        <h3>Mobile</h3>
-        <div class="row" style="gap:16px; margin-top:10px">
-          <div class="device" style="width:126px">
-            <div style="height:40px; background:rgba(255,112,73,.12); border-radius:8px"></div>
-            <div style="height:26px; background:rgba(255,112,73,.12); border-radius:8px; margin-top:8px"></div>
-            <div class="dock">HOME · STACKS</div>
+        <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
+          <div class="card">
+            <h3>Why one URL</h3>
+            <p>The pages and the API share one origin, so the login cookie works and there is no CORS. One link to demo.</p>
           </div>
-          <div class="device" style="flex:1">
-            <div style="font-family:var(--display); color:var(--cream); font-size:15px; margin-bottom:8px">Same five tabs</div>
-            <p style="font-size:14px; margin:0">The tabs move to a floating bottom dock, within thumb reach.</p>
+          <div class="card">
+            <h3>Safe redeploys</h3>
+            <p>Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.</p>
           </div>
         </div>
       </div>
     </div>
-    <p class="small" style="margin-top:16px">A deliberate look: thick outlines, solid shadows, pill buttons and springy motion. The palette is one file, and every animation respects reduced motion.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08 / 11</span></div>
   </section>
 
-  <!-- 8 ─────────────────────────────────────────────── -->
+  <!-- 9 · proof -->
   <section class="slide">
-    <span class="kicker">5 · Proof</span>
-    <h2>One container, one URL</h2>
-    <div class="row grow">
-      <div class="col pipe">
-        <div class="node c"><span class="tag">DOCKER</span><span class="name">Built app + API</span><span class="desc">Vite build + Express</span></div>
-        <div class="arrow">↓</div>
-        <div class="node c"><span class="tag">RENDER</span><span class="name">trackstack-zin9.onrender.com</span><span class="desc">HTTPS · one service</span></div>
-        <div class="arrow">↓</div>
-        <div class="node p"><span class="tag">POSTGRES</span><span class="name">Managed Postgres 16</span><span class="desc">data and sessions</span></div>
+    <div class="slide-head">
+      <span class="kicker">5 · Proof — how I know it works</span>
+      <h2>Proof: it works</h2>
+      <p class="subtitle">Tests, a live deployment, and demo data that makes the app feel real.</p>
+    </div>
+    <div class="content">
+      <div class="grid-3">
+        <div class="card hi stat">
+          <div class="big">128</div>
+          <h3>automated tests</h3>
+          <p>The real API against a real Postgres database: ownership, constraints and permissions.</p>
+        </div>
+        <div class="card stat">
+          <div class="big">1</div>
+          <h3>live URL</h3>
+          <p>The production container builds, migrates, serves the app, handles deep links and logs in.</p>
+        </div>
+        <div class="card stat">
+          <div class="big">3</div>
+          <h3>seeded shelves</h3>
+          <p>Two collectors, a wantlist, a journal and a story — so the app is never empty.</p>
+        </div>
       </div>
-      <div class="col">
-        <div class="card" style="margin-bottom:14px">
-          <h3>Why one service</h3>
-          <p>The pages and the API share one origin, so the login cookie just works and there is
-          no CORS. One link to demo.</p>
+      <p class="small" style="margin-top:16px">The same client also runs as an Android app.</p>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09 / 11</span></div>
+  </section>
+
+  <!-- 10 · reflection -->
+  <section class="slide">
+    <div class="slide-head">
+      <span class="kicker">6 · Reflection — what I learned</span>
+      <h2>What worked, what didn't</h2>
+      <p class="subtitle">Three things I'd keep, three I'd change, and three lessons.</p>
+    </div>
+    <div class="content">
+      <div class="grid-3">
+        <div class="card">
+          <h3 style="color:var(--sage)">Worked</h3>
+          <ul class="tight">
+            <li>Schema first, so every feature followed</li>
+            <li>One feature per commit</li>
+            <li>AI wrote code inside boundaries I set</li>
+          </ul>
         </div>
         <div class="card">
-          <h3>Safe redeploys</h3>
-          <p>Migrations run at container start and can be repeated. A split hosting option and a
-          local Docker path are documented.</p>
+          <h3 style="color:var(--rose)">Didn't</h3>
+          <ul class="tight">
+            <li>Scope was too big</li>
+            <li>The first UI looked generic</li>
+            <li>Free hosting sleeps on demo day</li>
+          </ul>
+        </div>
+        <div class="card hi">
+          <h3>Learned</h3>
+          <ul class="tight">
+            <li>A collection is a join table, not a list</li>
+            <li>Real-database tests catch more</li>
+            <li>Saying no is part of design</li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10 / 11</span></div>
   </section>
 
-  <!-- 9 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">5 · Proof</span>
-    <h2>How I know it works</h2>
-    <div class="grid-3 grow">
-      <div class="card hi">
-        <h3>128 automated tests</h3>
-        <p>The real API runs against a real Postgres database: ownership, constraints and permissions are covered.</p>
-      </div>
-      <div class="card">
-        <h3>The live site</h3>
-        <p>The production container builds, migrates, serves the app, handles deep links and logs in.</p>
-      </div>
-      <div class="card">
-        <h3>The demo data</h3>
-        <p>Two collectors, three shelves, a wantlist, a journal and a story. The app is never empty.</p>
-      </div>
-    </div>
-    <p class="small" style="margin-top:16px">The same client also runs as an Android app.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09</span></div>
-  </section>
-
-  <!-- 10 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">6 · Reflection</span>
-    <h2>What worked, what didn't</h2>
-    <div class="grid-3 grow">
-      <div class="card">
-        <h3 style="color:var(--sage)">Worked</h3>
-        <p>Schema first, so every feature followed<br/>One feature per commit<br/>AI wrote code inside boundaries I set</p>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--rose)">Didn't</h3>
-        <p>Scope was too big<br/>The first UI looked generic<br/>Free hosting sleeps on demo day</p>
-      </div>
-      <div class="card hi">
-        <h3>Learned</h3>
-        <p>A collection is a join table, not a list<br/>Real-database tests catch more<br/>Saying no is part of design</p>
-      </div>
-    </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10</span></div>
-  </section>
-
-  <!-- 11 ─────────────────────────────────────────────── -->
+  <!-- 11 · questions -->
   <section class="slide title-slide">
-    <span class="kicker">6 · Reflection</span>
+    <span class="kicker">6 · Reflection — over to you</span>
     <h1>Questions?</h1>
     <div class="rule"></div>
     <p class="lead">Happy to go deeper on the data model,<br/>the API, security or hosting.</p>
-    <div class="row" style="margin-top:44px; gap:44px">
+    <div class="row" style="margin-top:42px; gap:44px">
       <div><p class="small" style="margin:0">Live<br/><span class="accent" id="live-url">trackstack-zin9.onrender.com</span></p></div>
       <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
       <div><p class="small" style="margin:0">Plain English<br/><span class="accent">docs/plain-english.md</span></p></div>
     </div>
-    <div class="foot"><span>Joseph Greville</span><span class="pagenum">11</span></div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">11 / 11</span></div>
   </section>
+
 </div>
 
 <div id="progress" style="width:0"></div>

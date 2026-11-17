@@ -34,14 +34,14 @@ then move on.
 | Slide | Section | Time | Running |
 |---|---|---|---|
 | **1 · Title** | — | 0:00–0:15 | 0:15 |
-| **2 · One record, many collections** | Idea | 0:15–0:40 | 0:40 |
+| **2 · One album. Many collections. Your copy.** | Idea | 0:15–0:40 | 0:40 |
 | **3 · Six things you can do** | Idea | 0:40–0:50 | 0:50 |
-| **4 · One record's journey** — *switch to the app* | Demo | 0:50–2:20 | 2:20 |
-| **5 · Browser → API → database** | How it works | 2:20–2:55 | 2:55 |
-| **6 · Shared catalogue, personal copy** | How it works | 2:55–3:45 | 3:45 |
+| **4 · The demo: one record's journey** — *switch to the app* | Demo | 0:50–2:20 | 2:20 |
+| **5 · Browser → our API → database** | How it works | 2:20–2:55 | 2:55 |
+| **6 · Shared album. Personal copy.** | How it works | 2:55–3:45 | 3:45 |
 | **7 · Same app, two shapes** | Design | 3:45–4:25 | 4:25 |
 | **8 · One container, one URL** | Proof | 4:25–4:50 | 4:50 |
-| **9 · How I know it works** | Proof | 4:50–5:15 | 5:15 |
+| **9 · Proof: it works** | Proof | 4:50–5:15 | 5:15 |
 | **10 · What worked, what didn't** | Reflection | 5:15–5:55 | 5:55 |
 | **11 · Questions** | Reflection | 5:55–6:00 | 6:00 |
 
@@ -72,7 +72,7 @@ you what it does, how it works, and what I learned building it."
 
 ## Slides 2–3 · The idea (0:15–0:50)
 
-### Slide 2 · One record, many collections (0:15–0:40)
+### Slide 2 · One album. Many collections. Your copy. (0:15–0:40)
 
 ```
 A record lives in a shared catalogue
@@ -105,9 +105,19 @@ swap."
 
 ---
 
-## Slide 4 · The demo (0:50–2:20) — *switch to the app*
+## Slide 4 · The demo: one record's journey (0:50–2:20) — *switch to the app*
 
-### The journey, in order — about 90 seconds
+The slide is a **four-step roadmap**. Leave it up for a second so the audience knows where the demo
+is going, then switch to the app.
+
+```
+1  START             2  FIND              3  ADD & ORGANISE        4  SHARE
+Register             Browse and search    Add the copy            Open the read-only link
+Home dashboard       Album detail         Shelf, stats, wantlist  Community and Wrapped
+                                                                    Resize to phone width
+```
+
+### Inside those four steps — about 90 seconds
 
 | Step | Screen | What I say (one line each) | Time |
 |---|---|---|---|
@@ -138,13 +148,13 @@ endpoint. No hard-coded data — the demo account was created minutes before thi
 ### Slide 5 · Browser → API → database (2:20–2:55)
 
 ```
-Browser   React pages
+Browser   React pages — shows the pages
    ↓
 API       Express — checks input, applies the rules
    ↓
-Database  PostgreSQL — users, shelves, copies
-   ↑
-Third     iTunes catalogue — metadata only, called by the API
+Database  PostgreSQL — stores users, shelves, copies
+
+Side note: iTunes supplies album metadata only. Only the API calls it.
 ```
 
 **Say:** "The browser talks to our API; the API talks to Postgres. iTunes only supplies catalogue
@@ -154,12 +164,13 @@ one job, and the client and API ship together — one install, one deploy."
 **Point at the layers if you want the detail:** "routes → controllers → services → SQL. Controllers
 never write SQL, and services never touch the request. That is what makes it testable."
 
-### Slide 6 · Shared catalogue, personal copy (2:55–3:45)
+### Slide 6 · Shared album. Personal copy. (2:55–3:45)
 
 ```
-users ──< collections ──< collection_albums >── albums
-         (your shelves)   (format · condition      (shared
-                           price · notes)           catalogue)
+THE ALBUM (shared)                  YOUR COPY (personal)
+title · artist · year               format · condition · price · notes
+one row per record                  one row per shelf
+              ↕ linked by collection_albums
 ```
 
 **Say:** "This is the one idea worth remembering. The album row is shared: one row per record, so
@@ -209,12 +220,12 @@ it. Because the pages and the API share one origin, the login cookie just works 
 CORS. One URL to demo. Migrations run at container start and can be repeated, so every redeploy is
 safe."
 
-### Slide 9 · How I know it works (4:50–5:15)
+### Slide 9 · Proof: it works (4:50–5:15)
 
 ```
-128 automated tests against a real Postgres database
-The live container builds, migrates, serves and logs in
-Seeded demo data: two collectors, three shelves, a wantlist, a journal, a story
+128  automated tests against a real Postgres database
+  1  live URL: the container builds, migrates, serves and logs in
+  3  seeded shelves, so the demo is never empty
 ```
 
 **Say:** "128 automated tests run the real API against a real Postgres database — ownership,
