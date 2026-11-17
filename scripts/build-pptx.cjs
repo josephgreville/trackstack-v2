@@ -11,7 +11,7 @@ const ROOT = path.join(__dirname, '..');
 const HTML = path.join(ROOT, 'docs', 'presentation', 'index.html');
 const OUT = path.join(ROOT, 'docs', 'presentation', 'TrackStack-Presentation.pptx');
 const LIVE_URL = process.env.LIVE_URL || 'trackstack-zin9.onrender.com';
-const TOTAL = 11;
+const TOTAL = 12;
 
 const C = {
   paper: '1E1C1B',
@@ -309,8 +309,29 @@ function build() {
       'Client and API ship together: one install, one dev command, one deploy.', { bodySize: 12.5 });
   });
 
-  /* 6 · the key idea */
+  /* 6 · core functions */
   add(6, (s) => {
+    kicker(s, '3 · How it works: core functions');
+    heading(s, 'Four jobs, one path');
+    subtitle(s, 'React shows it. The API I built checks it. Postgres keeps it. iTunes supplies the catalogue.', 12.5);
+    const items = [
+      ['Find a record', 'React → API → iTunes', 'Catalogue data only. The browser never calls Apple.'],
+      ['Save your copy', 'React → API → Postgres', 'The album is stored once. Your copy sits on the join table.'],
+      ['Build and share shelves', 'React → API → Postgres', 'Ownership is checked before a private shelf opens or a public link is shared.'],
+      ['Follow collectors', 'React → API → Postgres', 'Follows, likes and comments are stored as relationships, not copies.'],
+    ];
+    const cw = 5.75, ch = 1.55, gap = 0.25, rowGap = 0.18;
+    items.forEach(([title, flow, body], i) => {
+      const x = M + (i % 2) * (cw + gap);
+      const y = TOP + Math.floor(i / 2) * (ch + rowGap);
+      card(s, x, y, cw, ch, title, `${flow}\n${body}`, {
+        hi: i === 0, titleSize: 14, bodySize: 11.5,
+      });
+    });
+  });
+
+  /* 7 · the key idea */
+  add(7, (s) => {
     kicker(s, '3 · How it works: the one idea that matters');
     heading(s, 'Shared album. Personal copy.');
     subtitle(s, "Store the album once. Store each person's copy separately.");
@@ -346,8 +367,8 @@ function build() {
     });
   });
 
-  /* 7 · design */
-  add(7, (s) => {
+  /* 8 · design */
+  add(8, (s) => {
     kicker(s, '4 · Design: one app, two screens');
     heading(s, 'Same app, two shapes');
     subtitle(s, 'One set of components. The navigation moves to where your thumb can reach.');
@@ -392,8 +413,8 @@ function build() {
     });
   });
 
-  /* 8 · hosting */
-  add(8, (s) => {
+  /* 9 · hosting */
+  add(9, (s) => {
     kicker(s, '5 · Proof: where it runs');
     heading(s, 'One container, one URL');
     subtitle(s, 'The pages and the API share one address, so login just works.');
@@ -409,8 +430,8 @@ function build() {
       'Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.', { bodySize: 12.5 });
   });
 
-  /* 9 · proof */
-  add(9, (s) => {
+  /* 10 · proof */
+  add(10, (s) => {
     kicker(s, '5 · Proof: how I know it works');
     heading(s, 'Proof: it works');
     subtitle(s, 'Tests, a live deployment, and demo data that makes the app feel real.');
@@ -445,8 +466,8 @@ function build() {
     });
   });
 
-  /* 10 · reflection */
-  add(10, (s) => {
+  /* 11 · reflection */
+  add(11, (s) => {
     kicker(s, '6 · Reflection: what I learned');
     heading(s, "What worked, what didn't");
     subtitle(s, "Three things I'd keep, three I'd change, and three lessons.");
@@ -471,8 +492,8 @@ function build() {
     });
   });
 
-  /* 11 · questions */
-  add(11, (s) => {
+  /* 12 · questions */
+  add(12, (s) => {
     kicker(s, '6 · Reflection: over to you');
     s.addText('Questions?', {
       x: 0.85, y: 1.45, w: 11.6, h: 1.1,

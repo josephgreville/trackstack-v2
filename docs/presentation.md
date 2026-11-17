@@ -9,7 +9,7 @@ and present from it; this document is the script and the Q&A prep behind it.
 | | |
 |---|---|
 | **Deck** | `docs/presentation/index.html`: open in Chrome or Edge, no install, works offline |
-| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx`: 11 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
+| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx`: 12 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
 | **Navigate** | `→` / `Space` next · `←` previous · `Home` / `End` jump · `F` fullscreen |
 | **Speaker notes** | press `N`: each slide's script and timing are built in |
 | **Timer** | press `T` to start/pause, `R` to reset |
@@ -24,7 +24,7 @@ PowerPoint. If you redeploy under a different URL, update `docs/presentation/ind
 **Slides:** the slides carry very few words on purpose. They are prompts, not a document.
 
 The talk is six short sections: **Idea → Demo → How it works → Design → Proof → Reflection**. The
-deck has **11 slides**, and several slides sit inside one section. Say one clear thing per slide,
+deck has **12 slides**, and several slides sit inside one section. Say one clear thing per slide,
 then move on.
 
 ---
@@ -37,16 +37,17 @@ then move on.
 | **2 · One album. Many collections. Your copy.** | Idea | 0:15–0:40 | 0:40 |
 | **3 · Six things you can do** | Idea | 0:40–0:50 | 0:50 |
 | **4 · The demo: one record's journey** (*switch to the app*) | Demo | 0:50–2:20 | 2:20 |
-| **5 · Browser → the API I built → database** | How it works | 2:20–2:55 | 2:55 |
-| **6 · Shared album. Personal copy.** | How it works | 2:55–3:45 | 3:45 |
-| **7 · Same app, two shapes** | Design | 3:45–4:25 | 4:25 |
-| **8 · One container, one URL** | Proof | 4:25–4:50 | 4:50 |
-| **9 · Proof: it works** | Proof | 4:50–5:15 | 5:15 |
-| **10 · What worked, what didn't** | Reflection | 5:15–5:55 | 5:55 |
-| **11 · Questions** | Reflection | 5:55–6:00 | 6:00 |
+| **5 · Browser → the API I built → database** | How it works | 2:20–2:50 | 2:50 |
+| **6 · Four jobs, one path** | How it works | 2:50–3:20 | 3:20 |
+| **7 · Shared album. Personal copy.** | How it works | 3:20–3:55 | 3:55 |
+| **8 · Same app, two shapes** | Design | 3:55–4:35 | 4:35 |
+| **9 · One container, one URL** | Proof | 4:35–5:00 | 5:00 |
+| **10 · Proof: it works** | Proof | 5:00–5:25 | 5:25 |
+| **11 · What worked, what didn't** | Reflection | 5:25–5:55 | 5:55 |
+| **12 · Questions** | Reflection | 5:55–6:00 | 6:00 |
 
 Leave no slack in the plan. The times assume a normal speaking pace. If you are running late, the
-two easiest cuts are the last line of slide 6 and the demo-data line on slide 9; both are written up
+two easiest cuts are the last line of slide 7 and the demo-data line on slide 10; both are written up
 in [`architecture.md`](architecture.md) and [`testing.md`](testing.md).
 
 Run order: **open the live app before you start**, present slides 1–3, switch to the app for the
@@ -139,14 +140,14 @@ endpoint. No hard-coded data. The demo account was created minutes before this t
 - [ ] Logged in as `joey@example.com` / `Password123!` (seeded with 3 shelves, a wantlist, a journal, a story and a follower)
 - [ ] The public "Vinyl Shelf" collection is shared, so the share link works signed out
 - [ ] Browser at ~1100 px for desktop, then drag to 390 px for mobile
-- [ ] Android APK installed on a phone or emulator if you want the native follow-up during slide 9
+- [ ] Android APK installed on a phone or emulator if you want the native follow-up during slide 10
 - [ ] Audio muted (iTunes previews play 30-second clips)
 
 ---
 
-## Slides 5–6 · How it works (2:20–3:45)
+## Slides 5–7 · How it works (2:20–3:55)
 
-### Slide 5 · Browser → API → database (2:20–2:55)
+### Slide 5 · Browser → API → database (2:20–2:50)
 
 ```
 Browser   React pages, showing the pages
@@ -165,7 +166,24 @@ one job, and the client and API ship together. One install, one deploy."
 **Point at the layers if you want the detail:** "routes → controllers → services → SQL. Controllers
 never write SQL, and services never touch the request. That is what makes it testable."
 
-### Slide 6 · Shared album. Personal copy. (2:55–3:45)
+### Slide 6 · Four jobs, one path (2:50–3:20)
+
+```
+Find a record        React → API → iTunes
+Save your copy       React → API → Postgres
+Build and share      React → API → Postgres
+Follow collectors    React → API → Postgres
+```
+
+**Say:** "Every core function follows the same shape. React shows the screen. The API I built checks
+the request. Postgres keeps the result, except search, where the API fetches catalogue data from
+iTunes. Saving a copy writes to the join table. Sharing checks ownership. Follows and likes are
+stored as relationships."
+
+**If pushed for the stack:** "React 19 for pages, Express 5 for rules, PostgreSQL 16 for data,
+iTunes for catalogue metadata, and Render for hosting."
+
+### Slide 7 · Shared album. Personal copy. (3:20–3:55)
 
 ```
 THE ALBUM (shared)                  YOUR COPY (personal)
@@ -186,7 +204,7 @@ follows, likes, comments, stories and badges."
 
 ---
 
-## Slide 7 · Design (3:45–4:25)
+## Slide 8 · Design (3:55–4:35)
 
 ```
 Desktop:  left rail with five tabs, multi-column grids
@@ -204,9 +222,9 @@ deliberate voice. Palette, type pairing and border weights are all choices, not 
 
 ---
 
-## Slides 8–9 · Proof (4:25–5:15)
+## Slides 9–10 · Proof (4:35–5:25)
 
-### Slide 8 · One container, one URL (4:25–4:50)
+### Slide 9 · One container, one URL (4:35–5:00)
 
 ```
 Docker   built app + API in one image
@@ -221,7 +239,7 @@ it. Because the pages and the API share one origin, the login cookie just works 
 CORS. One URL to demo. Migrations run at container start and can be repeated, so every redeploy is
 safe."
 
-### Slide 9 · Proof: it works (4:50–5:15)
+### Slide 10 · Proof: it works (5:00–5:25)
 
 ```
 128  automated tests against a real Postgres database
@@ -236,7 +254,7 @@ app."
 
 ### Showing the Android version (10 seconds, optional)
 
-If the phone or emulator is ready, hold it up while you say the last sentence on slide 9.
+If the phone or emulator is ready, hold it up while you say the last sentence on slide 10.
 Say: "This is the same React build in a native shell. It loads the deployed site, so the login,
 the shelves and the bottom dock are the same code." Show one shelf and the bottom dock, then
 put the phone down. The APK is
@@ -246,9 +264,9 @@ demo time installing it.
 
 ---
 
-## Slides 10–11 · Reflection and close (5:15–6:00)
+## Slides 11–12 · Reflection and close (5:25–6:00)
 
-### Slide 10 · What worked, what didn't (5:15–5:55)
+### Slide 11 · What worked, what didn't (5:25–5:55)
 
 | Worked | Didn't | Learned |
 |---|---|---|
@@ -261,7 +279,7 @@ AI wrote code inside boundaries I set. What didn't: the scope was too big, the f
 generic, and free hosting sleeps on demo day. What I learned: a collection is a join table, not a
 list; real-database tests catch more; and saying no is part of design."
 
-### Slide 11 · Questions (5:55–6:00)
+### Slide 12 · Questions (5:55–6:00)
 
 **Say:** "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and
 let the questions come.
@@ -342,8 +360,8 @@ rule-based recommendation with something learned from listening history."
 
 ## Delivery tips
 
-1. Rehearse with a timer at least three times. If you go past 6:00, cut the last line of slide 6 and
-   the demo-data line on slide 9.
+1. Rehearse with a timer at least three times. If you go past 6:00, cut the last line of slide 7 and
+   the demo-data line on slide 10.
 2. Open the app in a second window *before* you start so the first click is instant.
 3. Don't narrate the UI element by element. Narrate the *journey*.
 4. If a call to the iTunes API is slow, talk over it: "this is the live catalogue, it caches for

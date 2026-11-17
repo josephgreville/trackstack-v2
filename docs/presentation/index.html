@@ -117,6 +117,7 @@
   .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: stretch; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
   .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: stretch; }
+  .grid-2.rows-2 { grid-template-rows: repeat(2, 1fr); }
   .grid-3.rows-2 { grid-template-rows: repeat(2, 1fr); }
 
   .card {
@@ -292,7 +293,7 @@
         Idea &nbsp;→&nbsp; Demo &nbsp;→&nbsp; How it works &nbsp;→&nbsp; Design &nbsp;→&nbsp; Proof &nbsp;→&nbsp; Reflection
       </p>
     </div>
-    <div class="foot"><span>Joseph Greville</span><span class="pagenum">01 / 11</span></div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">01 / 12</span></div>
   </section>
 
   <!-- 2 · the idea -->
@@ -320,7 +321,7 @@
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02 / 12</span></div>
   </section>
 
   <!-- 3 · six things -->
@@ -340,7 +341,7 @@
         <div class="card"><h3>6 · Follow collectors</h3><p>See activity, like and comment.</p></div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03 / 12</span></div>
   </section>
 
   <!-- 4 · demo -->
@@ -379,7 +380,7 @@
       </div>
       <p class="small" style="margin-top:16px">The account was created minutes before this talk. Nothing on screen is hard-coded.</p>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04 / 12</span></div>
   </section>
 
   <!-- 5 · how it works -->
@@ -419,10 +420,44 @@
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05 / 12</span></div>
   </section>
 
-  <!-- 6 · the key idea -->
+  <!-- 6 · core functions -->
+  <section class="slide">
+    <div class="slide-head">
+      <span class="kicker">3 · How it works: core functions</span>
+      <h2>Four jobs, one path</h2>
+      <p class="subtitle">React shows it. The API I built checks it. Postgres keeps it. iTunes supplies the catalogue.</p>
+    </div>
+    <div class="content">
+      <div class="grid-2 rows-2">
+        <div class="card hi">
+          <h3>Find a record</h3>
+          <p class="fields">React → API → iTunes</p>
+          <p>Catalogue data only. The browser never calls Apple.</p>
+        </div>
+        <div class="card">
+          <h3>Save your copy</h3>
+          <p class="fields">React → API → Postgres</p>
+          <p>The album is stored once. Your copy sits on the join table.</p>
+        </div>
+        <div class="card">
+          <h3>Build and share shelves</h3>
+          <p class="fields">React → API → Postgres</p>
+          <p>Ownership is checked before a private shelf opens or a public link is shared.</p>
+        </div>
+        <div class="card">
+          <h3>Follow collectors</h3>
+          <p class="fields">React → API → Postgres</p>
+          <p>Follows, likes and comments are stored as relationships, not copies.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06 / 12</span></div>
+  </section>
+
+  <!-- 7 · the key idea -->
   <section class="slide">
     <div class="slide-head">
       <span class="kicker">3 · How it works: the one idea that matters</span>
@@ -450,10 +485,10 @@
       </div>
       <div class="callout">Editing your copy never changes anyone else's album. The database enforces the link.</div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06 / 12</span></div>
   </section>
 
-  <!-- 7 · design -->
+  <!-- 8 · design -->
   <section class="slide">
     <div class="slide-head">
       <span class="kicker">4 · Design: one app, two screens</span>
@@ -493,10 +528,10 @@
       </div>
       <p class="small" style="margin-top:16px">Thick outlines, solid shadows, pill buttons and springy motion, and every animation respects reduced motion.</p>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07 / 12</span></div>
   </section>
 
-  <!-- 8 · hosting -->
+  <!-- 9 · hosting -->
   <section class="slide">
     <div class="slide-head">
       <span class="kicker">5 · Proof: where it runs</span>
@@ -533,10 +568,10 @@
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08 / 12</span></div>
   </section>
 
-  <!-- 9 · proof -->
+  <!-- 10 · proof -->
   <section class="slide">
     <div class="slide-head">
       <span class="kicker">5 · Proof: how I know it works</span>
@@ -563,10 +598,10 @@
       </div>
       <p class="small" style="margin-top:16px">The same client also runs as an Android app.</p>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09 / 12</span></div>
   </section>
 
-  <!-- 10 · reflection -->
+  <!-- 11 · reflection -->
   <section class="slide">
     <div class="slide-head">
       <span class="kicker">6 · Reflection: what I learned</span>
@@ -601,10 +636,10 @@
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10 / 11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10 / 12</span></div>
   </section>
 
-  <!-- 11 · questions -->
+  <!-- 12 · questions -->
   <section class="slide title-slide">
     <span class="kicker">6 · Reflection: over to you</span>
     <h1>Questions?</h1>
@@ -615,14 +650,14 @@
       <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
       <div><p class="small" style="margin:0">Plain English<br/><span class="accent">docs/plain-english.md</span></p></div>
     </div>
-    <div class="foot"><span>Joseph Greville</span><span class="pagenum">11 / 11</span></div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">11 / 12</span></div>
   </section>
 
 </div>
 
 <div id="progress" style="width:0"></div>
 <div id="chrome">
-  <span id="counter">1 / 11</span>
+  <span id="counter">1 / 12</span>
   <span id="clock">00:00</span>
   <span class="spacer"></span>
   <span><kbd>←</kbd> <kbd>→</kbd> navigate</span>
@@ -668,15 +703,17 @@ Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, 
 
     `2:20. How it works. "The browser talks to the API I built; the API talks to Postgres. iTunes only supplies catalogue data, and only the API calls it. One repo, one deploy."`,
 
-    `2:55. The key idea. "The album row is shared. Your copy is a separate row that links your shelf to that album and holds condition, price and notes. So editing your copy never changes anyone else's record."`,
+    `2:50. Core functions. "Every feature follows the same shape. React shows it, the API I built checks it, and Postgres keeps it. Search goes to iTunes through the API. Saving a copy writes to the join table. Sharing checks ownership. Follows and likes are stored as relationships."`,
 
-    `3:45. Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: thick outlines, solid shadows, pill buttons and springy motion, and it respects reduced motion."`,
+    `3:20. The key idea. "The album row is shared. Your copy is a separate row that links your shelf to that album and holds condition, price and notes. So editing your copy never changes anyone else's record."`,
 
-    `4:25. Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
+    `3:55. Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: thick outlines, solid shadows, pill buttons and springy motion, and it respects reduced motion."`,
 
-    `4:50. Proof. "128 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If you have the phone ready, hold it up while you say the last sentence and show the same bottom dock."`,
+    `4:35. Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
 
-    `5:15. Reflection. "What worked: schema first, small commits, and AI writing code inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design."`,
+    `5:00. Proof. "128 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If you have the phone ready, hold it up while you say the last sentence and show the same bottom dock."`,
+
+    `5:25. Reflection. "What worked: schema first, small commits, and AI writing code inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design."`,
 
     `5:55. Close. "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and take questions.`
   ];
