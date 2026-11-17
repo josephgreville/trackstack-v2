@@ -381,16 +381,11 @@
       <div class="step demo"><span class="n">03</span><span class="t">Browse &amp; search</span></div>
       <div class="step demo"><span class="n">04</span><span class="t">Album detail</span></div>
       <div class="step demo"><span class="n">05</span><span class="t">Add to a shelf</span></div>
-      <div class="step demo"><span class="n">06</span><span class="t">Copy details</span></div>
-      <div class="step demo"><span class="n">07</span><span class="t">Collection stats</span></div>
-      <div class="step demo"><span class="n">08</span><span class="t">Shelf room</span></div>
-      <div class="step demo"><span class="n">09</span><span class="t">Share link</span></div>
-      <div class="step demo"><span class="n">10</span><span class="t">Wantlist &amp; journal</span></div>
-      <div class="step demo"><span class="n">11</span><span class="t">Community</span></div>
-      <div class="step demo"><span class="n">12</span><span class="t">Wrapped &amp; badges</span></div>
-      <div class="step demo"><span class="n">13</span><span class="t">Resize to phone</span></div>
-      <div class="step demo"><span class="n">14</span><span class="t">Public profile</span></div>
-      <div class="step demo"><span class="n">15</span><span class="t">Signed-out share</span></div>
+      <div class="step demo"><span class="n">06</span><span class="t">Collection stats</span></div>
+      <div class="step demo"><span class="n">07</span><span class="t">Shelf room &amp; share</span></div>
+      <div class="step demo"><span class="n">08</span><span class="t">Wantlist &amp; journal</span></div>
+      <div class="step demo"><span class="n">09</span><span class="t">Community &amp; Wrapped</span></div>
+      <div class="step demo"><span class="n">10</span><span class="t">Resize to phone</span></div>
     </div>
     <p class="small" style="margin-top:26px">Nothing is hard-coded. Every screen is one React route talking to one Express endpoint — the account was created minutes before this talk.</p>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05</span></div>
@@ -662,7 +657,7 @@
   const NOTES = [
     `0:00 — Title. Say: "This is TrackStack — a web app for people who collect records. You browse a catalogue, build multiple collections, track the condition and price of each copy, keep a wantlist, and share your shelves."`,
 
-    `0:20 — The brief. "The brief asked for people who share an interest to share information about their things. I chose records because the data is genuinely relational — one record can sit in many collections, and each copy has its own format, condition and price. That's the interesting modelling problem in it."
+    `0:15 — The brief. "The brief asked for people who share an interest to share information about their things. I chose records because the data is genuinely relational — one record can sit in many collections, and each copy has its own format, condition and price. That's the interesting modelling problem in it."
 If asked why not books: "The schema is nearly identical — swap album for book and add ISBN/author instead of iTunes ids."`,
 
     `0:50 — Data model. "Album metadata is global — one row per record, shared. But my copy of it is personal: format, condition, price, purchase date live on the join table. Two people owning the same pressing never duplicate the row. Sixteen tables in total."
@@ -670,28 +665,28 @@ Extra sentence if needed: "Likes and comments use a polymorphic target_type + ta
 
     `1:15 — Screens. Don't read the list. Say: "Seven screens from the brief, plus the extras — wantlist, journal, stories, community, badges and Wrapped."`,
 
-    `1:30 — Demo. Switch to the app now. Twelve to fifteen steps, roughly ninety seconds. Narrate the journey, not the UI elements.
+    `1:25 — Demo. Switch to the app now. Ten steps, about eighty seconds. Narrate the journey, not the UI elements.
 Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, the public "Vinyl Shelf" shared, browser at ~1100px then dragged to 390px, audio muted.`,
 
-    `2:50 — Architecture. "One monorepo: React 19 client, Express 5 API, PostgreSQL 16. iTunes is the third-party catalogue — but every call goes through our server, never from the browser."
+    `2:45 — Architecture. "One monorepo: React 19 client, Express 5 API, PostgreSQL 16. iTunes is the third-party catalogue — but every call goes through our server, never from the browser."
 Point at the layers box: "routes → controllers → services → SQL. Controllers never write SQL, services never touch req/res — that's what makes it testable."`,
 
-    `3:30 — Why. Pick two or three rows, don't read all five. Postgres is the strongest answer: "I wanted the database to enforce it — foreign keys, CHECK constraints on format and condition, unique indexes on lower(email)."`,
+    `3:15 — Why. Pick two or three rows, don't read all five. Postgres is the strongest answer: "I wanted the database to enforce it — foreign keys, CHECK constraints on format and condition, unique indexes on lower(email)."`,
 
-    `4:00 — API. "Version 1 is the original surface; the 2.0 features live under /2 so the published endpoints never changed shape. Every body, param and query is validated with zod before it reaches SQL, and there's one JSON error shape for everything."`,
+    `3:50 — API. "Version 1 is the original surface; the 2.0 features live under /2 so the published endpoints never changed shape. Every body, param and query is validated with zod before it reaches SQL, and there's one JSON error shape for everything."`,
 
-    `4:20 — Security. "There are no API keys to leak — the iTunes API doesn't need one, and all calls are server-side. The only secrets are DATABASE_URL and SESSION_SECRET, in environment variables, with .env git-ignored. Sessions are server-side in Postgres and revocable. Every personal query is scoped by user_id inside the service layer, and another user's collection returns 404 rather than 403, so it doesn't even confirm it exists."`,
+    `4:10 — Security. "There are no API keys to leak — the iTunes API doesn't need one, and all calls are server-side. The only secrets are DATABASE_URL and SESSION_SECRET, in environment variables, with .env git-ignored. Sessions are server-side in Postgres and revocable. Every personal query is scoped by user_id inside the service layer, and another user's collection returns 404 rather than 403, so it doesn't even confirm it exists."`,
 
-    `4:40 — Design. "The layout was designed before the code. On desktop the five tabs are a left rail; under 768px they become a floating dock at the bottom, because a thumb reaches the bottom of a phone but not the top. The visual language is a sticker book — two-pixel outlines, solid offset shadows with no blur, pill buttons, spring motion — and the whole palette is token-driven."
+    `4:40 — Design. "The layout was designed before the code. On desktop the five tabs are a left rail; under 768px they become a floating dock at the bottom, because a thumb reaches the bottom of a phone but not the top. The visual language is a sticker book — two-pixel outlines, solid offset shadows, pill buttons, spring motion — and the palette is token-driven."
 If asked about process: "The first pass was generic. I rebuilt it with a deliberate voice."`,
 
-    `4:55 — Hosting. "One container runs the API and serves the built client, so the app sits on a single origin — that keeps the session cookie first-party and removes CORS entirely. Migrations are numbered SQL files that run at container start, and they're idempotent, so redeploys are safe. The split Netlify-plus-Railway option is documented too."`,
+    `5:05 — Hosting. "One container runs the API and serves the client, so it's a single origin — first-party cookie, no CORS. Migrations are numbered SQL files that run at container start and are idempotent, so redeploys are safe."`,
 
-    `5:10 — Verification. "128 tests across 13 files, running the real app against a real Postgres test database — migrations, constraints, ownership, authz. I also built and ran the production container locally before deploying it: boot, migrate, serve the SPA, handle deep links, log in."`,
+    `5:20 — Verification. "128 tests across 13 files against real Postgres — migrations, constraints, ownership, authz. I also built and ran the production container locally before deploying."`,
 
-    `5:20 — Reflection. "What went well: the schema was decided first, and it made every feature obvious. What didn't: the 2.0 feature set took twice as long as the original app, and I should have cut it earlier — and the first version of the UI was generic AI output that I had to push into something with a voice. What I learnt: the interesting part of this brief isn't the CRUD, it's modelling a copy versus a catalogue entry."`,
+    `5:30 — Reflection. "What went well: schema first, so every feature was obvious. What didn't: the 2.0 feature set took twice as long as 1.0, and the first UI was generic AI output I had to push into something with a voice. What I learnt: the interesting part isn't the CRUD, it's modelling a copy versus a catalogue entry."`,
 
-    `5:50 — Close. "Happy to go deeper on the schema, the API, the security model or the deployment." Then stop talking and let the questions come.`
+    `5:55 — Close. "Happy to go deeper on the schema, the API, the security model or the deployment." Then stop talking and let the questions come.`
   ];
 
   const slides = Array.from(document.querySelectorAll('.slide'));

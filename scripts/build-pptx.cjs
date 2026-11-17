@@ -303,8 +303,8 @@ function build() {
     heading(s, 'The journey', 30);
     const labels = [
       'Register', 'Home dashboard', 'Browse & search', 'Album detail', 'Add to a shelf',
-      'Copy details', 'Collection stats', 'Shelf room', 'Share link', 'Wantlist & journal',
-      'Community', 'Wrapped & badges', 'Resize to phone', 'Public profile', 'Signed-out share',
+      'Collection stats', 'Shelf room & share', 'Wantlist & journal', 'Community & Wrapped',
+      'Resize to phone',
     ];
     labels.forEach((label, i) => {
       const col = i % 5, row = Math.floor(i / 5);

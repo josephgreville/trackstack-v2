@@ -8,6 +8,21 @@ Every application page requires an account. Signed-out visitors are sent to logi
 
 **Live demo:** <https://trackstack-zin9.onrender.com> — sign in with `joey@example.com` / `Password123!` (or `sam@example.com` / `Password123!`). The free instance sleeps after 15 minutes idle, so the first request can take ~30 seconds.
 
+## Deliverables
+
+| Deliverable | Where it is |
+|---|---|
+| **Brief** | [`docs/brief.md`](docs/brief.md) — Route B: records. The deliverables list labels this item "Brief (Route A)"; the app follows Route B. |
+| **Architecture doc** | [`docs/architecture.md`](docs/architecture.md) — stack, data model, API, security, hosting and risks |
+| **Page designs** | [`docs/page-designs.md`](docs/page-designs.md) — desktop and mobile wireframes mapped to shipped routes |
+| **GitHub repo** | <https://github.com/josephgreville/trackstack-v2> — public, `main` is the deployed commit |
+| **Live URL / hosting plan** | <https://trackstack-zin9.onrender.com> · plan and runbook in [`docs/hosting.md`](docs/hosting.md) |
+| **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (14-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
+
+The presentation is **10 minutes: 6 minutes presenting, 4 minutes of questions**. The deck's
+speaker notes carry a per-slide time budget; the demo journey is in
+[`docs/presentation.md`](docs/presentation.md) under **Beat 3**.
+
 ## The app
 
 TrackStack is organised as five tabs, like a mobile app. Everything else lives one level deeper, inside a tab.
@@ -124,6 +139,7 @@ repository root.
 
 | Document | What it covers |
 |---|---|
+| [`docs/brief.md`](docs/brief.md) | Assignment brief, Route B scope, acceptance criteria and evidence |
 | [`docs/architecture.md`](docs/architecture.md) | Stack rationale, data model, endpoint reference, security, risks |
 | [`docs/hosting.md`](docs/hosting.md) | Deployment runbook, env reference, pre-demo checklist |
 | [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
