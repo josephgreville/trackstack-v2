@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cx, initials } from '../utils/format.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
+import { useOptionalPlayer } from '../context/PlayerContext.jsx';
 import Button from '../components/Button.jsx';
 import Logo from '../components/Logo.jsx';
 import PlayerBar from '../components/PlayerBar.jsx';
@@ -14,11 +15,11 @@ import {
 
 /* The five app tabs. Everything else lives one level deeper, inside a tab. */
 export const TABS = [
-  { to: '/', label: 'Home', Icon: IconHome, match: (path) => path === '/' },
-  { to: '/discover', label: 'Discover', Icon: IconCompass, match: (path) => path.startsWith('/discover') || path.startsWith('/browse') },
-  { to: '/collections', label: 'Stacks', Icon: IconCollection, match: (path) => path.startsWith('/collections') || path.startsWith('/collection-room') },
-  { to: '/social', label: 'Community', Icon: IconUser, match: (path) => path.startsWith('/social') || path.startsWith('/community') },
-  { to: '/profile', label: 'You', Icon: IconMusic, match: (path) => path.startsWith('/profile') },
+  { to: '/', label: 'Home', shortLabel: 'Home', Icon: IconHome, match: (path) => path === '/' },
+  { to: '/discover', label: 'Discover', shortLabel: 'Discover', Icon: IconCompass, match: (path) => path.startsWith('/discover') || path.startsWith('/browse') },
+  { to: '/collections', label: 'Stacks', shortLabel: 'Stacks', Icon: IconCollection, match: (path) => path.startsWith('/collections') || path.startsWith('/collection-room') },
+  { to: '/social', label: 'Community', shortLabel: 'Social', Icon: IconUser, match: (path) => path.startsWith('/social') || path.startsWith('/community') },
+  { to: '/profile', label: 'You', shortLabel: 'You', Icon: IconMusic, match: (path) => path.startsWith('/profile') },
 ];
 
 export default function AppLayout() {
@@ -26,9 +27,20 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const { user, isLoading, logout } = useAuth();
   const { error, success } = useToast();
+  const player = useOptionalPlayer();
+  const playerActive = Boolean(player?.current);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => setMobileMenuOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mobileMenuOpen]);
 
   const handleLogout = async () => {
     try {
@@ -43,7 +55,7 @@ export default function AppLayout() {
   const activeTab = TABS.find((tab) => tab.match(location.pathname));
 
   return (
-    <div className="app-shell">
+    <div className={cx('app-shell', playerActive && 'has-player')}>
       {/* Desktop rail */}
       <aside className="app-sidebar">
         <div className="app-brand-wrap"><Logo className="app-brand" /></div>
@@ -98,6 +110,15 @@ export default function AppLayout() {
             </button>
           </div>
 
+          {mobileMenuOpen && (
+            <button
+              type="button"
+              className="app-mobile-nav-backdrop"
+              aria-label="Close menu"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+          )}
+
           <nav id="mobile-primary-navigation" className="app-mobile-nav" aria-label="Mobile menu" hidden={!mobileMenuOpen}>
             {TABS.map(({ to, label, Icon, match }) => {
               const active = match(location.pathname);
@@ -127,7 +148,7 @@ export default function AppLayout() {
           </nav>
         </header>
 
-        <main className="app-main player-safe-area">
+        <main className={cx('app-main', playerActive && 'player-safe-area')}>
           <div className="app-topbar">
             <p><span>TRACKSTACK</span><span className="app-breadcrumb-divider">/</span><strong>{activeTab?.label ?? 'TrackStack'}</strong></p>
             <div className="app-topbar-right">
@@ -141,12 +162,13 @@ export default function AppLayout() {
 
       {/* Mobile tab bar */}
       <nav className="app-tabbar" aria-label="Primary navigation">
-        {TABS.map(({ to, label, Icon, match }) => {
+        {TABS.map(({ to, label, shortLabel, Icon, match }) => {
           const active = match(location.pathname);
           return (
             <Link
               key={to}
               to={to}
+              aria-label={label}
               aria-current={active ? 'page' : undefined}
               className={cx('app-tab', active && 'is-active')}
             >
@@ -159,7 +181,7 @@ export default function AppLayout() {
                 />
               )}
               <span className="app-tab-icon" aria-hidden="true"><Icon size={22} /></span>
-              <span className="app-tab-label">{label}</span>
+              <span className="app-tab-label" aria-hidden="true">{shortLabel}</span>
             </Link>
           );
         })}

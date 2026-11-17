@@ -260,12 +260,12 @@ safe."
 ### Slide 11 · Proof: it works (5:00–5:25)
 
 ```
-130  automated tests against a real Postgres database
+131  automated tests against a real Postgres database
   1  live URL: the container builds, migrates, serves and logs in
   3  seeded shelves, so the demo is never empty
 ```
 
-**Say:** "130 automated tests run the real API against a real Postgres database: ownership,
+**Say:** "131 automated tests run the real API against a real Postgres database: ownership,
 constraints and permissions. The live container builds, migrates, serves the app, handles deep links
 and logs in. And the demo data means the app is never empty. The same client also runs as an Android
 app."
@@ -371,7 +371,7 @@ rule-based recommendation with something learned from listening history."
 | Tables | 16 (+ `sessions`, + `schema_migrations`) |
 | Migrations | 7 numbered SQL files, idempotent |
 | API version | `/api/v1` and `/api/v1/2` |
-| Tests | 130 tests, 13 files, all passing |
+| Tests | 131 tests, 13 files, all passing |
 | Stack | React 19 · Express 5 · PostgreSQL 16 · Node 20 · Vite 6 · Tailwind |
 | Third party | iTunes Search API (no key, server-side only, 5-minute cache) |
 | Deploy | 1 Docker service on Render + managed Postgres |
@@ -392,4 +392,4 @@ rule-based recommendation with something learned from listening history."
 5. Face the audience. Read the slide, not your notes.
 6. Have `docs/architecture.md` open in a tab. You can point at it if a question goes deep.
 7. **Say one thing per slide.** If you remember only three sentences: *album shared, copy personal;
-   browser → API → database; one container, one URL, 130 tests.*
+   browser → API → database; one container, one URL, 131 tests.*

@@ -201,6 +201,33 @@ describe('Home page', () => {
     expect(screen.queryByRole('navigation', { name: 'Mobile menu' })).not.toBeInTheDocument();
   });
 
+  it('closes the mobile menu with the backdrop or Escape and keeps dock labels short', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <ToastProvider>
+          <AppLayout />
+        </ToastProvider>
+      </MemoryRouter>,
+    );
+
+    const dock = screen.getAllByRole('navigation', { name: 'Primary navigation' })
+      .find((nav) => nav.classList.contains('app-tabbar'));
+    const communityTab = within(dock).getByRole('link', { name: 'Community' });
+    expect(communityTab).toHaveTextContent('Social');
+    expect(communityTab).not.toHaveTextContent('Community');
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation' }));
+    expect(screen.getByRole('button', { name: 'Close menu' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Close menu' }));
+    expect(screen.queryByRole('navigation', { name: 'Mobile menu' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation' }));
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('navigation', { name: 'Mobile menu' })).not.toBeInTheDocument();
+  });
+
   it('renders featured albums, recent albums, collections and navigates searches', async () => {
     const user = userEvent.setup();
     mocks.catalogFeatured.mockResolvedValue({ albums: [featuredAlbum] });

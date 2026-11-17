@@ -461,7 +461,7 @@ function build() {
     heading(s, 'Proof: it works');
     subtitle(s, 'Tests, a live deployment, and demo data that makes the app feel real.');
     const stats = [
-      ['130', 'automated tests', 'The real API against a real Postgres database: ownership, constraints and permissions.'],
+      ['131', 'automated tests', 'The real API against a real Postgres database: ownership, constraints and permissions.'],
       ['1', 'live URL', 'The production container builds, migrates, serves the app, handles deep links and logs in.'],
       ['3', 'seeded shelves', 'Two collectors, a wantlist, a journal and a story, so the app is never empty.'],
     ];

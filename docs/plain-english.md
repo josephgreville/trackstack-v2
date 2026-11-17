@@ -83,7 +83,7 @@ Say this, in this order. Each line is one slide.
    supplies album information."
 5. **The design.** "The same app on desktop and phone: a left rail on desktop, a bottom dock on
    mobile, and one deliberate visual style."
-6. **Hosting and proof.** "One container on Render, one URL, and 130 automated tests against a real
+6. **Hosting and proof.** "One container on Render, one URL, and 131 automated tests against a real
    database."
 7. **What I learned.** "The schema came first. The scope was too big. And a collection is a join
    table, not a list of IDs."
@@ -95,7 +95,7 @@ story.
 
 1. **Album = shared. Copy = personal.**
 2. **Browser → API → database.**
-3. **One container, one URL, 130 tests.**
+3. **One container, one URL, 131 tests.**
 
 ## Common questions, short answers
 

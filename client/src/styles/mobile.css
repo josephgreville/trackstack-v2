@@ -19,6 +19,17 @@
     max-width: 100%;
   }
 
+  /* Keep focused controls clear of the sticky header and bottom dock. */
+  html {
+    scroll-padding-top: calc(58px + env(safe-area-inset-top, 0px));
+    scroll-padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
+  }
+  @supports selector(html:has(.app-shell.has-player)) {
+    html:has(.app-shell.has-player) {
+      scroll-padding-bottom: calc(var(--tabbar-height) + 92px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
   /* iOS zooms the page when a focused field is under 16px. */
   input, textarea, select {
     font-size: 16px;
@@ -34,6 +45,7 @@
 
   a, button, [role="button"], summary {
     -webkit-tap-highlight-color: rgba(255, 122, 77, .18);
+    touch-action: manipulation;
   }
 
   /* Finger-sized tap targets on the small inline controls. */
@@ -158,10 +170,10 @@
     top: 0;
     z-index: 50;
     display: flex;
-    height: 58px;
+    height: calc(58px + env(safe-area-inset-top, 0px));
     align-items: center;
     justify-content: space-between;
-    padding: 0 1rem;
+    padding: env(safe-area-inset-top, 0px) calc(1rem + env(safe-area-inset-right, 0px)) 0 calc(1rem + env(safe-area-inset-left, 0px));
     border-bottom: 2px solid var(--line-strong);
     background: rgba(38, 34, 32, .94);
     backdrop-filter: blur(18px) saturate(1.2);
@@ -172,13 +184,28 @@
   .app-menu-toggle { width: 40px; height: 40px; min-height: 40px; }
   .notification-bell { width: 40px; height: 40px; }
 
+  /* Tapping anywhere outside the menu closes it. Negative z-index keeps the
+     header controls above the veil while the menu itself stays on top. */
+  .app-mobile-nav-backdrop {
+    position: absolute;
+    z-index: -1;
+    inset: 100% 0 auto;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border: 0;
+    background: rgba(18, 14, 12, .52);
+    cursor: default;
+  }
+
   /* The menu opens under the sticky header and scrolls on short screens. */
   .app-mobile-nav {
-    top: 58px;
-    max-height: calc(100vh - 58px);
-    max-height: calc(100dvh - 58px);
+    top: calc(58px + env(safe-area-inset-top, 0px));
+    max-height: calc(100vh - 58px - env(safe-area-inset-top, 0px));
+    max-height: calc(100dvh - 58px - env(safe-area-inset-top, 0px));
     overflow-y: auto;
   }
+  .app-mobile-nav a { min-height: 48px; }
   .app-mobile-nav a.is-active {
     color: var(--orange);
     background: var(--orange-soft);
@@ -200,8 +227,14 @@
   .app-mobile-nav-user small {
     color: var(--brown-light);
   }
-  .app-mobile-nav-user .btn {
+  .app-mobile-nav .app-mobile-nav-user .btn {
     width: 100%;
+    min-height: 46px;
+    justify-content: center;
+    border: 2px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--charcoal);
+    background: transparent;
   }
 }
 
@@ -229,9 +262,10 @@
     gap: .15rem;
     padding: .4rem .1rem;
     color: var(--brown);
-    font-size: .68rem;
+    font-size: .72rem;
     font-weight: 800;
-    letter-spacing: .01em;
+    letter-spacing: 0;
+    line-height: 1.15;
   }
   .app-tab-icon {
     display: grid;
@@ -519,6 +553,12 @@
     gap: .4rem;
     padding: .6rem .75rem;
   }
+  /* When the player is open, lift toasts above it as well as the dock. */
+  @supports selector(body:has(.app-shell.has-player)) {
+    body:has(.app-shell.has-player) .toast-viewport {
+      bottom: calc(var(--tabbar-height) + 92px + env(safe-area-inset-bottom, 0px));
+    }
+  }
   .toast { width: 100%; }
 }
 
@@ -547,7 +587,7 @@
 /* --- Small phones ------------------------------------------------------ */
 
 @media (max-width: 400px) {
-  .app-tab { font-size: .54rem; }
+  .app-tab { font-size: .64rem; }
   .app-tab-icon { width: 38px; height: 30px; }
   .player-buttons button { width: 36px; height: 36px; }
   .player-buttons .player-play { width: 40px; height: 40px; }

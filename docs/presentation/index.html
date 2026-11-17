@@ -39,7 +39,7 @@
   #stage { position: fixed; inset: 0; display: grid; place-items: center; }
 
   .slide {
-    width: 1300px;
+    width: 1310px;
     height: 720px;
     background:
       radial-gradient(1100px 600px at 88% -10%, rgba(255,112,73,.16), transparent 60%),
@@ -625,7 +625,7 @@
     <div class="content">
       <div class="grid-3">
         <div class="card hi stat">
-          <div class="big">130</div>
+          <div class="big">131</div>
           <h3>automated tests</h3>
           <p>The real API against a real Postgres database: ownership, constraints and permissions.</p>
         </div>
@@ -757,7 +757,7 @@ Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, 
 
     `4:40. Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
 
-    `5:00. Proof. "130 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If you have the phone ready, hold it up while you say the last sentence and show the same bottom dock."`,
+    `5:00. Proof. "131 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If you have the phone ready, hold it up while you say the last sentence and show the same bottom dock."`,
 
     `5:25. Reflection. "What worked: schema first, small commits, and AI writing code inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design."`,
 
@@ -774,7 +774,7 @@ Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, 
   let index = 0;
 
   function fit() {
-    const scale = Math.min(window.innerWidth / 1300, (window.innerHeight - 60) / 740);
+    const scale = Math.min(window.innerWidth / 1310, (window.innerHeight - 60) / 740);
     slides.forEach(s => s.style.setProperty('--s', scale));
     slides.forEach(s => { s.style.transform = `scale(${scale})`; });
   }
