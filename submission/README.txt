@@ -4,13 +4,14 @@ TrackStack — submission pack
 Files in this folder
 --------------------
 1. TrackStack-Submission.pdf    One document containing:
+                                - TrackStack in plain English (read this first)
                                 - Project brief
                                 - Architecture
                                 - Page designs
                                 - Presentation script and Q&A
                                 - Hosting plan and runbook
                                 - Testing
-2. TrackStack-Presentation.pdf  The 14-slide deck, 16:9, one slide per page.
+2. TrackStack-Presentation.pdf  The 11-slide deck, 16:9, one slide per page.
 3. TrackStack-Presentation.pptx The editable PowerPoint with all speaker notes.
 
 Links to submit or paste into the private comment

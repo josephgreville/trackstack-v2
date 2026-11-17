@@ -115,7 +115,7 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 | Public repo and live URL | Public GitHub repo, Render deployment with managed Postgres | <https://github.com/josephgreville/trackstack-v2> · <https://trackstack-zin9.onrender.com> |
 | Access control | Every personal query is scoped by `user_id`; another user's collection returns 404 | `server/src/services/`, `collections.test.js` |
 | It actually works | 128 tests across 13 files against a real Postgres database; production image smoke-tested | [`testing.md`](testing.md) · `npm test` |
-| 10-minute presentation | 14-slide deck with speaker notes, a timed demo journey and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
+| 10-minute presentation | 11-slide deck with speaker notes, a timed demo journey and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
 
 ## 7. Constraints and risks
 

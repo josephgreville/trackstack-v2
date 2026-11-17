@@ -41,8 +41,8 @@ function readNotes() {
   if (start < 0 || end < 0) throw new Error('Could not locate NOTES in index.html');
   const block = html.slice(start, end);
   const notes = [...block.matchAll(/`([\s\S]*?)`/g)].map((m) => m[1].trim());
-  if (notes.length !== 14) {
-    throw new Error(`Expected 14 speaker notes, found ${notes.length}`);
+  if (notes.length !== 11) {
+    throw new Error(`Expected 11 speaker notes, found ${notes.length}`);
   }
   return notes;
 }
@@ -210,201 +210,143 @@ function build() {
 
   /* 1 — title */
   add(1, (s) => {
-    kicker(s, 'Final Project · Vibe Coding Web App');
+    kicker(s, 'Final Project · Route B — records');
     s.addText('TrackStack', {
-      x: 0.85, y: 1.45, w: 11.6, h: 1.15,
+      x: 0.85, y: 1.25, w: 11.6, h: 1.15,
       fontFace: HEAD, fontSize: 54, bold: true, color: C.cream, margin: 0,
     });
-    rule(s, 0.9, 2.72, 1.3);
+    rule(s, 0.9, 2.52, 1.3);
     s.addText(
-      'A home for your record collection — browse a catalogue, build shelves,\ntrack every copy, share the room.',
+      'A home for your record collection.\nFind a record, add your copy, organise a shelf, share it.',
       {
-        x: 0.9, y: 3.05, w: 10.8, h: 1.0, fontFace: BODY, fontSize: 19,
+        x: 0.9, y: 2.85, w: 10.8, h: 1.0, fontFace: BODY, fontSize: 19,
         color: C.muted, margin: 0, lineSpacingMultiple: 1.15,
       },
     );
-    const cols = [
-      ['ROUTE B', 'records'],
-      ['STACK', 'React · Express · PostgreSQL'],
-      ['REPO', 'github.com/josephgreville/trackstack-v2'],
-    ];
-    cols.forEach(([label, value], i) => {
-      const x = 0.9 + i * 4.0;
-      s.addText(label, { x, y: 5.15, w: 3.6, h: 0.25, fontFace: MONO, fontSize: 10, color: C.muted, margin: 0 });
-      s.addText(value, { x, y: 5.45, w: 3.6, h: 0.5, fontFace: BODY, fontSize: 14, bold: true, color: C.coral, margin: 0 });
+    s.addText('WHAT THIS TALK COVERS', {
+      x: 0.9, y: 4.45, w: 11.0, h: 0.3, fontFace: MONO, fontSize: 10, color: C.muted, margin: 0,
+    });
+    s.addText('Idea  →  Demo  →  How it works  →  Design  →  Proof  →  Reflection', {
+      x: 0.9, y: 4.8, w: 11.8, h: 0.5, fontFace: HEAD, fontSize: 18, bold: true, color: C.coral, margin: 0,
     });
   });
 
-  /* 2 — the brief */
+  /* 2 — what it is */
   add(2, (s) => {
-    kicker(s, 'The brief');
-    heading(s, 'People who share an interest,\nsharing their things', 29);
-    bullets(s, 0.85, 2.35, 6.1, 3.6, [
-      'Every user → many collections',
-      'Every collection → many records',
-      'Records come from a real catalogue — iTunes',
-      'Each copy has format, condition, price',
+    kicker(s, '1 · What it is');
+    heading(s, 'One record. Many collections.', 30);
+    bullets(s, 0.85, 2.25, 6.3, 3.6, [
+      'A record lives in a shared catalogue',
+      'Your copy has its own format, condition and price',
+      'A collection is a shelf you can share',
+      'The brief offers Route A or B — I chose records',
     ], 17);
-    card(s, 7.2, 2.15, 5.3, 3.8, 'Why records?',
-      'The data is genuinely relational: one record can sit in many collections, and every copy is its own thing with its own condition and price. The modelling problem is the interesting part — not the CRUD.',
-      { hi: true, bodySize: 13.5 });
+    card(s, 7.2, 2.05, 5.3, 3.9, 'The interesting part',
+      'One album can sit in many collections, but your copy is personal. Its condition and price belong to you, not to the album. That is the relationship this app is built around.',
+      { hi: true, bodySize: 14 });
   });
 
-  /* 3 — data model */
+  /* 3 — six things */
   add(3, (s) => {
-    kicker(s, 'Data model');
-    heading(s, 'Catalogue entry ≠ your copy', 30);
-    const bx = 0.75, bw = 2.6, lw = 0.45;
-    entity(s, bx, 2.0, bw, 1.5, 'users', 'id · username · email\npassword_hash · xp · level', true);
-    s.addText('1 → many', { x: bx + bw, y: 2.5, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
-    entity(s, bx + bw + lw, 2.0, bw, 1.5, 'collections', 'user_id · name\nis_public · share_token\nshelf_theme');
-    s.addText('1 → many', { x: bx + 2 * (bw + lw), y: 2.5, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
-    entity(s, bx + 3 * (bw + lw) - lw, 2.0, bw, 1.5, 'collection_albums', 'collection_id · album_id\nformat · condition\nprice · edition_notes', true);
-    s.addText('many → 1', { x: bx + 3 * (bw + lw), y: 2.5, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
-    entity(s, bx + 4 * (bw + lw) - lw, 2.0, bw, 1.5, 'albums', 'title · artist · year\ngenre · artwork_url\nexternal_id');
-
-    const y = 3.85, w = 3.75;
-    card(s, 0.75, y, w, 2.25, 'Metadata is global',
-      'One albums row per record, shared by everyone. Two people owning the same pressing never duplicate it.',
-      { hi: true, bodySize: 12 });
-    card(s, 4.7, y, w, 2.25, 'Your copy is personal',
-      'Format, condition, price and notes live on the join table — the copy, not the catalogue entry.',
-      { bodySize: 12 });
-    card(s, 8.65, y, w, 2.25, 'Plus 12 more tables',
-      'wantlist · history · follows · likes · comments · stories · photos · badges · recommendations · sessions · wrapped',
-      { bodySize: 11.5 });
-  });
-
-  /* 4 — screens */
-  add(4, (s) => {
-    kicker(s, 'The app');
-    heading(s, 'Seven screens, one system', 30);
+    kicker(s, '1 · What it is');
+    heading(s, 'Six things you can do', 30);
     const items = [
-      ['Home', 'Dashboard, featured records, recent adds'],
-      ['Browse', 'Search the live catalogue by genre, artist, year'],
-      ['Album detail', 'Tracks, 30s previews, related albums'],
-      ['Collection', 'Your shelf: copy details, stats, share link'],
-      ['My collections', 'Every shelf, plus the record-shelf room'],
-      ['Add / edit', 'Search the catalogue or add it by hand'],
-      ['Log in / register', 'Deep links survive the login detour'],
-      ['Plus', 'Wantlist, journal, stories, community, badges, Wrapped'],
+      ['Find a record', 'Search the iTunes catalogue by artist, title or genre.'],
+      ['Add your copy', 'Choose the format, condition, price and notes.'],
+      ['Build shelves', 'Keep as many collections as you like.'],
+      ['Keep a wantlist', 'Track the records you are still hunting for.'],
+      ['Share a shelf', 'Send a read-only link that opens without an account.'],
+      ['Follow collectors', 'See activity, like and comment.'],
     ];
-    items.forEach(([t, b], i) => {
-      const col = i % 4, row = Math.floor(i / 4);
-      card(s, 0.65 + col * 3.05, 2.0 + row * 2.0, 2.85, 1.75, t, b, {
-        hi: i === 7, bodySize: 11.5, titleSize: 14,
+    items.forEach(([title, body], i) => {
+      const col = i % 3, row = Math.floor(i / 3);
+      card(s, 0.65 + col * 4.15, 1.95 + row * 2.0, 3.9, 1.72, title, body, {
+        hi: i === 0, bodySize: 12.5, titleSize: 15,
       });
     });
-  });
-
-  /* 5 — demo journey */
-  add(5, (s) => {
-    kicker(s, 'Live demo');
-    heading(s, 'The journey', 30);
-    const labels = [
-      'Register', 'Home dashboard', 'Browse & search', 'Album detail', 'Add to a shelf',
-      'Collection stats', 'Shelf room & share', 'Wantlist & journal', 'Community & Wrapped',
-      'Resize to phone',
-    ];
-    labels.forEach((label, i) => {
-      const col = i % 5, row = Math.floor(i / 5);
-      step(s, 0.68 + col * 2.43, 1.95 + row * 1.03, 2.25, 0.86, String(i + 1).padStart(2, '0'), label);
+    s.addText('Plus a listening journal, album stories, badges and a yearly recap.', {
+      x: 0.85, y: 5.95, w: 11.6, h: 0.4, fontFace: BODY, fontSize: 12, color: C.muted, margin: 0,
     });
-    s.addText(
-      'Nothing is hard-coded. Every screen is one React route talking to one Express endpoint — the account was created minutes before this talk.',
-      { x: 0.85, y: 5.35, w: 11.6, h: 0.8, fontFace: BODY, fontSize: 13, color: C.muted, margin: 0 },
-    );
   });
 
-  /* 6 — architecture shape */
-  add(6, (s) => {
-    kicker(s, 'Architecture');
-    heading(s, 'The shape of it', 30);
+  /* 4 — demo */
+  add(4, (s) => {
+    kicker(s, '2 · Demo');
+    heading(s, "One record's journey", 30);
+    s.addText("I'll follow one record from search to a shared shelf.", {
+      x: 0.85, y: 1.8, w: 11.6, h: 0.35, fontFace: BODY, fontSize: 14, color: C.muted, margin: 0,
+    });
+    const phases = [
+      ['1 · Start', 'Register\nHome dashboard'],
+      ['2 · Find', 'Browse & search\nAlbum detail'],
+      ['3 · Add & organise', 'Add to a shelf\nCopy details & stats\nShelf room, wantlist, journal'],
+      ['4 · Share', 'Read-only link\nCommunity & Wrapped\nResize to phone'],
+    ];
+    phases.forEach(([title, body], i) => {
+      card(s, 0.65 + i * 3.12, 2.35, 2.9, 3.1, title, body, {
+        hi: i === 0, bodySize: 13, titleSize: 15,
+      });
+    });
+    s.addText('The account was created minutes before this talk. Nothing on screen is hard-coded.', {
+      x: 0.85, y: 5.75, w: 11.6, h: 0.4, fontFace: BODY, fontSize: 12, color: C.muted, margin: 0,
+    });
+  });
+
+  /* 5 — how it works */
+  add(5, (s) => {
+    kicker(s, '3 · How it works');
+    heading(s, 'Browser → our API → database', 30);
     const nodes = [
-      ['CLIENT', 'React 19 + Vite', 'Router 7 · Tailwind · Framer Motion', C.coral],
-      ['API', 'Express 5 on Node 20', 'zod validation · sessions · rate limits', C.coral],
-      ['DATA', 'PostgreSQL 16', 'FKs · CHECK constraints · jsonb', C.sage],
-      ['3RD PARTY', 'iTunes Search API', 'called from the server only', C.gold],
+      ['CLIENT', 'The browser', 'React pages · Tailwind · motion', C.coral],
+      ['API', 'Our Express API', 'checks input · applies the rules', C.coral],
+      ['DATA', 'PostgreSQL 16', 'users · shelves · copies', C.sage],
+      ['3RD PARTY', 'iTunes catalogue', 'metadata only · called by the API', C.gold],
     ];
     nodes.forEach(([tag, name, desc, colour], i) => {
-      const y = 1.9 + i * 1.1;
+      const y = 1.85 + i * 1.08;
       node(s, 0.75, y, 5.6, 0.78, tag, name, desc, colour);
       if (i < 3) arrow(s, 3.25, y + 0.79);
     });
-    card(s, 6.85, 1.9, 5.7, 2.35, 'Layers',
-      'routes → controllers → services → SQL\n\nControllers never write SQL. Services never touch req/res. That is what makes it testable.',
-      { bodySize: 12.5 });
-    card(s, 6.85, 4.45, 5.7, 1.85, 'One repo',
-      'npm workspaces, one npm install, one npm run dev, one push ships client and API together.',
-      { bodySize: 12.5 });
+    card(s, 6.85, 1.85, 5.7, 2.5, 'One job each',
+      'The browser shows pages. The API checks what is allowed. The database stores the relationships.',
+      { bodySize: 13.5 });
+    card(s, 6.85, 4.6, 5.7, 1.85, 'One repo',
+      'Client and API ship together: one install, one dev command, one deploy.',
+      { bodySize: 13.5 });
   });
 
-  /* 7 — why these choices */
-  add(7, (s) => {
-    kicker(s, 'Architecture');
-    heading(s, 'Why these choices', 30);
-    const rows = [
-      ['PostgreSQL', 'The data is relational — I wanted the database to enforce it: foreign keys, CHECK constraints on format and condition, unique indexes on lower(email). A document store means hand-rolling integrity.'],
-      ['No ORM', 'Explicit SQL, so I can explain every query and every index. That was the part I was asked to understand.'],
-      ['Sessions, not JWT', 'The cookie holds only a signed id — an XSS bug can’t read it, and I can revoke a session server-side.'],
-      ['Own API', 'Our Express API is the source of truth for users, collections, copies. iTunes only supplies catalogue metadata.'],
-      ['Monorepo', 'Client and API in one repo, one install, one dev command, one deploy.'],
-    ];
-    let y = 1.95;
-    rows.forEach(([label, body], i) => {
-      s.addText(label, { x: 0.85, y, w: 2.0, h: 0.75, fontFace: MONO, fontSize: 13, bold: true, color: C.coral, margin: 0, valign: 'top' });
-      s.addText(body, { x: 2.9, y, w: 9.5, h: 0.78, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0, valign: 'top', lineSpacingMultiple: 1.08 });
-      if (i < rows.length - 1) {
-        s.addShape(SHAPE.rect, { x: 0.85, y: y + 0.88, w: 11.55, h: 0.012, fill: { color: C.line }, line: { color: C.line } });
-      }
-      y += 0.95;
+  /* 6 — shared catalogue, personal copy */
+  add(6, (s) => {
+    kicker(s, '3 · How it works');
+    heading(s, 'Shared catalogue. Personal copy.', 30);
+    const bx = 0.75, bw = 2.6, lw = 0.45;
+    entity(s, bx, 1.9, bw, 1.5, 'users', 'id · username · email', true);
+    s.addText('1 → many', { x: bx + bw, y: 2.4, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
+    entity(s, bx + bw + lw, 1.9, bw, 1.5, 'collections', 'name · owner\nshare link');
+    s.addText('1 → many', { x: bx + 2 * (bw + lw), y: 2.4, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
+    entity(s, bx + 3 * (bw + lw) - lw, 1.9, bw, 1.5, 'collection_albums', 'format · condition\nprice · notes', true);
+    s.addText('many → 1', { x: bx + 3 * (bw + lw), y: 2.4, w: lw, h: 0.5, fontFace: MONO, fontSize: 8.5, color: C.sage, align: 'center', margin: 0 });
+    entity(s, bx + 4 * (bw + lw) - lw, 1.9, bw, 1.5, 'albums', 'title · artist · year');
+
+    const y = 3.8, w = 3.75;
+    card(s, 0.75, y, w, 2.25, 'Shared',
+      'One albums row per record. Two people owning the same pressing do not duplicate it.',
+      { hi: true, bodySize: 13 });
+    card(s, 4.7, y, w, 2.25, 'Personal',
+      'Format, condition, price and notes live on the link between your shelf and the record.',
+      { bodySize: 13 });
+    card(s, 8.65, y, w, 2.25, 'Why it matters',
+      "Edit your copy without changing anyone else's. The database enforces the links.",
+      { bodySize: 13 });
+    s.addText('16 tables in total. The rest are wants, history, follows, likes, comments, stories and badges.', {
+      x: 0.85, y: 6.35, w: 11.6, h: 0.3, fontFace: BODY, fontSize: 10.5, color: C.muted, margin: 0,
     });
   });
 
-  /* 8 — API */
-  add(8, (s) => {
-    kicker(s, 'Architecture');
-    heading(s, 'The API', 30);
-    const v1 = [
-      'POST   /auth/register', 'POST   /auth/login', 'GET    /catalog/search',
-      'GET    /collections', 'POST   /collections/:id/albums',
-      'PATCH  /collections/:id/albums/:albumId', 'GET    /me/wantlist',
-      'GET    /public/share/:token',
-    ].join('\n');
-    const v2 = [
-      'GET    /me   (xp, level)', 'GET    /achievements', 'GET    /wrapped?range=year',
-      'GET    /recommendations', 'POST   /social/follow/:userId',
-      'POST   /social/like/:type/:id', 'GET    /stories/albums/:id/story',
-      'GET    /social/activity',
-    ].join('\n');
-    card(s, 0.75, 2.0, 5.7, 3.55, '/api/v1', v1, { bodySize: 12.5, bodyColor: C.muted, titleColor: C.gold, titleSize: 16 });
-    card(s, 6.85, 2.0, 5.7, 3.55, '/api/v1/2', v2, { bodySize: 12.5, bodyColor: C.muted, titleColor: C.coral, titleSize: 16 });
-    s.addText('Every body, param and query is validated with zod before it reaches SQL. One JSON error shape for everything. Version 1 never changed shape — the 2.0 features live under /2.',
-      { x: 0.85, y: 5.75, w: 11.6, h: 0.85, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0 });
-    // Override endpoint lists with a monospaced face for alignment.
-    s.addText(v1, { x: 0.97, y: 2.66, w: 5.25, h: 2.85, fontFace: MONO, fontSize: 11.5, color: C.muted, margin: 0, lineSpacingMultiple: 1.32 });
-    s.addText(v2, { x: 7.07, y: 2.66, w: 5.25, h: 2.85, fontFace: MONO, fontSize: 11.5, color: C.muted, margin: 0, lineSpacingMultiple: 1.32 });
-  });
-
-  /* 9 — security */
-  add(9, (s) => {
-    kicker(s, 'Security');
-    heading(s, 'Keys, sessions, and other people’s data', 28);
-    card(s, 0.75, 2.05, 3.75, 3.9, 'API keys',
-      'There are none.\n\nThe iTunes Search API needs no key, and every call is made from the server — so no key can reach the browser bundle. The only secrets are DATABASE_URL and SESSION_SECRET, both in environment variables, and .env is git-ignored.',
-      { bodySize: 12.5 });
-    card(s, 4.78, 2.05, 3.75, 3.9, 'Sessions',
-      'Server-side, stored in Postgres, signed id in an httpOnly cookie, SameSite, Secure in production, revocable server-side. bcrypt for passwords. Rate limits on login.',
-      { bodySize: 12.5 });
-    card(s, 8.81, 2.05, 3.75, 3.9, 'Ownership',
-      'Every personal query is scoped by user_id from the session inside the service, not the route. Another user’s collection returns 404 — it never confirms the thing exists. There are tests for exactly this.',
-      { hi: true, bodySize: 12.5 });
-  });
-
-  /* 10 — design */
-  add(10, (s) => {
-    kicker(s, 'Design');
-    heading(s, 'One layout, two shapes', 30);
+  /* 7 — design */
+  add(7, (s) => {
+    kicker(s, '4 · Design');
+    heading(s, 'Same app, two shapes', 30);
     [['Desktop', 0.75], ['Mobile', 6.85]].forEach(([label, x]) => {
       s.addShape(SHAPE.roundRect, { x, y: 2.0, w: 5.7, h: 3.55, fill: { color: C.card }, line: { color: C.line, width: 1 } });
       s.addText(label, { x: x + 0.22, y: 2.18, w: 5.2, h: 0.35, fontFace: HEAD, fontSize: 15, bold: true, color: C.cream, margin: 0 });
@@ -431,18 +373,19 @@ function build() {
         s.addText('HOME · STACKS', { x: x + 1.9, y: 4.575, w: 3.1, h: 0.2, fontFace: HEAD, fontSize: 9, bold: true, color: C.dark, align: 'center', margin: 0 });
       }
     });
-    s.addText('Sticker-book aesthetic: 2px outlines, solid offset shadows, no blur, pill buttons, spring motion. One token file. Every animation respects prefers-reduced-motion.',
-      { x: 0.85, y: 5.8, w: 11.6, h: 0.8, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0 });
+    s.addText('A deliberate look: thick outlines, solid shadows, pill buttons and springy motion. The palette is one file, and every animation respects reduced motion.', {
+      x: 0.85, y: 5.8, w: 11.6, h: 0.8, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0,
+    });
   });
 
-  /* 11 — hosting */
-  add(11, (s) => {
-    kicker(s, 'Hosting');
-    heading(s, 'One container, one origin', 30);
+  /* 8 — hosting */
+  add(8, (s) => {
+    kicker(s, '5 · Proof');
+    heading(s, 'One container, one URL', 30);
     const nodes = [
-      ['DOCKER', 'Vite build → Node runtime', 'client/dist + Express', C.coral],
-      ['RENDER', LIVE_URL, 'one service, HTTPS', C.coral],
-      ['POSTGRES', 'Managed Postgres 16', 'migrations run at boot', C.sage],
+      ['DOCKER', 'Built app + API', 'Vite build + Express', C.coral],
+      ['RENDER', LIVE_URL, 'HTTPS · one service', C.coral],
+      ['POSTGRES', 'Managed Postgres 16', 'data and sessions', C.sage],
     ];
     nodes.forEach(([tag, name, desc, colour], i) => {
       const y = 2.0 + i * 1.25;
@@ -450,49 +393,50 @@ function build() {
       if (i < 2) arrow(s, 3.25, y + 0.86);
     });
     card(s, 6.85, 2.0, 5.7, 2.15, 'Why one service',
-      'Same origin → the cookie stays SameSite=Lax, no CORS, one URL for the demo. Migrations are numbered SQL files and run at container start; they’re idempotent, so every redeploy is safe.',
-      { bodySize: 12.5 });
-    card(s, 6.85, 4.35, 5.7, 2.0, 'Also documented',
-      'The split option — Netlify for the client, Railway for the API — plus a local-only docker compose path. The image is portable to any container host.',
-      { bodySize: 12.5 });
+      'The pages and the API share one origin, so the login cookie just works and there is no CORS. One link to demo.',
+      { bodySize: 13.5 });
+    card(s, 6.85, 4.35, 5.7, 2.0, 'Safe redeploys',
+      'Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.',
+      { bodySize: 13.5 });
   });
 
-  /* 12 — verification */
-  add(12, (s) => {
-    kicker(s, 'Verification');
-    heading(s, 'How do I know it works?', 30);
-    card(s, 0.75, 2.1, 3.75, 3.7, '128 tests',
-      '13 files. Server suites run the real Express app against a real Postgres test database via Supertest — migrations, constraints, ownership and authz included.',
-      { hi: true, bodySize: 12.5 });
-    card(s, 4.78, 2.1, 3.75, 3.7, 'Real container',
-      'The production image builds, boots, migrates, serves the SPA and the API, handles deep links, and logs in — verified locally before deploying.',
-      { bodySize: 12.5 });
-    card(s, 8.81, 2.1, 3.75, 3.7, 'Seeded demo',
-      'One repeatable seed: two collectors, three shelves, copy details, wantlist, journal, a story, a follower. Never an empty screen.',
-      { bodySize: 12.5 });
+  /* 9 — proof */
+  add(9, (s) => {
+    kicker(s, '5 · Proof');
+    heading(s, 'How I know it works', 30);
+    card(s, 0.75, 2.1, 3.75, 3.7, '128 automated tests',
+      'The real API runs against a real Postgres database: ownership, constraints and permissions are covered.',
+      { hi: true, bodySize: 13 });
+    card(s, 4.78, 2.1, 3.75, 3.7, 'The live site',
+      'The production container builds, migrates, serves the app, handles deep links and logs in.',
+      { bodySize: 13 });
+    card(s, 8.81, 2.1, 3.75, 3.7, 'The demo data',
+      'Two collectors, three shelves, a wantlist, a journal and a story. The app is never empty.',
+      { bodySize: 13 });
+    s.addText('The same client also runs as an Android app.', {
+      x: 0.85, y: 6.1, w: 11.6, h: 0.3, fontFace: BODY, fontSize: 11, color: C.muted, margin: 0,
+    });
   });
 
-  /* 13 — reflection */
-  add(13, (s) => {
-    kicker(s, 'Reflection');
-    heading(s, 'What went well, what didn’t', 29);
+  /* 10 — reflection */
+  add(10, (s) => {
+    kicker(s, '6 · Reflection');
+    heading(s, 'What worked, what didn’t', 30);
     const cols = [
       ['Worked', C.sage, [
-        'Schema decided first — every feature followed from it',
-        'Small commits, one feature at a time',
-        'AI wrote the code; I chose the boundaries',
-        'Layers kept generated code coherent',
+        'Schema first, so every feature followed',
+        'One feature per commit',
+        'AI wrote code inside boundaries I set',
       ]],
       ['Didn’t', C.rose, [
-        'Scope — the 2.0 features took twice as long as 1.0',
-        'First pass looked like every other AI app',
-        'Free hosting sleeps; a demo-day risk',
-        'No backups on a free database',
+        'Scope was too big',
+        'The first UI looked generic',
+        'Free hosting sleeps on demo day',
       ]],
-      ['Learnt', C.coral, [
-        'A “collection” is a join table plus copy details, not a list of ids',
-        'Testing the real database caught what mocks hid',
-        'Scope control is a technical skill',
+      ['Learned', C.coral, [
+        'A collection is a join table, not a list',
+        'Real-database tests catch more',
+        'Saying no is part of design',
       ]],
     ];
     cols.forEach(([title, colour, items], i) => {
@@ -501,32 +445,32 @@ function build() {
       s.addText(title, { x: x + 0.22, y: 2.23, w: 3.3, h: 0.4, fontFace: HEAD, fontSize: 16, bold: true, color: colour, margin: 0 });
       s.addText(
         items.map((t) => ({ text: '•  ' + t, options: { breakLine: true, paraSpaceAfter: 9 } })),
-        { x: x + 0.22, y: 2.78, w: 3.3, h: 3.0, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0, valign: 'top' },
+        { x: x + 0.22, y: 2.78, w: 3.3, h: 3.0, fontFace: BODY, fontSize: 13, color: C.muted, margin: 0, valign: 'top' },
       );
     });
   });
 
-  /* 14 — questions */
-  add(14, (s) => {
-    kicker(s, 'Thanks');
+  /* 11 — questions */
+  add(11, (s) => {
+    kicker(s, '6 · Reflection');
     s.addText('Questions?', {
       x: 0.85, y: 1.5, w: 11.6, h: 1.2,
       fontFace: HEAD, fontSize: 54, bold: true, color: C.cream, margin: 0,
     });
     rule(s, 0.9, 2.78, 1.3);
-    s.addText('Happy to go deeper on the schema, the API,\nthe security model or the deployment.', {
+    s.addText('Happy to go deeper on the data model,\nthe API, security or hosting.', {
       x: 0.9, y: 3.12, w: 10.8, h: 0.95, fontFace: BODY, fontSize: 19,
       color: C.muted, margin: 0, lineSpacingMultiple: 1.15,
     });
     const cols = [
       ['LIVE', LIVE_URL],
       ['REPO', 'github.com/josephgreville/trackstack-v2'],
-      ['DOCS', 'docs/architecture.md'],
+      ['PLAIN ENGLISH', 'docs/plain-english.md'],
     ];
     cols.forEach(([label, value], i) => {
       const x = 0.9 + i * 4.0;
       s.addText(label, { x, y: 5.15, w: 3.6, h: 0.25, fontFace: MONO, fontSize: 10, color: C.muted, margin: 0 });
-      s.addText(value, { x, y: 5.45, w: 3.6, h: 0.5, fontFace: BODY, fontSize: 13.5, bold: true, color: C.coral, margin: 0 });
+      s.addText(value, { x, y: 5.45, w: 3.6, h: 0.5, fontFace: BODY, fontSize: 13, bold: true, color: C.coral, margin: 0 });
     });
   });
 

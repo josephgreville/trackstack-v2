@@ -13,6 +13,7 @@ const ROOT = path.join(__dirname, '..');
 const OUT_DIR = path.join(ROOT, 'submission');
 
 const DOCS = [
+  { file: 'plain-english.md', title: 'TrackStack in plain English' },
   { file: 'brief.md', title: 'Project brief' },
   { file: 'architecture.md', title: 'Architecture' },
   { file: 'page-designs.md', title: 'Page designs' },
@@ -37,6 +38,7 @@ const slug = (s) =>
     .replace(/\s+/g, '-');
 
 const DOC_ANCHORS = {
+  'plain-english.md': '#plain-english',
   'brief.md': '#brief',
   'architecture.md': '#architecture',
   'page-designs.md': '#page-designs',

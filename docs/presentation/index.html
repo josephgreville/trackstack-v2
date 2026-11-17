@@ -283,40 +283,38 @@
 <body>
 
 <div id="stage">
-
   <!-- 1 ─────────────────────────────────────────────── -->
   <section class="slide title-slide">
-    <span class="kicker">Final Project · Vibe Coding Web App</span>
+    <span class="kicker">Final Project · Route B — records</span>
     <h1>TrackStack</h1>
     <div class="rule"></div>
-    <p class="lead">A home for your record collection — browse a catalogue, build shelves,<br/>track every copy, share the room.</p>
-    <div class="row" style="margin-top:44px; gap:44px">
-      <div><p class="small" style="margin:0">Route B<br/><span class="accent">records</span></p></div>
-      <div><p class="small" style="margin:0">Stack<br/><span class="accent">React · Express · PostgreSQL</span></p></div>
-      <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
+    <p class="lead">A home for your record collection.<br/>Find a record, add your copy, organise a shelf, share it.</p>
+    <div style="margin-top:40px">
+      <p class="small" style="margin:0 0 10px">What this talk covers</p>
+      <p style="font-family:var(--display); font-size:21px; color:var(--cream); margin:0">
+        Idea &nbsp;→&nbsp; Demo &nbsp;→&nbsp; How it works &nbsp;→&nbsp; Design &nbsp;→&nbsp; Proof &nbsp;→&nbsp; Reflection
+      </p>
     </div>
     <div class="foot"><span>Joseph Greville</span><span class="pagenum">01</span></div>
   </section>
 
   <!-- 2 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">The brief</span>
-    <h2>People who share an interest,<br/>sharing their things</h2>
+    <span class="kicker">1 · What it is</span>
+    <h2>One record.<br/>Many collections.</h2>
     <div class="grow row">
       <div class="col">
         <ul class="clean">
-          <li><b>Every user</b> → many collections</li>
-          <li><b>Every collection</b> → many records</li>
-          <li>Records come from a <b>real catalogue</b> — iTunes</li>
-          <li>Each <b>copy</b> has format, condition, price</li>
+          <li><b>A record</b> lives in a shared catalogue</li>
+          <li><b>Your copy</b> has its own format, condition and price</li>
+          <li><b>A collection</b> is a shelf you can share</li>
+          <li><b>The brief</b> offers Route A or B — I chose records</li>
         </ul>
       </div>
       <div class="col card hi">
-        <h3>Why records?</h3>
-        <p>The data is genuinely relational: one record can sit in many
-        collections, and every copy is its own thing with its own
-        condition and price. The modelling problem is the interesting part —
-        not the CRUD.</p>
+        <h3>The interesting part</h3>
+        <p>One album can sit in many collections, but your copy is personal. Its condition and
+        price belong to you, not to the album. That is the relationship this app is built around.</p>
       </div>
     </div>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">02</span></div>
@@ -324,97 +322,101 @@
 
   <!-- 3 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Data model</span>
-    <h2>Catalogue entry ≠ your copy</h2>
-    <div class="schema" style="margin-bottom:26px">
-      <div class="entity hi"><div class="t">users</div><div class="f">id · username · email<br/>password_hash · xp · level</div></div>
-      <div class="link">1 —<br/>many</div>
-      <div class="entity"><div class="t">collections</div><div class="f">user_id · name<br/>is_public · share_token<br/>shelf_theme</div></div>
-      <div class="link">1 —<br/>many</div>
-      <div class="entity hi"><div class="t">collection_albums</div><div class="f">collection_id · album_id<br/>format · condition<br/>price · edition_notes</div></div>
-      <div class="link">many —<br/>one</div>
-      <div class="entity"><div class="t">albums</div><div class="f">title · artist · year<br/>genre · artwork_url<br/>external_id</div></div>
+    <span class="kicker">1 · What it is</span>
+    <h2>Six things you can do</h2>
+    <div class="grid-3 grow">
+      <div class="card hi"><h3>Find a record</h3><p>Search the iTunes catalogue by artist, title or genre.</p></div>
+      <div class="card"><h3>Add your copy</h3><p>Choose the format, condition, price and notes.</p></div>
+      <div class="card"><h3>Build shelves</h3><p>Keep as many collections as you like.</p></div>
+      <div class="card"><h3>Keep a wantlist</h3><p>Track the records you are still hunting for.</p></div>
+      <div class="card"><h3>Share a shelf</h3><p>Send a read-only link that opens without an account.</p></div>
+      <div class="card"><h3>Follow collectors</h3><p>See activity, like and comment.</p></div>
     </div>
-    <div class="row" style="gap:18px">
-      <div class="col card hi">
-        <h3>Metadata is global</h3>
-        <p>One <span class="mono">albums</span> row per record, shared by everyone. Two people owning the same pressing never duplicate it.</p>
-      </div>
-      <div class="col card">
-        <h3>Your copy is personal</h3>
-        <p>Format, condition, price and notes live on the join table — the copy, not the catalogue entry.</p>
-      </div>
-      <div class="col card">
-        <h3>Plus 12 more tables</h3>
-        <p>wantlist · history · follows · likes · comments · stories · photos · badges · recommendations · sessions · wrapped</p>
-      </div>
-    </div>
+    <p class="small" style="margin-top:14px">Plus a listening journal, album stories, badges and a yearly recap.</p>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">03</span></div>
   </section>
 
   <!-- 4 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">The app</span>
-    <h2>Seven screens, one system</h2>
-    <div class="grid-4" style="margin-bottom:16px">
-      <div class="card"><h3>Home</h3><p>Dashboard, featured records, recent adds</p></div>
-      <div class="card"><h3>Browse</h3><p>Search the live catalogue by genre, artist, year</p></div>
-      <div class="card"><h3>Album detail</h3><p>Tracks, 30s previews, related albums</p></div>
-      <div class="card"><h3>Collection</h3><p>Your shelf: copy details, stats, share link</p></div>
+    <span class="kicker">2 · Demo</span>
+    <h2>One record's journey</h2>
+    <p class="small" style="margin:0 0 20px">I'll follow one record from search to a shared shelf.</p>
+    <div class="grid-4 grow">
+      <div class="card hi">
+        <h3>1 · Start</h3>
+        <p>Register<br/>Home dashboard</p>
+      </div>
+      <div class="card">
+        <h3>2 · Find</h3>
+        <p>Browse &amp; search<br/>Album detail</p>
+      </div>
+      <div class="card">
+        <h3>3 · Add &amp; organise</h3>
+        <p>Add to a shelf<br/>Copy details &amp; stats<br/>Shelf room, wantlist, journal</p>
+      </div>
+      <div class="card">
+        <h3>4 · Share</h3>
+        <p>Read-only link<br/>Community &amp; Wrapped<br/>Resize to phone</p>
+      </div>
     </div>
-    <div class="grid-4">
-      <div class="card"><h3>My collections</h3><p>Every shelf, plus the record-shelf room</p></div>
-      <div class="card"><h3>Add / edit</h3><p>Search the catalogue or add it by hand</p></div>
-      <div class="card"><h3>Log in / register</h3><p>Deep links survive the login detour</p></div>
-      <div class="card hi"><h3>Plus</h3><p>Wantlist, journal, stories, community, badges, Wrapped</p></div>
-    </div>
+    <p class="small" style="margin-top:18px">The account was created minutes before this talk. Nothing on screen is hard-coded.</p>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">04</span></div>
   </section>
 
   <!-- 5 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Live demo</span>
-    <h2>The journey</h2>
-    <div class="journey">
-      <div class="step demo"><span class="n">01</span><span class="t">Register</span></div>
-      <div class="step demo"><span class="n">02</span><span class="t">Home dashboard</span></div>
-      <div class="step demo"><span class="n">03</span><span class="t">Browse &amp; search</span></div>
-      <div class="step demo"><span class="n">04</span><span class="t">Album detail</span></div>
-      <div class="step demo"><span class="n">05</span><span class="t">Add to a shelf</span></div>
-      <div class="step demo"><span class="n">06</span><span class="t">Collection stats</span></div>
-      <div class="step demo"><span class="n">07</span><span class="t">Shelf room &amp; share</span></div>
-      <div class="step demo"><span class="n">08</span><span class="t">Wantlist &amp; journal</span></div>
-      <div class="step demo"><span class="n">09</span><span class="t">Community &amp; Wrapped</span></div>
-      <div class="step demo"><span class="n">10</span><span class="t">Resize to phone</span></div>
+    <span class="kicker">3 · How it works</span>
+    <h2>Browser → our API → database</h2>
+    <div class="row grow">
+      <div class="col pipe">
+        <div class="node c"><span class="tag">CLIENT</span><span class="name">The browser</span><span class="desc">React pages · Tailwind · motion</span></div>
+        <div class="arrow">↓</div>
+        <div class="node c"><span class="tag">API</span><span class="name">Our Express API</span><span class="desc">checks input · applies the rules</span></div>
+        <div class="arrow">↓</div>
+        <div class="node p"><span class="tag">DATA</span><span class="name">PostgreSQL 16</span><span class="desc">users · shelves · copies</span></div>
+        <div class="arrow">↗</div>
+        <div class="node g"><span class="tag">3RD PARTY</span><span class="name">iTunes catalogue</span><span class="desc">metadata only · called by the API</span></div>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px">
+          <h3>One job each</h3>
+          <p>The browser shows pages. The API checks what is allowed. The database stores the
+          relationships.</p>
+        </div>
+        <div class="card">
+          <h3>One repo</h3>
+          <p>Client and API ship together: one install, one dev command, one deploy.</p>
+        </div>
+      </div>
     </div>
-    <p class="small" style="margin-top:26px">Nothing is hard-coded. Every screen is one React route talking to one Express endpoint — the account was created minutes before this talk.</p>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">05</span></div>
   </section>
 
   <!-- 6 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Architecture</span>
-    <h2>The shape of it</h2>
-    <div class="row grow">
-      <div class="col pipe">
-        <div class="node c"><span class="tag">CLIENT</span><span class="name">React 19 + Vite</span><span class="desc">Router 7 · Tailwind · Framer Motion</span></div>
-        <div class="arrow">↓</div>
-        <div class="node c"><span class="tag">API</span><span class="name">Express 5 on Node 20</span><span class="desc">zod validation · sessions · rate limits</span></div>
-        <div class="arrow">↓</div>
-        <div class="node p"><span class="tag">DATA</span><span class="name">PostgreSQL 16</span><span class="desc">FKs · CHECK constraints · jsonb</span></div>
-        <div class="arrow">↗</div>
-        <div class="node g"><span class="tag">3RD PARTY</span><span class="name">iTunes Search API</span><span class="desc">called from the server only</span></div>
+    <span class="kicker">3 · How it works</span>
+    <h2>Shared catalogue.<br/>Personal copy.</h2>
+    <div class="schema" style="margin-bottom:24px">
+      <div class="entity hi"><div class="t">users</div><div class="f">id · username · email</div></div>
+      <div class="link">1 —<br/>many</div>
+      <div class="entity"><div class="t">collections</div><div class="f">name · owner · share link</div></div>
+      <div class="link">1 —<br/>many</div>
+      <div class="entity hi"><div class="t">collection_albums</div><div class="f">format · condition<br/>price · notes</div></div>
+      <div class="link">many —<br/>one</div>
+      <div class="entity"><div class="t">albums</div><div class="f">title · artist · year</div></div>
+    </div>
+    <div class="row" style="gap:18px">
+      <div class="col card hi">
+        <h3>Shared</h3>
+        <p>One <span class="mono">albums</span> row per record. Two people owning the same pressing do not duplicate it.</p>
       </div>
-      <div class="col">
-        <div class="card" style="margin-bottom:16px">
-          <h3>Layers</h3>
-          <p class="mono" style="font-size:14px; color:var(--gold); margin:0 0 8px">routes → controllers → services → SQL</p>
-          <p>Controllers never write SQL. Services never touch <span class="mono">req</span>/<span class="mono">res</span>. That is what makes it testable.</p>
-        </div>
-        <div class="card">
-          <h3>One repo</h3>
-          <p>npm workspaces, one <span class="mono">npm install</span>, one <span class="mono">npm run dev</span>, one push ships client and API together.</p>
-        </div>
+      <div class="col card">
+        <h3>Personal</h3>
+        <p>Format, condition, price and notes live on the link between your shelf and the record.</p>
+      </div>
+      <div class="col card">
+        <h3>Why it matters</h3>
+        <p>Edit your copy without changing anyone else's. The database enforces the links.</p>
       </div>
     </div>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">06</span></div>
@@ -422,85 +424,8 @@
 
   <!-- 7 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Architecture</span>
-    <h2>Why these choices</h2>
-    <table>
-      <tbody>
-        <tr><td>PostgreSQL</td><td class="why">The data is relational — I wanted the database to enforce it: foreign keys, CHECK constraints on format and condition, unique indexes on lower(email). A document store means hand-rolling integrity.</td></tr>
-        <tr><td>No ORM</td><td class="why">Explicit SQL, so I can explain every query and every index. That was the part I was asked to understand.</td></tr>
-        <tr><td>Sessions, not JWT</td><td class="why">The cookie holds only a signed id — an XSS bug can't read it, and I can revoke a session server-side.</td></tr>
-        <tr><td>Own API</td><td class="why">Our Express API is the source of truth for users, collections, copies. iTunes only supplies catalogue metadata.</td></tr>
-        <tr><td>Monorepo</td><td class="why">Client and API in one repo, one install, one dev command, one deploy.</td></tr>
-      </tbody>
-    </table>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07</span></div>
-  </section>
-
-  <!-- 8 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">Architecture</span>
-    <h2>The API</h2>
-    <div class="row grow">
-      <div class="col">
-        <div class="card" style="height:100%">
-          <h3 class="mono" style="color:var(--gold); font-size:19px">/api/v1</h3>
-          <p class="mono" style="font-size:14.5px; color:var(--muted); line-height:1.9; margin:0">
-            POST&nbsp;&nbsp;&nbsp;/auth/register<br/>
-            POST&nbsp;&nbsp;&nbsp;/auth/login<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/catalog/search<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/collections<br/>
-            POST&nbsp;&nbsp;&nbsp;/collections/:id/albums<br/>
-            PATCH /collections/:id/albums/:albumId<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/me/wantlist<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/public/share/:token
-          </p>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card" style="height:100%">
-          <h3 class="mono" style="color:var(--coral); font-size:19px">/api/v1/2</h3>
-          <p class="mono" style="font-size:14.5px; color:var(--muted); line-height:1.9; margin:0">
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/me&nbsp;&nbsp;(xp, level)<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/achievements<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/wrapped?range=year<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/recommendations<br/>
-            POST&nbsp;&nbsp;&nbsp;/social/follow/:userId<br/>
-            POST&nbsp;&nbsp;&nbsp;/social/like/:type/:id<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/stories/albums/:id/story<br/>
-            GET&nbsp;&nbsp;&nbsp;&nbsp;/social/activity
-          </p>
-        </div>
-      </div>
-    </div>
-    <p class="small" style="margin-top:18px">Every body, param and query is validated with <span class="accent">zod</span> before it reaches SQL. One JSON error shape for everything. Version 1 never changed shape — the 2.0 features live under <span class="mono">/2</span>.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08</span></div>
-  </section>
-
-  <!-- 9 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">Security</span>
-    <h2>Keys, sessions, and other people's data</h2>
-    <div class="grid-3 grow">
-      <div class="card">
-        <h3>API keys</h3>
-        <p><b style="color:var(--cream)">There are none.</b><br/>The iTunes Search API needs no key, and every call is made from the server — so no key <i>can</i> reach the browser bundle. The only secrets are <span class="mono">DATABASE_URL</span> and <span class="mono">SESSION_SECRET</span>, both in environment variables, and <span class="mono">.env</span> is git-ignored.</p>
-      </div>
-      <div class="card">
-        <h3>Sessions</h3>
-        <p>Server-side, stored in Postgres, signed id in an <span class="mono">httpOnly</span> cookie, <span class="mono">SameSite</span>, <span class="mono">Secure</span> in production, revocable server-side. bcrypt for passwords. Rate limits on login.</p>
-      </div>
-      <div class="card hi">
-        <h3>Ownership</h3>
-        <p>Every personal query is scoped by <span class="mono">user_id</span> from the session <i>inside the service</i>, not the route. Another user's collection returns <b style="color:var(--cream)">404</b> — it never confirms the thing exists. There are tests for exactly this.</p>
-      </div>
-    </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09</span></div>
-  </section>
-
-  <!-- 10 ─────────────────────────────────────────────── -->
-  <section class="slide">
-    <span class="kicker">Design</span>
-    <h2>One layout, two shapes</h2>
+    <span class="kicker">4 · Design</span>
+    <h2>Same app, two shapes</h2>
     <div class="row grow">
       <div class="col card">
         <h3>Desktop</h3>
@@ -513,7 +438,7 @@
             <div style="height:70px; background:rgba(255,112,73,.12); border-radius:8px"></div>
           </div>
         </div>
-        <p style="margin-top:14px">Five tabs in a left rail. Multi-column grids. Type ramp stays tight.</p>
+        <p style="margin-top:14px">A left rail with five tabs and multi-column grids.</p>
       </div>
       <div class="col card">
         <h3>Mobile</h3>
@@ -525,102 +450,104 @@
           </div>
           <div class="device" style="flex:1">
             <div style="font-family:var(--display); color:var(--cream); font-size:15px; margin-bottom:8px">Same five tabs</div>
-            <p style="font-size:14px; margin:0">A thumb reaches the bottom of a phone, not the top. So the tabs move to a floating bottom dock — with safe-area padding.</p>
+            <p style="font-size:14px; margin:0">The tabs move to a floating bottom dock, within thumb reach.</p>
           </div>
         </div>
       </div>
     </div>
-    <p class="small" style="margin-top:16px">Sticker-book aesthetic: 2px outlines, solid offset shadows, no blur, pill buttons, spring motion. The palette lives in one token file — a colour change is one edit. Every animation respects <span class="mono">prefers-reduced-motion</span>.</p>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10</span></div>
+    <p class="small" style="margin-top:16px">A deliberate look: thick outlines, solid shadows, pill buttons and springy motion. The palette is one file, and every animation respects reduced motion.</p>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">07</span></div>
   </section>
 
-  <!-- 11 ─────────────────────────────────────────────── -->
+  <!-- 8 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Hosting</span>
-    <h2>One container, one origin</h2>
+    <span class="kicker">5 · Proof</span>
+    <h2>One container, one URL</h2>
     <div class="row grow">
       <div class="col pipe">
-        <div class="node c"><span class="tag">DOCKER</span><span class="name">Vite build → Node runtime</span><span class="desc">client/dist + Express</span></div>
+        <div class="node c"><span class="tag">DOCKER</span><span class="name">Built app + API</span><span class="desc">Vite build + Express</span></div>
         <div class="arrow">↓</div>
-        <div class="node c"><span class="tag">RENDER</span><span class="name">trackstack-zin9.onrender.com</span><span class="desc">one service, HTTPS</span></div>
+        <div class="node c"><span class="tag">RENDER</span><span class="name">trackstack-zin9.onrender.com</span><span class="desc">HTTPS · one service</span></div>
         <div class="arrow">↓</div>
-        <div class="node p"><span class="tag">POSTGRES</span><span class="name">Managed Postgres 16</span><span class="desc">migrations run at boot</span></div>
+        <div class="node p"><span class="tag">POSTGRES</span><span class="name">Managed Postgres 16</span><span class="desc">data and sessions</span></div>
       </div>
       <div class="col">
         <div class="card" style="margin-bottom:14px">
           <h3>Why one service</h3>
-          <p>Same origin → the cookie stays <span class="mono">SameSite=Lax</span>, no CORS, one URL for the demo. Migrations are numbered SQL files and run at container start; they're idempotent, so every redeploy is safe.</p>
+          <p>The pages and the API share one origin, so the login cookie just works and there is
+          no CORS. One link to demo.</p>
         </div>
         <div class="card">
-          <h3>Also documented</h3>
-          <p>The split option — Netlify for the client, Railway for the API — plus a local-only <span class="mono">docker compose</span> path. The image is portable to any container host.</p>
+          <h3>Safe redeploys</h3>
+          <p>Migrations run at container start and can be repeated. A split hosting option and a
+          local Docker path are documented.</p>
         </div>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">11</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">08</span></div>
   </section>
 
-  <!-- 12 ─────────────────────────────────────────────── -->
+  <!-- 9 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Verification</span>
-    <h2>How do I know it works?</h2>
+    <span class="kicker">5 · Proof</span>
+    <h2>How I know it works</h2>
     <div class="grid-3 grow">
       <div class="card hi">
-        <h3>128 tests</h3>
-        <p>13 files. Server suites run the real Express app against a real Postgres test database via Supertest — migrations, constraints, ownership and authz included.</p>
+        <h3>128 automated tests</h3>
+        <p>The real API runs against a real Postgres database: ownership, constraints and permissions are covered.</p>
       </div>
       <div class="card">
-        <h3>Real container</h3>
-        <p>The production image builds, boots, migrates, serves the SPA and the API, handles deep links, and logs in — verified locally before deploying.</p>
+        <h3>The live site</h3>
+        <p>The production container builds, migrates, serves the app, handles deep links and logs in.</p>
       </div>
       <div class="card">
-        <h3>Seeded demo</h3>
-        <p>One repeatable seed: two collectors, three shelves, copy details, wantlist, journal, a story, a follower. Never an empty screen.</p>
+        <h3>The demo data</h3>
+        <p>Two collectors, three shelves, a wantlist, a journal and a story. The app is never empty.</p>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">12</span></div>
+    <p class="small" style="margin-top:16px">The same client also runs as an Android app.</p>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09</span></div>
   </section>
 
-  <!-- 13 ─────────────────────────────────────────────── -->
+  <!-- 10 ─────────────────────────────────────────────── -->
   <section class="slide">
-    <span class="kicker">Reflection</span>
-    <h2>What went well, what didn't</h2>
+    <span class="kicker">6 · Reflection</span>
+    <h2>What worked, what didn't</h2>
     <div class="grid-3 grow">
       <div class="card">
-        <h3 class="sage">Worked</h3>
-        <p style="margin-bottom:10px">• Schema decided first — every feature followed from it<br/>• Small commits, one feature at a time<br/>• AI wrote the code; I chose the boundaries<br/>• Layers kept generated code coherent</p>
+        <h3 style="color:var(--sage)">Worked</h3>
+        <p>Schema first, so every feature followed<br/>One feature per commit<br/>AI wrote code inside boundaries I set</p>
       </div>
       <div class="card">
-        <h3 class="rose">Didn't</h3>
-        <p style="margin-bottom:10px">• Scope — the 2.0 features took twice as long as 1.0<br/>• First pass looked like every other AI app<br/>• Free hosting sleeps; a demo-day risk<br/>• No backups on a free database</p>
+        <h3 style="color:var(--rose)">Didn't</h3>
+        <p>Scope was too big<br/>The first UI looked generic<br/>Free hosting sleeps on demo day</p>
       </div>
       <div class="card hi">
-        <h3>Learnt</h3>
-        <p style="margin-bottom:10px">• A "collection" is a join table plus copy details, not a list of ids<br/>• Testing the real database caught what mocks hid<br/>• Scope control is a technical skill</p>
+        <h3>Learned</h3>
+        <p>A collection is a join table, not a list<br/>Real-database tests catch more<br/>Saying no is part of design</p>
       </div>
     </div>
-    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">13</span></div>
+    <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">10</span></div>
   </section>
 
-  <!-- 14 ─────────────────────────────────────────────── -->
+  <!-- 11 ─────────────────────────────────────────────── -->
   <section class="slide title-slide">
-    <span class="kicker">Thanks</span>
+    <span class="kicker">6 · Reflection</span>
     <h1>Questions?</h1>
     <div class="rule"></div>
-    <p class="lead">Happy to go deeper on the schema, the API,<br/>the security model or the deployment.</p>
+    <p class="lead">Happy to go deeper on the data model,<br/>the API, security or hosting.</p>
     <div class="row" style="margin-top:44px; gap:44px">
       <div><p class="small" style="margin:0">Live<br/><span class="accent" id="live-url">trackstack-zin9.onrender.com</span></p></div>
       <div><p class="small" style="margin:0">Repo<br/><span class="accent">github.com/josephgreville/trackstack-v2</span></p></div>
-      <div><p class="small" style="margin:0">Docs<br/><span class="accent">docs/architecture.md</span></p></div>
+      <div><p class="small" style="margin:0">Plain English<br/><span class="accent">docs/plain-english.md</span></p></div>
     </div>
-    <div class="foot"><span>Joseph Greville</span><span class="pagenum">14</span></div>
+    <div class="foot"><span>Joseph Greville</span><span class="pagenum">11</span></div>
   </section>
-
 </div>
 
 <div id="progress" style="width:0"></div>
 <div id="chrome">
-  <span id="counter">1 / 14</span>
+  <span id="counter">1 / 11</span>
   <span id="clock">00:00</span>
   <span class="spacer"></span>
   <span><kbd>←</kbd> <kbd>→</kbd> navigate</span>
@@ -655,38 +582,28 @@
 
 <script>
   const NOTES = [
-    `0:00 — Title. Say: "This is TrackStack — a web app for people who collect records. You browse a catalogue, build multiple collections, track the condition and price of each copy, keep a wantlist, and share your shelves."`,
+    `0:00 — Title. Say: "TrackStack is a web app for people who collect records. In the next six minutes I'll show you what it does, how it works, and what I learned building it."`,
 
-    `0:15 — The brief. "The brief asked for people who share an interest to share information about their things. I chose records because the data is genuinely relational — one record can sit in many collections, and each copy has its own format, condition and price. That's the interesting modelling problem in it."
-If asked why not books: "The schema is nearly identical — swap album for book and add ISBN/author instead of iTunes ids."`,
+    `0:15 — What it is. "There is a shared catalogue of albums. You add your own copy to a shelf. The copy is yours: its format, condition and price. You can keep several shelves and share one with a link. The brief offered Route A or B; I chose records."`,
 
-    `0:50 — Data model. "Album metadata is global — one row per record, shared. But my copy of it is personal: format, condition, price, purchase date live on the join table. Two people owning the same pressing never duplicate the row. Sixteen tables in total."
-Extra sentence if needed: "Likes and comments use a polymorphic target_type + target_id instead of two nullable foreign keys — one index serves both; the trade-off is the database can't check the reference, so the service looks the target up before every write."`,
+    `0:40 — What you can do. "Six actions: find a record, add your copy, build shelves, keep a wantlist, share a shelf, and follow other collectors. There is also a journal, stories, badges and a yearly recap."`,
 
-    `1:15 — Screens. Don't read the list. Say: "Seven screens from the brief, plus the extras — wantlist, journal, stories, community, badges and Wrapped."`,
-
-    `1:25 — Demo. Switch to the app now. Ten steps, about eighty seconds. Narrate the journey, not the UI elements.
+    `0:50 — Demo. Switch to the app now. Roughly ninety seconds. Follow one record: register, home, search Daft Punk, open the album, add the copy, show the stats, the shelf room and the share link, then community and phone width. Narrate the journey, not the widgets.
 Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, the public "Vinyl Shelf" shared, browser at ~1100px then dragged to 390px, audio muted.`,
 
-    `2:45 — Architecture. "One monorepo: React 19 client, Express 5 API, PostgreSQL 16. iTunes is the third-party catalogue — but every call goes through our server, never from the browser."
-Point at the layers box: "routes → controllers → services → SQL. Controllers never write SQL, services never touch req/res — that's what makes it testable."`,
+    `2:20 — How it works. "The browser talks to our API; the API talks to Postgres. iTunes only supplies catalogue data, and only the API calls it. One repo, one deploy."`,
 
-    `3:15 — Why. Pick two or three rows, don't read all five. Postgres is the strongest answer: "I wanted the database to enforce it — foreign keys, CHECK constraints on format and condition, unique indexes on lower(email)."`,
+    `2:55 — The key idea. "The album row is shared. Your copy is a separate row that links your shelf to that album and holds condition, price and notes. So editing your copy never changes anyone else's record."`,
 
-    `3:50 — API. "Version 1 is the original surface; the 2.0 features live under /2 so the published endpoints never changed shape. Every body, param and query is validated with zod before it reaches SQL, and there's one JSON error shape for everything."`,
+    `3:45 — Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: thick outlines, solid shadows, pill buttons and springy motion — and it respects reduced motion."`,
 
-    `4:10 — Security. "There are no API keys to leak — the iTunes API doesn't need one, and all calls are server-side. The only secrets are DATABASE_URL and SESSION_SECRET, in environment variables, with .env git-ignored. Sessions are server-side in Postgres and revocable. Every personal query is scoped by user_id inside the service layer, and another user's collection returns 404 rather than 403, so it doesn't even confirm it exists."`,
+    `4:25 — Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
 
-    `4:40 — Design. "The layout was designed before the code. On desktop the five tabs are a left rail; under 768px they become a floating dock at the bottom, because a thumb reaches the bottom of a phone but not the top. The visual language is a sticker book — two-pixel outlines, solid offset shadows, pill buttons, spring motion — and the palette is token-driven."
-If asked about process: "The first pass was generic. I rebuilt it with a deliberate voice."`,
+    `4:50 — Proof. "128 automated tests against a real Postgres database, plus the live container and seeded demo data. It works."`,
 
-    `5:05 — Hosting. "One container runs the API and serves the client, so it's a single origin — first-party cookie, no CORS. Migrations are numbered SQL files that run at container start and are idempotent, so redeploys are safe."`,
+    `5:15 — Reflection. "What worked: schema first, small commits, and AI writing code inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design."`,
 
-    `5:20 — Verification. "128 tests across 13 files against real Postgres — migrations, constraints, ownership, authz. I also built and ran the production container locally before deploying."`,
-
-    `5:30 — Reflection. "What went well: schema first, so every feature was obvious. What didn't: the 2.0 feature set took twice as long as 1.0, and the first UI was generic AI output I had to push into something with a voice. What I learnt: the interesting part isn't the CRUD, it's modelling a copy versus a catalogue entry."`,
-
-    `5:55 — Close. "Happy to go deeper on the schema, the API, the security model or the deployment." Then stop talking and let the questions come.`
+    `5:55 — Close. "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and take questions.`
   ];
 
   const slides = Array.from(document.querySelectorAll('.slide'));

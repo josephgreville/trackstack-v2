@@ -12,16 +12,17 @@ Every application page requires an account. Signed-out visitors are sent to logi
 
 | Deliverable | Where it is |
 |---|---|
+| **Read this first** | [`docs/plain-english.md`](docs/plain-english.md) — what TrackStack is, in plain English, with no jargon |
 | **Brief** | [`docs/brief.md`](docs/brief.md) — Route B: records (the brief allows either route) |
 | **Architecture doc** | [`docs/architecture.md`](docs/architecture.md) — stack, data model, API, security, hosting and risks |
 | **Page designs** | [`docs/page-designs.md`](docs/page-designs.md) — desktop and mobile wireframes mapped to shipped routes |
 | **GitHub repo** | <https://github.com/josephgreville/trackstack-v2> — public, `main` is the deployed commit |
 | **Live URL / hosting plan** | <https://trackstack-zin9.onrender.com> · plan and runbook in [`docs/hosting.md`](docs/hosting.md) |
-| **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (14-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
+| **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (11-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
 
 The presentation is **10 minutes: 6 minutes presenting, 4 minutes of questions**. The deck's
 speaker notes carry a per-slide time budget; the demo journey is in
-[`docs/presentation.md`](docs/presentation.md) under **Beat 3**.
+[`docs/presentation.md`](docs/presentation.md) under **Slide 4**.
 
 A single upload-ready pack — the combined PDF, the slide deck as PDF, and the PowerPoint — is in
 [`submission/`](submission/), with a `README.txt` listing the links and demo logins.
@@ -142,11 +143,12 @@ repository root.
 
 | Document | What it covers |
 |---|---|
+| [`docs/plain-english.md`](docs/plain-english.md) | The app explained without jargon — read this first |
 | [`docs/brief.md`](docs/brief.md) | Assignment brief, Route B scope, acceptance criteria and evidence |
 | [`docs/architecture.md`](docs/architecture.md) | Stack rationale, data model, endpoint reference, security, risks |
 | [`docs/hosting.md`](docs/hosting.md) | Deployment runbook, env reference, pre-demo checklist |
 | [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
 | [`docs/presentation.md`](docs/presentation.md) | 10-minute presentation: slides, demo journey, Q&A prep |
 | [`docs/presentation/index.html`](docs/presentation/index.html) | The slide deck itself — open it in a browser and present |
-| [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) | The same 14 slides as a PowerPoint file, with speaker notes |
+| [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) | The same 11 slides as a PowerPoint file, with speaker notes |
 | [`docs/testing.md`](docs/testing.md) | How the test suites are structured and run |
