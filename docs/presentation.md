@@ -13,8 +13,9 @@ deck. Open it in a browser and present it; this document is the script and the Q
 | **PDF** | `Ctrl` + `P` prints one slide per page at 16:9 |
 | **Deep link** | `…/index.html#slide-7` opens straight to a slide |
 
-**Before you present:** change the live URL on the closing slide (search the file for
-`trackstack.onrender.com`) once Render has given you one.
+**Live URL:** `https://trackstack-zin9.onrender.com` is already set on the closing slide and in the
+PowerPoint. If you redeploy under a different URL, update `docs/presentation/index.html` and the
+`LIVE_URL` default in `scripts/build-pptx.cjs`, then run `npm run deck:pptx`.
 
 **Format:** 10 minutes total — 6 minutes presenting, 4 minutes questions.
 **Slides:** keep to the words shown. The script notes are what you *say*, not what you read.

@@ -24,7 +24,7 @@ services:
       - key: SESSION_SECRET
         generateValue: true
       - key: CLIENT_ORIGIN
-        value: https://trackstack.onrender.com
+        value: https://trackstack-zin9.onrender.com
       - key: COOKIE_SAMESITE
         value: lax
       - key: TRUST_PROXY

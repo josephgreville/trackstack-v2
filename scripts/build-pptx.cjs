@@ -10,7 +10,7 @@ const pptxgen = require('pptxgenjs');
 const ROOT = path.join(__dirname, '..');
 const HTML = path.join(ROOT, 'docs', 'presentation', 'index.html');
 const OUT = path.join(ROOT, 'docs', 'presentation', 'TrackStack-Presentation.pptx');
-const LIVE_URL = process.env.LIVE_URL || 'trackstack.onrender.com';
+const LIVE_URL = process.env.LIVE_URL || 'trackstack-zin9.onrender.com';
 
 const C = {
   paper: '1E1C1B',

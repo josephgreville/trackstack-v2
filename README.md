@@ -6,6 +6,8 @@ TrackStack lets you discover albums, organise a personal collection, record copy
 
 Every application page requires an account. Signed-out visitors are sent to login and returned to their requested page after signing in; new users can register from the login screen.
 
+**Live demo:** <https://trackstack-zin9.onrender.com> — sign in with `joey@example.com` / `Password123!` (or `sam@example.com` / `Password123!`). The free instance sleeps after 15 minutes idle, so the first request can take ~30 seconds.
+
 ## The app
 
 TrackStack is organised as five tabs, like a mobile app. Everything else lives one level deeper, inside a tab.

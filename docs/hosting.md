@@ -13,7 +13,7 @@ because the client is already a static bundle and the Android app needs an absol
 * The client and the API share one origin → the session cookie can stay `SameSite=Lax`, there is
   no CORS preflight, and CSRF defences stay at their strongest.
 * The Express app already serves `client/dist` in production, so one container is the whole app.
-* One URL for the demo: `https://trackstack.onrender.com`.
+* One URL for the demo: `https://trackstack-zin9.onrender.com`.
 * `render.yaml` in this repo is a Blueprint: it creates the service *and* the database with the
   right environment variables already set.
 
@@ -43,7 +43,7 @@ Render fills these from the Blueprint. Confirm in *Environment*:
 | `NODE_ENV` | `production` | Enables static serving of `client/dist` |
 | `DATABASE_URL` | from the database | Set automatically by the Blueprint |
 | `SESSION_SECRET` | generated | `generateValue: true` in the Blueprint — rotate it if you ever leak it |
-| `CLIENT_ORIGIN` | `https://trackstack.onrender.com` | Must match the public URL exactly, no trailing slash |
+| `CLIENT_ORIGIN` | `https://trackstack-zin9.onrender.com` | Must match the public URL exactly, no trailing slash |
 | `COOKIE_SECURE` | `true` (implied) | Forced on when `NODE_ENV=production` |
 | `COOKIE_SAMESITE` | `lax` | One origin, so `Lax` is safe and stronger than `None` |
 | `TRUST_PROXY` | `true` | Render terminates TLS in front of the service |
@@ -66,7 +66,7 @@ TrackStack API listening on http://localhost:4000 (production)
 **Step 5 — smoke test**
 
 ```sh
-curl https://trackstack.onrender.com/api/v1/health
+curl https://trackstack-zin9.onrender.com/api/v1/health
 # {"status":"ok","service":"trackstack-api"}
 ```
 
@@ -86,23 +86,24 @@ Seed complete.
   sam_beats  ·  sam@example.com   ·  Password123!
 ```
 
-> **If your URL is not `https://trackstack.onrender.com`** (the name is taken, or you renamed the
-> service), update `CLIENT_ORIGIN` in the service's *Environment* tab to your exact URL, then
-> **Save & Deploy**. If it doesn't match, login silently fails — the cookie is rejected and the
-> browser bounces you back to the login screen.
+> **This deployment's URL is `https://trackstack-zin9.onrender.com`** — Render appended `-zin9`
+> because the plain `trackstack` name was already taken. If you deploy to a different URL, update
+> `CLIENT_ORIGIN` in the service's *Environment* tab to that exact URL, then **Save & Deploy**. If
+> it doesn't match, login silently fails — the cookie is rejected and the browser bounces you back
+> to the login screen.
 
 **Step 7 — verify the whole thing**
 
 ```sh
 # API
-curl -s https://trackstack.onrender.com/api/v1/health
+curl -s https://trackstack-zin9.onrender.com/api/v1/health
 
 # SPA served by the same container
-curl -s -o /dev/null -w '%{http_code}\n' https://trackstack.onrender.com/
+curl -s -o /dev/null -w '%{http_code}\n' https://trackstack-zin9.onrender.com/
 # 200
 
 # Deep link falls back to index.html
-curl -s -o /dev/null -w '%{http_code}\n' https://trackstack.onrender.com/collections
+curl -s -o /dev/null -w '%{http_code}\n' https://trackstack-zin9.onrender.com/collections
 # 200
 ```
 
@@ -116,7 +117,7 @@ safe.
 
 ### Custom domain (optional)
 
-Render → *Settings → Custom Domains* → point a CNAME at `trackstack.onrender.com`. Then update
+Render → *Settings → Custom Domains* → point a CNAME at `trackstack-zin9.onrender.com`. Then update
 `CLIENT_ORIGIN` to the new domain and redeploy.
 
 ### Free-tier caveats
@@ -263,7 +264,7 @@ git-ignored; `.env.example` is the committed template.
 
 ```sh
 # 1. The service is awake (free tier sleeps after 15 minutes)
-curl -s https://trackstack.onrender.com/api/v1/health
+curl -s https://trackstack-zin9.onrender.com/api/v1/health
 
 # 2. The database is reachable and migrated
 npm run db:migrate

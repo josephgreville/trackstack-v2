@@ -324,7 +324,7 @@ Why one service:
    is no CORS preflight on every request. Simpler and safer.
 2. The Express app already serves `client/dist` in production (`server/src/app.js`), so one
    container covers both halves of the app.
-3. One URL for the demo: `https://trackstack.onrender.com` serves the whole app, and
+3. One URL for the demo: `https://trackstack-zin9.onrender.com` serves the whole app, and
    `/api/v1/health` is the health check.
 4. A split deployment (Netlify + Railway) is still supported and is written up as **Option B** in
    the hosting doc — it needs `VITE_API_URL`, a `CLIENT_ORIGIN` allow-list and
