@@ -11,6 +11,14 @@ const api = '/api/v1';
 beforeEach(resetTestDatabase);
 
 describe('Security boundaries', () => {
+  it('allows iTunes audio previews through the content security policy', async () => {
+    const response = await request(app).get(`${api}/auth/me`);
+
+    expect(response.headers['content-security-policy']).toContain(
+      "media-src 'self' https://audio-ssl.itunes.apple.com https://audio.itunes.apple.com",
+    );
+  });
+
   it('rejects forged session cookies on protected endpoints', async () => {
     const response = await request(app)
       .get(`${api}/collections`)

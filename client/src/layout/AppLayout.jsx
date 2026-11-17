@@ -97,6 +97,34 @@ export default function AppLayout() {
               {mobileMenuOpen ? <IconClose /> : <IconMenu />}
             </button>
           </div>
+
+          <nav id="mobile-primary-navigation" className="app-mobile-nav" aria-label="Mobile menu" hidden={!mobileMenuOpen}>
+            {TABS.map(({ to, label, Icon, match }) => {
+              const active = match(location.pathname);
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  aria-current={active ? 'page' : undefined}
+                  className={cx(active && 'is-active')}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="app-nav-icon" aria-hidden="true"><Icon size={20} /></span>
+                  <span>{label}</span>
+                </Link>
+              );
+            })}
+
+            {!isLoading && user && (
+              <div className="app-mobile-nav-user">
+                <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="app-avatar" aria-hidden="true">{initials(user.username)}</span>
+                  <span><strong>{user.username}</strong><small>Your profile</small></span>
+                </Link>
+                <Button type="button" variant="outline" size="sm" onClick={handleLogout}>Log out</Button>
+              </div>
+            )}
+          </nav>
         </header>
 
         <main className="app-main player-safe-area">

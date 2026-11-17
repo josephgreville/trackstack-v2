@@ -171,6 +171,38 @@
   .app-mobile-actions { display: flex; align-items: center; gap: .4rem; }
   .app-menu-toggle { width: 40px; height: 40px; min-height: 40px; }
   .notification-bell { width: 40px; height: 40px; }
+
+  /* The menu opens under the sticky header and scrolls on short screens. */
+  .app-mobile-nav {
+    top: 58px;
+    max-height: calc(100vh - 58px);
+    max-height: calc(100dvh - 58px);
+    overflow-y: auto;
+  }
+  .app-mobile-nav a.is-active {
+    color: var(--orange);
+    background: var(--orange-soft);
+  }
+  .app-mobile-nav-user {
+    display: grid;
+    gap: .55rem;
+    margin-top: .35rem;
+    padding-top: .7rem;
+    border-top: 1px solid var(--line);
+  }
+  .app-mobile-nav-user > a {
+    gap: .7rem;
+  }
+  .app-mobile-nav-user strong,
+  .app-mobile-nav-user small {
+    display: block;
+  }
+  .app-mobile-nav-user small {
+    color: var(--brown-light);
+  }
+  .app-mobile-nav-user .btn {
+    width: 100%;
+  }
 }
 
 /* --- Bottom tab dock --------------------------------------------------- */

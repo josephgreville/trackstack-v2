@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastProvider } from '../context/ToastContext.jsx';
@@ -172,6 +172,33 @@ describe('Home page', () => {
       expect(screen.getAllByRole('link', { name: label }).length).toBeGreaterThan(0);
     }
     expect(screen.getByRole('button', { name: 'Open navigation' })).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('opens the mobile menu from the header button', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <ToastProvider>
+          <AppLayout />
+        </ToastProvider>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByRole('navigation', { name: 'Mobile menu' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation' }));
+
+    const menu = screen.getByRole('navigation', { name: 'Mobile menu' });
+    expect(menu).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Close navigation' })).toHaveAttribute('aria-expanded', 'true');
+    for (const label of ['Home', 'Discover', 'Stacks', 'Community', 'You']) {
+      expect(within(menu).getByRole('link', { name: label })).toBeInTheDocument();
+    }
+    expect(within(menu).getByRole('link', { name: /listener/i })).toBeInTheDocument();
+    expect(within(menu).getByRole('button', { name: 'Log out' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Close navigation' }));
+    expect(screen.queryByRole('navigation', { name: 'Mobile menu' })).not.toBeInTheDocument();
   });
 
   it('renders featured albums, recent albums, collections and navigates searches', async () => {
