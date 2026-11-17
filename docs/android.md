@@ -50,11 +50,13 @@ For a physical device the server must be reachable from the phone, so start it
 on `0.0.0.0` rather than `localhost`, and allow the port through your
 firewall.
 
-> **Local demo state:** `capacitor.config.json` currently sets
-> `server.url` to `http://10.0.2.2:4001`, so the emulator loads the app from
-> the local production container (single origin, session cookies work over
-> HTTP). Before shipping a release APK, remove `server.url` and rebuild with
-> `VITE_API_URL` pointed at the deployed HTTPS API.
+> **Demo state:** `capacitor.config.json` sets `server.url` to
+> `https://trackstack-zin9.onrender.com`, so the native app loads the deployed
+> build directly (single origin, session cookies work over HTTPS). To develop
+> offline, point `server.url` at the local production container
+> (`http://10.0.2.2:4001`) and rebuild. Before shipping a release APK, remove
+> `server.url` and build with `VITE_API_URL` pointing at the deployed HTTPS
+> API — then follow the cross-site cookie section below.
 
 You can also change the address at runtime from **You → Server connection**
 in the app, which is handy when testing against several machines. The value

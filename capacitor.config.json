@@ -5,7 +5,7 @@
   "loggingBehavior": "none",
   "server": {
     "androidScheme": "https",
-    "url": "http://10.0.2.2:4001",
+    "url": "https://trackstack-zin9.onrender.com",
     "cleartext": true
   },
   "android": {
