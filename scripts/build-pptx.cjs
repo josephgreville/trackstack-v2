@@ -179,8 +179,8 @@ function build() {
   pptx.layout = 'LAYOUT_WIDE';
   pptx.author = 'Joseph Greville';
   pptx.company = 'TrackStack';
-  pptx.subject = 'Route B final project — a web app for sharing record collections';
-  pptx.title = 'TrackStack — Final Project Presentation';
+  pptx.subject = 'Route B final project: a web app for sharing record collections';
+  pptx.title = 'TrackStack: Final Project Presentation';
   pptx.lang = 'en-GB';
   pptx.theme = { headFontFace: HEAD, bodyFontFace: BODY, lang: 'en-GB' };
 
@@ -194,7 +194,7 @@ function build() {
 
   /* 1 · title */
   add(1, (s) => {
-    kicker(s, 'Final Project · Route B — records');
+    kicker(s, 'Final Project · Route B: records');
     s.addText('TrackStack', {
       x: 0.85, y: 1.25, w: 11.6, h: 1.1,
       fontFace: HEAD, fontSize: 54, bold: true, color: C.cream, margin: 0,
@@ -214,14 +214,14 @@ function build() {
 
   /* 2 · the idea */
   add(2, (s) => {
-    kicker(s, '1 · The idea — what it is');
+    kicker(s, '1 · The idea: what it is');
     heading(s, 'One album. Many collections. Your copy.');
     subtitle(s, 'The album is shared. The physical record on your shelf is personal.');
     bullets(s, M, 2.55, 6.3, 3.7, [
       'A record lives in a shared catalogue.',
       'Your copy has its own format, condition and price.',
       'A collection is a shelf you can share.',
-      'The brief offers Route A or B — I chose records.',
+      'The brief offers Route A or B. I chose records.',
     ], 16);
     card(s, 7.35, 2.5, 5.2, 3.7, 'The interesting part',
       'One album can sit in many collections, but your copy is personal. Its condition and price belong to you, not to the album. That is the relationship this app is built around.',
@@ -230,7 +230,7 @@ function build() {
 
   /* 3 · six things */
   add(3, (s) => {
-    kicker(s, '1 · The idea — what you can do');
+    kicker(s, '1 · The idea: what you can do');
     heading(s, 'Six things you can do');
     subtitle(s, 'Find it, keep it, organise it, share it, and follow other collectors.');
     const items = [
@@ -252,7 +252,7 @@ function build() {
 
   /* 4 · demo */
   add(4, (s) => {
-    kicker(s, '2 · Demo — what I will show you');
+    kicker(s, '2 · Demo: what I will show you');
     heading(s, "The demo: one record's journey");
     subtitle(s, 'From a search to a shared shelf in about ninety seconds.');
     const steps = [
@@ -294,24 +294,24 @@ function build() {
 
   /* 5 · how it works */
   add(5, (s) => {
-    kicker(s, '3 · How it works — the three layers');
+    kicker(s, '3 · How it works: the three layers');
     heading(s, 'Browser → our API → database');
     subtitle(s, 'Each layer has one job. The browser never talks to the database directly.');
     const nx = M, nw = 6.35, nh = 0.92;
-    node(s, nx, 2.5, nw, nh, 'CLIENT', 'The browser', 'React pages — shows what you see', C.coral);
+    node(s, nx, 2.5, nw, nh, 'CLIENT', 'The browser', 'React pages, showing what you see', C.coral);
     arrow(s, nx + nw / 2, 3.44);
     node(s, nx, 3.66, nw, nh, 'API', 'Our Express API', 'Checks every request and applies the rules', C.coral);
     arrow(s, nx + nw / 2, 4.6);
     node(s, nx, 4.82, nw, nh, 'DATA', 'PostgreSQL 16', 'Stores users, shelves and copies', C.sage);
     card(s, 7.5, 2.5, 5.08, 1.55, 'Where iTunes fits',
-      'iTunes supplies album information only. Our API calls it — the browser never does.', { bodySize: 12.5 });
+      'iTunes supplies album information only. Our API calls it. The browser never does.', { bodySize: 12.5 });
     card(s, 7.5, 4.25, 5.08, 1.5, 'One repo',
       'Client and API ship together: one install, one dev command, one deploy.', { bodySize: 12.5 });
   });
 
   /* 6 · the key idea */
   add(6, (s) => {
-    kicker(s, '3 · How it works — the one idea that matters');
+    kicker(s, '3 · How it works: the one idea that matters');
     heading(s, 'Shared album. Personal copy.');
     subtitle(s, "Store the album once. Store each person's copy separately.");
     const cw = 5.05, gap = 0.2, mid = 1.33;
@@ -348,7 +348,7 @@ function build() {
 
   /* 7 · design */
   add(7, (s) => {
-    kicker(s, '4 · Design — one app, two screens');
+    kicker(s, '4 · Design: one app, two screens');
     heading(s, 'Same app, two shapes');
     subtitle(s, 'One set of components. The navigation moves to where your thumb can reach.');
     const cw = 5.75, ch = 3.55;
@@ -387,14 +387,14 @@ function build() {
     s.addText('The same pages, stacked into a single column.', {
       x: mx + 0.22, y: TOP + 2.35, w: cw - 0.44, h: 0.6, fontFace: BODY, fontSize: 12.5, color: C.muted, margin: 0, valign: 'top',
     });
-    s.addText('Thick outlines, solid shadows, pill buttons and springy motion — and every animation respects reduced motion.', {
+    s.addText('Thick outlines, solid shadows, pill buttons and springy motion, and every animation respects reduced motion.', {
       x: M, y: 6.18, w: CW, h: 0.34, fontFace: BODY, fontSize: 11, color: C.muted, margin: 0,
     });
   });
 
   /* 8 · hosting */
   add(8, (s) => {
-    kicker(s, '5 · Proof — where it runs');
+    kicker(s, '5 · Proof: where it runs');
     heading(s, 'One container, one URL');
     subtitle(s, 'The pages and the API share one address, so login just works.');
     const nx = M, nw = 6.35, nh = 0.92;
@@ -402,7 +402,7 @@ function build() {
     arrow(s, nx + nw / 2, 3.44);
     node(s, nx, 3.66, nw, nh, 'RENDER', 'One service', `${LIVE_URL} · HTTPS`, C.coral);
     arrow(s, nx + nw / 2, 4.6);
-    node(s, nx, 4.82, nw, nh, 'POSTGRES', 'Managed database', 'Postgres 16 — data and sessions', C.sage);
+    node(s, nx, 4.82, nw, nh, 'POSTGRES', 'Managed database', 'Postgres 16 (data and sessions)', C.sage);
     card(s, 7.5, 2.5, 5.08, 1.55, 'Why one URL',
       'The pages and the API share one origin, so the login cookie works and there is no CORS. One link to demo.', { bodySize: 12.5 });
     card(s, 7.5, 4.25, 5.08, 1.5, 'Safe redeploys',
@@ -411,13 +411,13 @@ function build() {
 
   /* 9 · proof */
   add(9, (s) => {
-    kicker(s, '5 · Proof — how I know it works');
+    kicker(s, '5 · Proof: how I know it works');
     heading(s, 'Proof: it works');
     subtitle(s, 'Tests, a live deployment, and demo data that makes the app feel real.');
     const stats = [
       ['128', 'automated tests', 'The real API against a real Postgres database: ownership, constraints and permissions.'],
       ['1', 'live URL', 'The production container builds, migrates, serves the app, handles deep links and logs in.'],
-      ['3', 'seeded shelves', 'Two collectors, a wantlist, a journal and a story — so the app is never empty.'],
+      ['3', 'seeded shelves', 'Two collectors, a wantlist, a journal and a story, so the app is never empty.'],
     ];
     const cw = 3.75, gap = 0.25;
     stats.forEach(([big, title, body], i) => {
@@ -447,7 +447,7 @@ function build() {
 
   /* 10 · reflection */
   add(10, (s) => {
-    kicker(s, '6 · Reflection — what I learned');
+    kicker(s, '6 · Reflection: what I learned');
     heading(s, "What worked, what didn't");
     subtitle(s, "Three things I'd keep, three I'd change, and three lessons.");
     const cols = [
@@ -473,7 +473,7 @@ function build() {
 
   /* 11 · questions */
   add(11, (s) => {
-    kicker(s, '6 · Reflection — over to you');
+    kicker(s, '6 · Reflection: over to you');
     s.addText('Questions?', {
       x: 0.85, y: 1.45, w: 11.6, h: 1.1,
       fontFace: HEAD, fontSize: 54, bold: true, color: C.cream, margin: 0,

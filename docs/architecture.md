@@ -1,4 +1,4 @@
-# TrackStack — Architecture Document
+# TrackStack: Architecture Document
 
 **TrackStack** is a home for physical music collections: browse the iTunes catalogue, build multiple
 collections, track the format / condition / price of each copy, keep a wantlist and listening journal,
@@ -13,17 +13,17 @@ decisions, the hosting plan and the risks we know about.
 
 | Layer | Choice | Why |
 |---|---|---|
-| Language (API) | **JavaScript (ESM) on Node.js 20** | One language across client and server. The brief lets the AI write most of the code — a single language means one set of mental models and one linter/formatter config. Node is also the best-supported runtime for the "API + Postgres" pattern we need. |
+| Language (API) | **JavaScript (ESM) on Node.js 20** | One language across client and server. The brief lets the AI write most of the code. A single language means one set of mental models and one linter/formatter config. Node is also the best-supported runtime for the "API + Postgres" pattern we need. |
 | Framework (API) | **Express 5** | Small, boring, and the most-documented HTTP framework for Node. Express 5 has native async error propagation, which removed a whole class of "unhandled promise rejection" bugs. |
 | Database | **PostgreSQL 16** | The data is relational and highly relational-constraint friendly: users own collections, collections join albums, and we have follows, likes, comments and stories. Postgres gives us real foreign keys, `CHECK` constraints, `jsonb` for flexible metadata, transactional writes and a `connect-pg-simple` session store. A document DB would have meant hand-rolling integrity. |
 | DB access | **`pg` (node-postgres)** + a thin query layer | No heavyweight ORM. The queries are explicit SQL, which is easier to reason about for a graded project where "understand your database" matters. Writes that touch multiple tables run inside a transaction (`server/src/db/transaction.js`). |
-| Migrations | **Plain numbered `.sql` files** run by `server/src/db/migrate.js` | Version-controlled, reviewable, and idempotent — each file is applied once and recorded in `schema_migrations`. No migration framework to learn. |
+| Migrations | **Plain numbered `.sql` files** run by `server/src/db/migrate.js` | Version-controlled, reviewable, and idempotent. Each file is applied once and recorded in `schema_migrations`. No migration framework to learn. |
 | Validation | **zod** | Every request body, query and param is validated in a `validate()` middleware before a controller runs. Invalid input never reaches SQL. |
-| Auth | **`express-session` + `connect-pg-simple`** | Server-side sessions in the `sessions` table. The cookie is only a signed session id — no JWT in `localStorage`, so an XSS bug can't steal a long-lived token. Sessions are revocable server-side, which JWTs are not. |
+| Auth | **`express-session` + `connect-pg-simple`** | Server-side sessions in the `sessions` table. The cookie is only a signed session id. No JWT is stored in `localStorage`, so an XSS bug can't steal a long-lived token. Sessions are revocable server-side, which JWTs are not. |
 | Password hashing | **bcryptjs** | Pure-JS bcrypt, no native build step (important for a Dockerfile that must build anywhere). Cost factor is applied at hash time. |
 | Language (client) | **React 19** | Component model that maps cleanly to "one page = one component", and the ecosystem we know well. |
 | Routing | **React Router 7** | Declarative, nested routes with layouts, plus `RequireAuth` / `GuestOnly` guards. |
-| Build tool | **Vite 6** | Instant dev server, fast production builds, simple static output (`client/dist`) — the same folder can be served by Netlify *or* by Express in production. |
+| Build tool | **Vite 6** | Instant dev server, fast production builds, simple static output (`client/dist`). The same folder can be served by Netlify *or* by Express in production. |
 | Styling | **Tailwind CSS 3 + CSS variables** | Utility classes for layout consistency, a token file (`client/src/styles/tokens.css`) for the palette so the "sticker book" look lives in one place. |
 | Animation | **Framer Motion** | Spring physics and layout animation, all gated behind `prefers-reduced-motion`. |
 | Third-party API | **iTunes Search API** | Album catalogue + artwork + 30s preview clips. Chosen because it needs **no API key**, returns structured JSON, and is not rate-limited for a demo. All calls go through the server (`server/src/services/itunesService.js`), never from the browser. |
@@ -91,38 +91,38 @@ users ──┬──< collections ──< collection_albums >── albums
         └──< sessions  (server-side auth)
 ```
 
-**users** — `id`, `username`, `email`, `password_hash`, `xp`, `level`, `bio`, `avatar_url`,
+**users**: `id`, `username`, `email`, `password_hash`, `xp`, `level`, `bio`, `avatar_url`,
 `location`, `website`, `profile_public`, timestamps.
-Unique indexes on `lower(email)` and `lower(username)` — case-insensitive login without
+Unique indexes on `lower(email)` and `lower(username)`: case-insensitive login without
 colliding "Joey" and "joey".
 
-**collections** — `id`, `user_id` → users, `name`, `description`, `is_public`, `share_token`,
+**collections**: `id`, `user_id` → users, `name`, `description`, `is_public`, `share_token`,
 `shelf_theme`, `layout_pref`, timestamps.
-`UNIQUE (user_id, lower(name))` — one collector cannot have two "Vinyl" stacks.
+`UNIQUE (user_id, lower(name))`: one collector cannot have two "Vinyl" stacks.
 `share_token` is a random UUID used for read-only share links (`/share/:token`).
 
-**albums** — shared catalogue metadata: `id`, `title`, `artist`, `release_year`, `genre`,
+**albums**: shared catalogue metadata: `id`, `title`, `artist`, `release_year`, `genre`,
 `artwork_url`, `external_id` (the iTunes collection id, `UNIQUE`), `track_count`, `source`
 (`'itunes' | 'manual'`), timestamps.
 
 > **Design decision:** album *metadata* is global and shared, but a *copy* is personal. If two
-> people own the same pressing we do not duplicate the album row — we insert two rows into
+> people own the same pressing we do not duplicate the album row. We insert two rows into
 > `collection_albums`. The copy-specific fields (format, condition, price…) live on the join table.
 
-**collection_albums** — the join table, and also the "my copy" entity:
+**collection_albums**: the join table, and also the "my copy" entity:
 `collection_id`, `album_id` (composite PK), `added_at`, `format`, `condition`, `purchase_date`,
 `price`, `edition_notes`. `CHECK` constraints keep `format` in
 `vinyl|cassette|cd|digital|other` and `condition` in `mint…poor`, so bad data can't be inserted
 even if a client is bypassed.
 
-**sessions** — `sid`, `sess` (jsonb), `expire`. Required column names by `connect-pg-simple`.
+**sessions**: `sid`, `sess` (jsonb), `expire`. Required column names by `connect-pg-simple`.
 
 ### TrackStack 2.0 tables
 
 | Table | Purpose |
 |---|---|
 | `wantlist_items` | `(user_id, album_id)` PK, `preferred_edition`, `notes`, `priority` (1–3), `price_alert` |
-| `listening_history` | `listened_at`, `rating` (1–5), `review` — the journal |
+| `listening_history` | `listened_at`, `rating` (1–5), `review` (the journal) |
 | `listening_queue_items` | "listen next" queue with position ordering |
 | `listening_sessions` | playback sessions for the Wrapped recap |
 | `recommendations` | `kind` (similar / genre / hidden_gem / new_to_you), `score`, `dismissed` |
@@ -130,15 +130,15 @@ even if a client is bypassed.
 | `user_follows` | `(follower_id, following_id)` PK, no self-follow constraint |
 | `activity_feed` | `type`, `target_type`, `target_id`, `metadata` jsonb |
 | `notifications` | `type`, `actor_id`, `message`, `read` |
-| `likes` | `(user_id, target_type, target_id)` unique — polymorphic, likeable collections or albums |
-| `comments` | `target_type`, `target_id`, `body` — same polymorphic pattern |
+| `likes` | `(user_id, target_type, target_id)` unique. Polymorphic: collections or albums can be liked. |
+| `comments` | `target_type`, `target_id`, `body`, same polymorphic pattern |
 | `album_stories` | one personal memory per `(user_id, album_id)`, `location`, `occurred_at`, `is_public` |
 | `album_photos` | photos of the physical record, `is_cover`, optional `story_id` |
 
 **Polymorphic targets** (`likes`, `comments`) deliberately use `target_type` + `target_id` instead of
 two nullable FK columns: one index serves both target types, and the code has a single
-like/unlike path. The trade-off is that the database cannot enforce the foreign key for you —
-mitigated by never accepting a `target_type`/`target_id` pair without a lookup inside the same
+like/unlike path. The trade-off is that the database cannot enforce the foreign key for you.
+Mitigated by never accepting a `target_type`/`target_id` pair without a lookup inside the same
 service call.
 
 ### Indexes
@@ -247,7 +247,7 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 - Mutating routes use the correct verb and status code (`201` on create, `204` on delete).
 - Versioning: `/api/v1` for the original surface, `/api/v1/2/*` for the 2.0 feature groups, so the
   original endpoints never change shape underneath a published client.
-- `GET /api/v1/health` returns `{"status":"ok"}` after a real `SELECT 1` — used by the host's
+- `GET /api/v1/health` returns `{"status":"ok"}` after a real `SELECT 1`. Used by the host's
   health check.
 
 ---
@@ -257,13 +257,13 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 | Concern | What we did |
 |---|---|
 | Secrets | `.env` is git-ignored; `.env.example` documents every variable with no real values. The only secrets are `DATABASE_URL` and `SESSION_SECRET` (32+ chars enforced in production). |
-| Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and all upstream calls are made from `server/src/services/itunesService.js` — the browser never talks to Apple directly, so no key *could* end up in front-end code. |
+| Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and all upstream calls are made from `server/src/services/itunesService.js`. The browser never talks to Apple directly, so no key *could* end up in front-end code. |
 | Password storage | bcryptjs hash, never logged, never returned by any endpoint. |
 | Sessions | Signed, `httpOnly` cookie (`ts.sid`), `SameSite=Lax` locally and `SameSite=None; Secure` in production (needed because the native Android app and a Netlify-hosted client are different origins). Session rows are stored server-side and can be revoked. |
 | XSS | React escapes by default; a strict Content-Security-Policy is set via helmet (`script-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`). No `dangerouslySetInnerHTML` anywhere. |
 | CSRF | `SameSite` cookies + an origin allow-list check on every request that carries an `Origin` header + `credentials: 'include'` only for allow-listed origins. |
 | SQL injection | Parameterised queries only. No string-concatenated user input in SQL, ever. |
-| Brute force | `express-rate-limit` — a strict limiter on `/auth/login` and `/auth/register`, a general limiter on `/api`. |
+| Brute force | `express-rate-limit`, a strict limiter on `/auth/login` and `/auth/register`, a general limiter on `/api`. |
 | Authorisation | `requireAuth` for logged-in routes, and an ownership check inside every service that touches user data. |
 | Input limits | JSON body limited to 100 kB; string lengths constrained by zod *and* by `CHECK` constraints. |
 | Data leakage | Private collections, wantlist, journal and unpublished stories are filtered out of every public endpoint. |
@@ -327,7 +327,7 @@ Why one service:
 3. One URL for the demo: `https://trackstack-zin9.onrender.com` serves the whole app, and
    `/api/v1/health` is the health check.
 4. A split deployment (Netlify + Railway) is still supported and is written up as **Option B** in
-   the hosting doc — it needs `VITE_API_URL`, a `CLIENT_ORIGIN` allow-list and
+   the hosting doc. It needs `VITE_API_URL`, a `CLIENT_ORIGIN` allow-list and
    `COOKIE_SAMESITE=none`.
 
 Deployment artefacts that live in the repo:

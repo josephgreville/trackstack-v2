@@ -1,17 +1,17 @@
-# TrackStack — Project Brief
+# TrackStack: Project Brief
 
 | | |
 |---|---|
-| **Project** | TrackStack — a web app for people who collect records |
-| **Course** | Final Project — Vibe Coding Web App |
-| **Route chosen** | **Route B — records** |
+| **Project** | TrackStack, a web app for people who collect records |
+| **Course** | Final Project, Vibe Coding Web App |
+| **Route chosen** | **Route B: records** |
 | **Author** | Joseph Greville |
 | **Repo** | <https://github.com/josephgreville/trackstack-v2> |
 | **Live app** | <https://trackstack-zin9.onrender.com> |
 | **Demo login** | `joey@example.com` / `Password123!` |
 
 > **Route.** The brief lets you choose **Route A or Route B**. This project chose **Route B:
-> records** — users own collections, and collections hold records. The "Brief (Route A)" label in
+> records**. Users own collections, and collections hold records. The "Brief (Route A)" label in
 > the deliverables list refers to the brief document; no separate Route A app is required.
 
 ---
@@ -26,19 +26,19 @@ information about their things. The app must:
 - ship a **responsive** desktop and mobile interface;
 - keep **no private keys** in the frontend or in GitHub;
 - live in a **public GitHub repository** with a **public URL** (or a documented hosting plan);
-- be presented in **10 minutes** — 6 minutes presenting, 4 minutes of questions.
+- be presented in **10 minutes**: 6 minutes presenting, 4 minutes of questions.
 
 Deliverables: brief, architecture document, page designs, GitHub repo, live URL or hosting plan,
 and the presentation.
 
 ## 2. Route and domain
 
-**Route B — records.** TrackStack is a home for physical music collections. A collector browses a
+**Route B: records.** TrackStack is a home for physical music collections. A collector browses a
 real album catalogue, builds one or more collections, and records the details of their own copy:
 format, condition, purchase date, price and edition notes.
 
 **Why records:** the data is genuinely relational. One album can sit in many collections, while
-each physical *copy* is personal to its owner. That makes the join table — not the album table —
+each physical *copy* is personal to its owner. That makes the join table, not the album table,
 the interesting part of the model, which is exactly what the brief is asking students to
 demonstrate.
 
@@ -99,7 +99,7 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 
 **Deliberately out of scope**
 
-- Tags (designed but deferred — the schema pattern is documented in the Q&A prep).
+- Tags (designed but deferred; the schema pattern is documented in the Q&A prep).
 - Offline writes and background sync in the Android app.
 - Email verification, password reset and third-party sign-in.
 - Payments, recommendations learned from a model, and multi-region hosting.

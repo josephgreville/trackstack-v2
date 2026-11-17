@@ -6,17 +6,17 @@ TrackStack lets you discover albums, organise a personal collection, record copy
 
 Every application page requires an account. Signed-out visitors are sent to login and returned to their requested page after signing in; new users can register from the login screen.
 
-**Live demo:** <https://trackstack-zin9.onrender.com> — sign in with `joey@example.com` / `Password123!` (or `sam@example.com` / `Password123!`). The free instance sleeps after 15 minutes idle, so the first request can take ~30 seconds.
+**Live demo:** <https://trackstack-zin9.onrender.com>. Sign in with `joey@example.com` / `Password123!` (or `sam@example.com` / `Password123!`). The free instance sleeps after 15 minutes idle, so the first request can take ~30 seconds.
 
 ## Deliverables
 
 | Deliverable | Where it is |
 |---|---|
-| **Read this first** | [`docs/plain-english.md`](docs/plain-english.md) — what TrackStack is, in plain English, with no jargon |
-| **Brief** | [`docs/brief.md`](docs/brief.md) — Route B: records (the brief allows either route) |
-| **Architecture doc** | [`docs/architecture.md`](docs/architecture.md) — stack, data model, API, security, hosting and risks |
-| **Page designs** | [`docs/page-designs.md`](docs/page-designs.md) — desktop and mobile wireframes mapped to shipped routes |
-| **GitHub repo** | <https://github.com/josephgreville/trackstack-v2> — public, `main` is the deployed commit |
+| **Read this first** | [`docs/plain-english.md`](docs/plain-english.md): what TrackStack is, in plain English, with no jargon |
+| **Brief** | [`docs/brief.md`](docs/brief.md): Route B: records (the brief allows either route) |
+| **Architecture doc** | [`docs/architecture.md`](docs/architecture.md): stack, data model, API, security, hosting and risks |
+| **Page designs** | [`docs/page-designs.md`](docs/page-designs.md): desktop and mobile wireframes mapped to shipped routes |
+| **GitHub repo** | <https://github.com/josephgreville/trackstack-v2>. Public, `main` is the deployed commit |
 | **Live URL / hosting plan** | <https://trackstack-zin9.onrender.com> · plan and runbook in [`docs/hosting.md`](docs/hosting.md) |
 | **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (11-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
 
@@ -24,7 +24,7 @@ The presentation is **10 minutes: 6 minutes presenting, 4 minutes of questions**
 speaker notes carry a per-slide time budget; the demo journey is in
 [`docs/presentation.md`](docs/presentation.md) under **Slide 4**.
 
-A single upload-ready pack — the combined PDF, the slide deck as PDF, and the PowerPoint — is in
+A single upload-ready pack (the combined PDF, the slide deck as PDF, and the PowerPoint) is in
 [`submission/`](submission/), with a `README.txt` listing the links and demo logins.
 
 ## The app
@@ -40,6 +40,10 @@ TrackStack is organised as five tabs, like a mobile app. Everything else lives o
 | **You** | `/profile` | Level and XP, badges, stories, wantlist, journal and Wrapped |
 
 On desktop the tabs sit in a left-hand rail; on mobile they become a floating dock at the bottom of the screen.
+
+The same React build also runs as an Android app. The debug APK is
+`android/app/build/outputs/apk/debug/app-debug.apk`. It loads the deployed site, so the phone
+shows the same login, shelves and bottom dock. Build and run steps are in [`docs/android.md`](docs/android.md).
 
 ## Design
 
@@ -97,8 +101,8 @@ npm run db:seed      # optional: demo collector, collections, journal, social gr
 npm run dev
 ```
 
-`npm run db:seed` creates two demo accounts — `joey@example.com` and `sam@example.com`, both with
-the password `Password123!` — with collections, copy details, a wantlist, a listening journal, an
+`npm run db:seed` creates two demo accounts, `joey@example.com` and `sam@example.com`. Both use
+the password `Password123!` and have collections, copy details, a wantlist, a listening journal, an
 album story and a small social graph, so the app is never empty during a demo. The seed is
 repeatable and only touches those two accounts.
 
@@ -106,8 +110,8 @@ The web app runs on Vite and the API runs on Express. Run `npm test` for the cli
 
 ## Architecture
 
-- `client/` — React 19, React Router 7, Vite, Tailwind CSS and Framer Motion.
-- `server/` — Express 5 REST API with PostgreSQL, zod validation and server-side sessions.
+- `client/`: React 19, React Router 7, Vite, Tailwind CSS and Framer Motion.
+- `server/`: Express 5 REST API with PostgreSQL, zod validation and server-side sessions.
 
 Full stack rationale, data model, endpoint reference, security notes and risk register:
 **[`docs/architecture.md`](docs/architecture.md)**.
@@ -143,12 +147,12 @@ repository root.
 
 | Document | What it covers |
 |---|---|
-| [`docs/plain-english.md`](docs/plain-english.md) | The app explained without jargon — read this first |
+| [`docs/plain-english.md`](docs/plain-english.md) | The app explained without jargon. Read this first |
 | [`docs/brief.md`](docs/brief.md) | Assignment brief, Route B scope, acceptance criteria and evidence |
 | [`docs/architecture.md`](docs/architecture.md) | Stack rationale, data model, endpoint reference, security, risks |
 | [`docs/hosting.md`](docs/hosting.md) | Deployment runbook, env reference, pre-demo checklist |
 | [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
 | [`docs/presentation.md`](docs/presentation.md) | 10-minute presentation: slides, demo journey, Q&A prep |
-| [`docs/presentation/index.html`](docs/presentation/index.html) | The slide deck itself — open it in a browser and present |
+| [`docs/presentation/index.html`](docs/presentation/index.html) | The slide deck itself. Open it in a browser and present |
 | [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) | The same 11 slides as a PowerPoint file, with speaker notes |
 | [`docs/testing.md`](docs/testing.md) | How the test suites are structured and run |

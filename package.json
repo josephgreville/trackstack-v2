@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "TrackStack — a warm, tactile home for your music collection.",
+  "description": "TrackStack, a warm, tactile home for your music collection.",
   "workspaces": [
     "client",
     "server"

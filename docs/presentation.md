@@ -1,4 +1,4 @@
-# TrackStack — Presentation Script
+# TrackStack: Presentation Script
 
 **The deck itself is [`presentation/index.html`](presentation/index.html).** Open it in a browser
 and present from it; this document is the script and the Q&A prep behind it.
@@ -8,10 +8,10 @@ and present from it; this document is the script and the Q&A prep behind it.
 
 | | |
 |---|---|
-| **Deck** | `docs/presentation/index.html` — open in Chrome or Edge, no install, works offline |
-| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx` — 11 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
+| **Deck** | `docs/presentation/index.html`: open in Chrome or Edge, no install, works offline |
+| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx`: 11 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
 | **Navigate** | `→` / `Space` next · `←` previous · `Home` / `End` jump · `F` fullscreen |
-| **Speaker notes** | press `N` — each slide's script and timing are built in |
+| **Speaker notes** | press `N`: each slide's script and timing are built in |
 | **Timer** | press `T` to start/pause, `R` to reset |
 | **PDF** | `Ctrl` + `P` prints one slide per page at 16:9 |
 | **Deep link** | `…/index.html#slide-7` opens straight to a slide |
@@ -20,7 +20,7 @@ and present from it; this document is the script and the Q&A prep behind it.
 PowerPoint. If you redeploy under a different URL, update `docs/presentation/index.html` and the
 `LIVE_URL` default in `scripts/build-pptx.cjs`, then run `npm run deck:pptx`.
 
-**Format:** 10 minutes total — **6 minutes presenting, 4 minutes questions**.
+**Format:** 10 minutes total: **6 minutes presenting, 4 minutes questions**.
 **Slides:** the slides carry very few words on purpose. They are prompts, not a document.
 
 The talk is six short sections: **Idea → Demo → How it works → Design → Proof → Reflection**. The
@@ -33,10 +33,10 @@ then move on.
 
 | Slide | Section | Time | Running |
 |---|---|---|---|
-| **1 · Title** | — | 0:00–0:15 | 0:15 |
+| **1 · Title** | None | 0:00–0:15 | 0:15 |
 | **2 · One album. Many collections. Your copy.** | Idea | 0:15–0:40 | 0:40 |
 | **3 · Six things you can do** | Idea | 0:40–0:50 | 0:50 |
-| **4 · The demo: one record's journey** — *switch to the app* | Demo | 0:50–2:20 | 2:20 |
+| **4 · The demo: one record's journey** (*switch to the app*) | Demo | 0:50–2:20 | 2:20 |
 | **5 · Browser → our API → database** | How it works | 2:20–2:55 | 2:55 |
 | **6 · Shared album. Personal copy.** | How it works | 2:55–3:45 | 3:45 |
 | **7 · Same app, two shapes** | Design | 3:45–4:25 | 4:25 |
@@ -45,7 +45,7 @@ then move on.
 | **10 · What worked, what didn't** | Reflection | 5:15–5:55 | 5:55 |
 | **11 · Questions** | Reflection | 5:55–6:00 | 6:00 |
 
-Leave no slack in the plan — the times assume a normal speaking pace. If you are running late, the
+Leave no slack in the plan. The times assume a normal speaking pace. If you are running late, the
 two easiest cuts are the last line of slide 6 and the demo-data line on slide 9; both are written up
 in [`architecture.md`](architecture.md) and [`testing.md`](testing.md).
 
@@ -78,11 +78,11 @@ you what it does, how it works, and what I learned building it."
 A record lives in a shared catalogue
 Your copy has its own format, condition and price
 A collection is a shelf you can share
-The brief offers Route A or B — I chose records
+The brief offers Route A or B. I chose records
 ```
 
 **Say:** "There is a shared catalogue of albums. You add your own copy to a shelf. The copy is
-yours — its format, condition and price. You can keep several shelves and share one with a link.
+yours: its format, condition and price. You can keep several shelves and share one with a link.
 The brief offered Route A or B; I chose records, because the same album can be owned by many people
 but each copy is different."
 
@@ -96,16 +96,16 @@ Keep a wantlist · Share a shelf · Follow collectors
 ```
 
 **Say:** "Six actions: find a record, add your copy, build shelves, keep a wantlist, share a shelf,
-and follow other collectors. There is also a journal, album stories, badges and a yearly recap —
-those are extras."
+and follow other collectors. There is also a journal, album stories, badges and a yearly recap.
+Those are extras."
 
-**If asked why not books or board games:** "The schema would be nearly identical — I'd swap `album`
+**If asked why not books or board games:** "The schema would be nearly identical. I'd swap `album`
 for `book` and add ISBN and author instead of iTunes ids. The architecture was built to survive that
 swap."
 
 ---
 
-## Slide 4 · The demo: one record's journey (0:50–2:20) — *switch to the app*
+## Slide 4 · The demo: one record's journey (0:50–2:20) (*switch to the app*)
 
 The slide is a **four-step roadmap**. Leave it up for a second so the audience knows where the demo
 is going, then switch to the app.
@@ -117,28 +117,29 @@ Home dashboard       Album detail         Shelf, stats, wantlist  Community and 
                                                                     Resize to phone width
 ```
 
-### Inside those four steps — about 90 seconds
+### Inside those four steps (about 90 seconds)
 
 | Step | Screen | What I say (one line each) | Time |
 |---|---|---|---|
-| 1 | **Register / home** | "Register, then home — the dashboard." | 0:10 |
+| 1 | **Register / home** | "Register, then land on the dashboard." | 0:10 |
 | 2 | **Browse → search "Daft Punk"** | "Browse searches the iTunes catalogue through *our* API, not Apple directly." | 0:15 |
 | 3 | **Album detail** | "The album page: tracks and preview clips." | 0:08 |
 | 4 | **Add to a shelf** | "Add it, and record the copy: vinyl, near mint, £28." | 0:15 |
 | 5 | **Shelf detail → stats** | "My shelf, broken down by format, genre and decade." | 0:12 |
 | 6 | **Shelf room + share link** | "The shelf room. One click shares a read-only link that opens signed out." | 0:15 |
-| 7 | **Wantlist / journal** | "Wantlist and listening journal — the two personal lists." | 0:08 |
+| 7 | **Wantlist / journal** | "Wantlist and listening journal, the two personal lists." | 0:08 |
 | 8 | **Community + Wrapped** | "Follows and comments, then badges and the yearly recap." | 0:07 |
 | 9 | **Resize to phone** | "Same app: the five tabs become a floating bottom dock." | 0:05 |
 
 **Say while switching back:** "Every one of those screens is one React route talking to one Express
-endpoint. No hard-coded data — the demo account was created minutes before this talk."
+endpoint. No hard-coded data. The demo account was created minutes before this talk."
 
 **Pre-flight checklist:**
 - [ ] App tab open at `https://trackstack-zin9.onrender.com` (or `http://localhost:4001`)
-- [ ] Logged in as `joey@example.com` / `Password123!` — seeded with 3 shelves, a wantlist, a journal, a story and a follower
+- [ ] Logged in as `joey@example.com` / `Password123!` (seeded with 3 shelves, a wantlist, a journal, a story and a follower)
 - [ ] The public "Vinyl Shelf" collection is shared, so the share link works signed out
 - [ ] Browser at ~1100 px for desktop, then drag to 390 px for mobile
+- [ ] Android APK installed on a phone or emulator if you want the native follow-up during slide 9
 - [ ] Audio muted (iTunes previews play 30-second clips)
 
 ---
@@ -148,18 +149,18 @@ endpoint. No hard-coded data — the demo account was created minutes before thi
 ### Slide 5 · Browser → API → database (2:20–2:55)
 
 ```
-Browser   React pages — shows the pages
+Browser   React pages, showing the pages
    ↓
-API       Express — checks input, applies the rules
+API       Express, checks input and applies the rules
    ↓
-Database  PostgreSQL — stores users, shelves, copies
+Database  PostgreSQL, stores users, shelves, copies
 
 Side note: iTunes supplies album metadata only. Only the API calls it.
 ```
 
 **Say:** "The browser talks to our API; the API talks to Postgres. iTunes only supplies catalogue
 data, and only the API calls it. The browser never talks to the database directly. Each piece has
-one job, and the client and API ship together — one install, one deploy."
+one job, and the client and API ship together. One install, one deploy."
 
 **Point at the layers if you want the detail:** "routes → controllers → services → SQL. Controllers
 never write SQL, and services never touch the request. That is what makes it testable."
@@ -176,11 +177,11 @@ one row per record                  one row per shelf
 **Say:** "This is the one idea worth remembering. The album row is shared: one row per record, so
 two people owning the same pressing do not duplicate it. Your copy is a separate row that links
 your shelf to that album and holds the condition, price and notes. So editing your copy never
-changes anyone else's record — and the database enforces the links."
+changes anyone else's record, and the database enforces the links."
 
 **Why it matters, in one sentence:** "A collection is a join table, not a list of album ids."
 
-**One extra sentence if there is time:** "Sixteen tables in total — the rest are wants, history,
+**One extra sentence if there is time:** "Sixteen tables in total. The rest are wants, history,
 follows, likes, comments, stories and badges."
 
 ---
@@ -196,10 +197,10 @@ Look:     thick outlines, solid shadows, pill buttons, springy motion
 **Say:** "It is the same app in two shapes. On desktop the five tabs are a left rail. Under 768
 pixels the same tabs become a floating bottom dock, because a thumb reaches the bottom of a phone
 but not the top. The look is deliberate: thick outlines, solid offset shadows, pill buttons and
-springy motion — and every animation respects reduced motion."
+springy motion, and every animation respects reduced motion."
 
 **If asked about the design process:** "The first pass was generic AI output. I rebuilt it with a
-deliberate voice — palette, type pairing and border weights are all choices, not defaults."
+deliberate voice. Palette, type pairing and border weights are all choices, not defaults."
 
 ---
 
@@ -210,9 +211,9 @@ deliberate voice — palette, type pairing and border weights are all choices, n
 ```
 Docker   built app + API in one image
    ↓
-Render   trackstack-zin9.onrender.com — HTTPS, one service
+Render   trackstack-zin9.onrender.com (HTTPS, one service)
    ↓
-Postgres managed Postgres 16 — data and sessions
+Postgres managed Postgres 16 (data and sessions)
 ```
 
 **Say:** "One Docker container serves the pages and the API, on Render, with managed Postgres behind
@@ -228,10 +229,20 @@ safe."
   3  seeded shelves, so the demo is never empty
 ```
 
-**Say:** "128 automated tests run the real API against a real Postgres database — ownership,
+**Say:** "128 automated tests run the real API against a real Postgres database: ownership,
 constraints and permissions. The live container builds, migrates, serves the app, handles deep links
 and logs in. And the demo data means the app is never empty. The same client also runs as an Android
 app."
+
+### Showing the Android version (10 seconds, optional)
+
+If the phone or emulator is ready, hold it up while you say the last sentence on slide 9.
+Say: "This is the same React build in a native shell. It loads the deployed site, so the login,
+the shelves and the bottom dock are the same code." Show one shelf and the bottom dock, then
+put the phone down. The APK is
+`android/app/build/outputs/apk/debug/app-debug.apk`; build instructions are in
+[`android.md`](android.md). If the device is not ready, say the line and move on. Do not spend
+demo time installing it.
 
 ---
 
@@ -262,7 +273,7 @@ let the questions come.
 Have answers to these. Say the short version, then stop.
 
 **Q: Why not just use MongoDB?**
-"Everything here is relational — a shelf belongs to one user, a join table carries the copy details,
+"Everything here is relational. A shelf belongs to one user, a join table carries the copy details,
 and I wanted the database to enforce unique emails and valid formats. Postgres gives me that for
 free, plus JSONB where I needed flexibility, like achievement criteria."
 
@@ -288,21 +299,21 @@ backups and put the rate limiter in Redis."
 
 **Q: How did you use AI without losing control?**
 "I wrote the architecture and the schema first, then had AI write one module at a time against that
-contract. The layering — routes, controllers, services, SQL — kept it coherent. Every boundary is
+contract. The layering (routes, controllers, services, SQL) kept it coherent. Every boundary is
 validated, so a generated handler that forgets a WHERE clause fails the tests rather than shipping."
 
 **Q: How would you add tags?**
-"A `tags` table and a `collection_albums_tags` join table — the same many-to-many pattern as shelves
+"A `tags` table and a `collection_albums_tags` join table, the same many-to-many pattern as shelves
 and albums. The brief lists it as an extra; I spent the budget on stories and the social layer
 instead."
 
 **Q: Is it deployed?**
-"Yes — <https://trackstack-zin9.onrender.com>. One Docker service on Render with managed Postgres,
+"Yes, at <https://trackstack-zin9.onrender.com>. One Docker service on Render with managed Postgres,
 migrations running at container start. The free tier sleeps after 15 minutes idle, so the first
 request can take about 30 seconds."
 
 **Q: Why did you add gamification, Wrapped and social at all?**
-"The brief says scope is flexible. Those features are what make the data model interesting —
+"The brief says scope is flexible. Those features are what make the data model interesting:
 activity feeds, notifications and polymorphic likes are where a naive design falls apart. Building
 them proved the schema was right."
 
@@ -334,10 +345,10 @@ rule-based recommendation with something learned from listening history."
 1. Rehearse with a timer at least three times. If you go past 6:00, cut the last line of slide 6 and
    the demo-data line on slide 9.
 2. Open the app in a second window *before* you start so the first click is instant.
-3. Don't narrate the UI element by element — narrate the *journey*.
+3. Don't narrate the UI element by element. Narrate the *journey*.
 4. If a call to the iTunes API is slow, talk over it: "this is the live catalogue, it caches for
    five minutes".
 5. Face the audience. Read the slide, not your notes.
-6. Have `docs/architecture.md` open in a tab — you can point at it if a question goes deep.
+6. Have `docs/architecture.md` open in a tab. You can point at it if a question goes deep.
 7. **Say one thing per slide.** If you remember only three sentences: *album shared, copy personal;
    browser → API → database; one container, one URL, 128 tests.*

@@ -56,7 +56,7 @@ firewall.
 > offline, point `server.url` at the local production container
 > (`http://10.0.2.2:4001`) and rebuild. Before shipping a release APK, remove
 > `server.url` and build with `VITE_API_URL` pointing at the deployed HTTPS
-> API — then follow the cross-site cookie section below.
+> API, then follow the cross-site cookie section below.
 
 You can also change the address at runtime from **You → Server connection**
 in the app, which is handy when testing against several machines. The value

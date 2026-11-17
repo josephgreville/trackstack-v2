@@ -1,11 +1,11 @@
-# TrackStack — Page Designs
+# TrackStack: Page Designs
 
 The design was laid out before the code, then built as seven React routes that reuse the same
 components. This document is the design record: wireframes for **desktop (≥1024px)** and
 **mobile (<768px)** for every page in the brief, the design system they share, and how each
 wireframe turned into the shipped components.
 
-> Figma file: *(link to the Figma project if you have one — this document is the version that
+> Figma file: *(link to the Figma project if you have one. This document is the version that
 > travels with the repo and matches what was actually built).*
 
 ---
@@ -43,10 +43,10 @@ Motion      spring physics (Framer Motion) · all of it behind prefers-reduced-m
 
 Three rules the whole UI obeys:
 
-1. **The palette lives in one file** — `client/src/styles/tokens.css`. Nothing hard-codes a hex.
-2. **Every screen is four blocks** — a title, a primary action, a card grid, and a detail panel.
+1. **The palette lives in one file**: `client/src/styles/tokens.css`. Nothing hard-codes a hex.
+2. **Every screen is four blocks**: a title, a primary action, a card grid, and a detail panel.
    That is why seven screens look like one product.
-3. **One grid, two densities** — desktop is a 3–4 column grid; mobile is a single column with a
+3. **One grid, two densities**: desktop is a 3–4 column grid; mobile is a single column with a
    larger type ramp (`client/src/styles/mobile.css`).
 
 ### Navigation
@@ -68,7 +68,7 @@ Desktop (≥1024px)                     Mobile (<768px)
                                             floating dock
 ```
 
-A left rail on desktop; a floating bottom dock on mobile — a thumb reaches the bottom of a phone,
+A left rail on desktop; a floating bottom dock on mobile. A thumb reaches the bottom of a phone,
 not the top. The dock has safe-area padding for iOS home-indicator devices.
 
 ---
@@ -132,7 +132,7 @@ not the top. The dock has safe-area padding for iOS home-indicator devices.
 └─────────────────────────┘
 ```
 
-**Built as:** `Home.jsx` — a `Section` component with a heading and optional "see all" link, an
+**Built as:** `Home.jsx`, a `Section` component with a heading and optional "see all" link, an
 `AlbumCard` grid that becomes a horizontal scroller under 768px, and a `CollectionCard` grid.
 The greeting is time-aware.
 
@@ -183,7 +183,7 @@ The greeting is time-aware.
 └─────────────────────────┘
 ```
 
-**Built as:** `Browse.jsx` — a `SearchBar` (debounced), `GenreChips` (horizontal scroller on
+**Built as:** `Browse.jsx`, a `SearchBar` (debounced), `GenreChips` (horizontal scroller on
 mobile), an `AlbumCard` grid, and a `Pagination` control. The genre panel becomes a bottom sheet
 on mobile. Results come from `GET /api/v1/catalog/search`, which proxies the iTunes Search API.
 
@@ -245,7 +245,7 @@ on mobile. Results come from `GET /api/v1/catalog/search`, which proxies the iTu
 └─────────────────────────┘
 ```
 
-**Built as:** `AlbumDetail.jsx` — `AlbumHero` (cover + metadata), `TrackList` (a virtual-ish list
+**Built as:** `AlbumDetail.jsx`, `AlbumHero` (cover + metadata), `TrackList` (a virtual-ish list
 with inline preview buttons), `CollectionPicker` (a modal that lists the user's collections and
 takes the copy details), and a related-albums grid.
 
@@ -298,7 +298,7 @@ takes the copy details), and a related-albums grid.
 └─────────────────────────┘
 ```
 
-**Built as:** `CollectionDetail.jsx` — `CollectionHeader` (name, description, count, actions), a
+**Built as:** `CollectionDetail.jsx`, `CollectionHeader` (name, description, count, actions), a
 `StatsPanel` (collapsible on mobile), `AlbumCard` grid where each card shows the copy details
 (format, condition), and a `ShareSheet` that creates the read-only link.
 
@@ -351,7 +351,7 @@ takes the copy details), and a related-albums grid.
 └─────────────────────────┘
 ```
 
-**Built as:** `Collections.jsx` — a `CollectionCard` grid (including a dashed "add a collection"
+**Built as:** `Collections.jsx`, a `CollectionCard` grid (including a dashed "add a collection"
 tile), plus the **collection room** mode where the same data renders as a wall of record shelves
 with five themes. The shelf theme and sort order are saved per collection.
 
@@ -416,7 +416,7 @@ with five themes. The shelf theme and sort order are saved per collection.
 └─────────────────────────┘
 ```
 
-**Built as:** `add-album/AddAlbum.jsx` — a two-column layout on desktop (results left, copy-details
+**Built as:** `add-album/AddAlbum.jsx`, a two-column layout on desktop (results left, copy-details
 panel right) that stacks on mobile. Search hits the catalogue endpoint; "add manually" creates a
 `source: 'manual'` album with no iTunes id. Editing an existing copy reuses the same fields via
 `PATCH /api/v1/collections/:id/albums/:albumId`.
@@ -467,7 +467,7 @@ panel right) that stacks on mobile. Search hits the catalogue endpoint; "add man
 └─────────────────────────┘
 ```
 
-**Built as:** `Login.jsx` / `Register.jsx` inside `AuthLayout` — a split screen on desktop (brand
+**Built as:** `Login.jsx` / `Register.jsx` inside `AuthLayout`, a split screen on desktop (brand
 panel left, form right) and a single stacked column on mobile. After signing in, the user is
 returned to the page they originally asked for (`RequireAuth` stores it in the router state), so a
 bookmarked deep link like `/collections/:id` survives the login detour. Register creates the
@@ -479,7 +479,7 @@ account and signs in immediately.
 
 | Design decision | Implementation |
 |---|---|
-| Five tabs, always visible | `client/src/layout/AppLayout.jsx` — left rail ≥1024px, floating dock <768px |
+| Five tabs, always visible | `client/src/layout/AppLayout.jsx`, left rail ≥1024px, floating dock <768px |
 | One grid, two densities | Tailwind breakpoints + `client/src/styles/mobile.css` type ramp |
 | Four blocks per screen | `Section`, `AlbumCard`, `CollectionCard`, `DetailPanel` components reused on every page |
 | One palette | `client/src/styles/tokens.css` → Tailwind theme extension in `client/tailwind.config.js` |

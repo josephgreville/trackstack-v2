@@ -349,11 +349,11 @@ function cover() {
     <div>
       <div class="kicker">Final Project · Vibe Coding Web App</div>
       <h1>TrackStack</h1>
-      <p class="lede">A home for physical music collections — browse a catalogue, build shelves,
+      <p class="lede">A home for physical music collections. Browse a catalogue, build shelves,
       track every copy, and share the room.</p>
       <table class="meta">
         <tr><td>Author</td><td>Joseph Greville</td></tr>
-        <tr><td>Route</td><td>Route B — records</td></tr>
+        <tr><td>Route</td><td>Route B: records</td></tr>
         <tr><td>Repository</td><td><a href="https://github.com/josephgreville/trackstack-v2">github.com/josephgreville/trackstack-v2</a></td></tr>
         <tr><td>Live app</td><td><a href="https://trackstack-zin9.onrender.com">trackstack-zin9.onrender.com</a></td></tr>
         <tr><td>Demo login</td><td><code>joey@example.com</code> / <code>Password123!</code></td></tr>
@@ -364,7 +364,7 @@ function cover() {
       </div>
     </div>
     <p class="muted" style="margin:0;font-size:9pt">The app sleeps after 15 minutes idle on the free
-    hosting tier — allow ~30 seconds for the first request.</p>
+    hosting tier. Allow ~30 seconds for the first request.</p>
   </section>`;
 }
 
@@ -383,7 +383,7 @@ ${body}
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>TrackStack — Submission Pack</title>
+<title>TrackStack Submission Pack</title>
 <style>${CSS}</style>
 </head>
 <body>

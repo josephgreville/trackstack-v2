@@ -1,4 +1,4 @@
-TrackStack — submission pack
+TrackStack submission pack
 ============================
 
 Files in this folder
@@ -30,6 +30,9 @@ Notes for the marker
   android/app/build/outputs/apk/debug/app-debug.apk.
 - No API keys are stored in the frontend or in the repository. The only secrets
   are DATABASE_URL and SESSION_SECRET, supplied as environment variables.
+- To show the Android version, install the debug APK on a phone or emulator and
+  open it. It loads the deployed site, so the same login, shelves and bottom dock
+  appear in a native shell.
 
 Regenerate these files
 ----------------------

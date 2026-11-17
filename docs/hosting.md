@@ -1,4 +1,4 @@
-# TrackStack — Hosting & Deployment Runbook
+# TrackStack: Hosting and Deployment Runbook
 
 Two deployment shapes are supported. **Option A** (one Docker service) is the recommended one and
 is what the live demo should use. Option B (split across a CDN and an API host) is documented
@@ -6,7 +6,7 @@ because the client is already a static bundle and the Android app needs an absol
 
 ---
 
-## Option A — Render (recommended: API + client + Postgres in one place)
+## Option A: Render (recommended: API, client and Postgres in one place)
 
 ### Why
 
@@ -19,22 +19,22 @@ because the client is already a static bundle and the Android app needs an absol
 
 ### Deploy
 
-**Step 1 — push the repo**
+**Step 1: Push the repo**
 
 ```sh
 git push origin main
 ```
 
-**Step 2 — create the Blueprint**
+**Step 2: Create the Blueprint**
 
 1. Go to <https://render.com> → **New → Blueprint**.
 2. Connect the GitHub repository (`.../trackstack-v2`).
 3. Render reads `render.yaml` from the repo root and shows the resources it will create:
-   * `trackstack` — a Docker web service (free plan).
-   * `trackstack-db` — a PostgreSQL 16 database (free plan, **expires after 30 days**).
+   * `trackstack`, a Docker web service (free plan).
+   * `trackstack-db`, a PostgreSQL 16 database (free plan, **expires after 30 days**).
 4. Click **Apply**.
 
-**Step 3 — check the environment variables**
+**Step 3: Check the environment variables**
 
 Render fills these from the Blueprint. Confirm in *Environment*:
 
@@ -42,14 +42,14 @@ Render fills these from the Blueprint. Confirm in *Environment*:
 |---|---|---|
 | `NODE_ENV` | `production` | Enables static serving of `client/dist` |
 | `DATABASE_URL` | from the database | Set automatically by the Blueprint |
-| `SESSION_SECRET` | generated | `generateValue: true` in the Blueprint — rotate it if you ever leak it |
+| `SESSION_SECRET` | generated | `generateValue: true` in the Blueprint. Rotate it if you ever leak it |
 | `CLIENT_ORIGIN` | `https://trackstack-zin9.onrender.com` | Must match the public URL exactly, no trailing slash |
 | `COOKIE_SECURE` | `true` (implied) | Forced on when `NODE_ENV=production` |
 | `COOKIE_SAMESITE` | `lax` | One origin, so `Lax` is safe and stronger than `None` |
 | `TRUST_PROXY` | `true` | Render terminates TLS in front of the service |
 | `ITUNES_COUNTRY` | `GB` | Change to `US` etc. if you want a different storefront |
 
-**Step 4 — watch the first deploy**
+**Step 4: Watch the first deploy**
 
 The build runs `docker build`. Migrations run automatically at container start (the `CMD` in the
 `Dockerfile` runs `npm run db:migrate --workspace server` before starting the server). Watch the
@@ -63,7 +63,7 @@ Database is up to date.
 TrackStack API listening on http://localhost:4000 (production)
 ```
 
-**Step 5 — smoke test**
+**Step 5: Smoke test**
 
 ```sh
 curl https://trackstack-zin9.onrender.com/api/v1/health
@@ -72,7 +72,7 @@ curl https://trackstack-zin9.onrender.com/api/v1/health
 
 Then open the URL in a browser, register an account and add one album to a collection.
 
-**Step 6 — seed the demo data (optional but recommended)**
+**Step 6: Seed the demo data (optional but recommended)**
 
 The service container has the seed script, so use Render's **Shell** tab on the service:
 
@@ -86,13 +86,13 @@ Seed complete.
   sam_beats  ·  sam@example.com   ·  Password123!
 ```
 
-> **This deployment's URL is `https://trackstack-zin9.onrender.com`** — Render appended `-zin9`
+> **This deployment's URL is `https://trackstack-zin9.onrender.com`**. Render appended `-zin9`
 > because the plain `trackstack` name was already taken. If you deploy to a different URL, update
 > `CLIENT_ORIGIN` in the service's *Environment* tab to that exact URL, then **Save & Deploy**. If
-> it doesn't match, login silently fails — the cookie is rejected and the browser bounces you back
+> it doesn't match, login silently fails. The cookie is rejected and the browser bounces you back
 > to the login screen.
 
-**Step 7 — verify the whole thing**
+**Step 7: Verify the whole thing**
 
 ```sh
 # API
@@ -130,7 +130,7 @@ Render → *Settings → Custom Domains* → point a CNAME at `trackstack-zin9.o
 
 ---
 
-## Option B — Split deployment (Netlify for the client + Railway/Render for the API)
+## Option B: Split deployment (Netlify for the client, Railway or Render for the API)
 
 Use this when you want a CDN in front of the client, or when you already have a Railway project.
 
@@ -138,7 +138,7 @@ Use this when you want a CDN in front of the client, or when you already have a 
 Browser ──▶ Netlify (static client)  ──▶ /api proxy ──▶ Railway (Express) ──▶ Postgres
 ```
 
-### B1 — Netlify proxy rewrite (recommended for the split)
+### B1: Netlify proxy rewrite (recommended for the split)
 
 `netlify.toml` rewrites `/api/*` to the API host, so the browser still talks to a **single
 origin**. That keeps the session cookie first-party (`SameSite=Lax`) and avoids CORS entirely.
@@ -157,7 +157,7 @@ origin**. That keeps the session cookie first-party (`SameSite=Lax`) and avoids 
 
 3. Deploy the client to Netlify:
    * **Site configuration → Build settings**
-   * Base directory: *(leave empty — the repo root holds the workspaces)*
+   * Base directory: *(leave empty; the repo root holds the workspaces)*
    * Build command: `npm ci && npm run build --workspace client`
    * Publish directory: `client/dist`
    * Environment: `NODE_VERSION = 20`
@@ -170,12 +170,12 @@ origin**. That keeps the session cookie first-party (`SameSite=Lax`) and avoids 
    | `SESSION_SECRET` | a long random string |
    | `CLIENT_ORIGIN` | `https://<your-site>.netlify.app` |
    | `TRUST_PROXY` | `true` |
-   | `COOKIE_SAMESITE` | `lax` (the proxy keeps requests same-origin) — set to `none` if you use B2 |
+   | `COOKIE_SAMESITE` | `lax` (the proxy keeps requests same-origin). Set to `none` if you use B2 |
 
-5. Railway: add a Postgres plugin, set `DATABASE_URL` from it, and run migrations once —
+5. Railway: add a Postgres plugin, set `DATABASE_URL` from it, and run migrations once:
    `npm run db:migrate --workspace server` from a Railway shell, or add it to the start command.
 
-### B2 — Absolute API URL (needed for the native Android app)
+### B2: Absolute API URL (needed for the native Android app)
 
 The Android build loads from `https://localhost`, so it cannot use a relative `/api` path. The
 client reads its API base from `VITE_API_URL` at build time, overridable at runtime from the app's
@@ -219,7 +219,7 @@ docker run -p 4000:4000 --env-file .env trackstack
 ```
 
 The image contains the built client and the API, and serves both on port 4000. It runs unchanged
-on Render, Railway, Fly.io, Azure Container Apps, AWS ECS or a university VM — that is the
+on Render, Railway, Fly.io, Azure Container Apps, AWS ECS or a university VM. That is the
 answer to "it runs locally, so how would you host it?".
 
 ---
@@ -251,11 +251,11 @@ git-ignored; `.env.example` is the committed template.
 
 * `.env` is in `.gitignore`; `.env.example` contains placeholders only.
 * `SESSION_SECRET` is generated on the host, never committed, and can be rotated by updating the
-  host variable and redeploying (this signs everyone out — acceptable).
+  host variable and redeploying (this signs everyone out, which is acceptable).
 * `DATABASE_URL` is injected by the platform's database plugin, never written into the image.
 * The iTunes Search API requires **no API key**, which removes the most common way a key leaks
   into front-end code. If a keyed API is ever added, the call must live in
-  `server/src/services/` and the key must come from the host's environment — never from
+  `server/src/services/` and the key must come from the host's environment, never from
   `import.meta.env`, which is inlined into the JavaScript bundle and readable by anyone.
 
 ---
@@ -284,13 +284,14 @@ Demo logins: `joey@example.com` / `Password123!` (the collector) and `sam@exampl
 
 Then, in the browser:
 
-- [ ] Register a new account (not just log in) — the demo journey starts at registration.
+- [ ] Register a new account (not just log in). The demo journey starts at registration.
 - [ ] Browse → search an artist → open an album → add it to a collection with format/condition.
 - [ ] Stacks → open the collection → stats → CSV export.
 - [ ] Community → follow a seeded user → like their collection.
 - [ ] You → Wrapped (year) → Achievements.
 - [ ] Share a collection → open the share link in a private window (it works signed out).
 - [ ] Resize the window to phone width to show the bottom-tab dock.
+- [ ] Android APK open on a phone or emulator if you plan to show the native build during slide 9.
 
 ---
 
@@ -304,4 +305,4 @@ Then, in the browser:
 | CORS error in the browser console | Split deployment without the proxy rewrite | Add `CLIENT_ORIGIN` on the API and use the Netlify proxy rewrite (B1) |
 | Blank page, `GET /` 404 | Client not built or `NODE_ENV` not `production` | Ensure the build ran and `client/dist` exists in the image |
 | Browse is empty | iTunes unreachable | Check outbound network; the 5-minute cache means results appear after the first successful call |
-| First request takes 30 s | Free tier waking up | Expected — wake it before the demo |
+| First request takes 30 s | Free tier waking up | Expected. Wake it before the demo |
