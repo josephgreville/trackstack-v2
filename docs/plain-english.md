@@ -79,7 +79,7 @@ Say this, in this order. Each line is one slide.
 2. **The core idea.** "The album is shared, but your copy is personal: its condition, price and
    notes belong to you. That is the part worth explaining."
 3. **The demo.** "I'll follow one record from search to a shared shelf."
-4. **How it works.** "The browser talks to our API, the API talks to the database, and iTunes only
+4. **How it works.** "The browser talks to the API I built, the API talks to the database, and iTunes only
    supplies album information."
 5. **The design.** "The same app on desktop and phone: a left rail on desktop, a bottom dock on
    mobile, and one deliberate visual style."

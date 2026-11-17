@@ -295,16 +295,16 @@ function build() {
   /* 5 · how it works */
   add(5, (s) => {
     kicker(s, '3 · How it works: the three layers');
-    heading(s, 'Browser → our API → database');
+    heading(s, 'Browser → the API I built → database');
     subtitle(s, 'Each layer has one job. The browser never talks to the database directly.');
     const nx = M, nw = 6.35, nh = 0.92;
     node(s, nx, 2.5, nw, nh, 'CLIENT', 'The browser', 'React pages, showing what you see', C.coral);
     arrow(s, nx + nw / 2, 3.44);
-    node(s, nx, 3.66, nw, nh, 'API', 'Our Express API', 'Checks every request and applies the rules', C.coral);
+    node(s, nx, 3.66, nw, nh, 'API', 'The API I built', 'Checks every request and applies the rules', C.coral);
     arrow(s, nx + nw / 2, 4.6);
     node(s, nx, 4.82, nw, nh, 'DATA', 'PostgreSQL 16', 'Stores users, shelves and copies', C.sage);
     card(s, 7.5, 2.5, 5.08, 1.55, 'Where iTunes fits',
-      'iTunes supplies album information only. Our API calls it. The browser never does.', { bodySize: 12.5 });
+      'iTunes supplies album information only. The API I built calls it. The browser never does.', { bodySize: 12.5 });
     card(s, 7.5, 4.25, 5.08, 1.5, 'One repo',
       'Client and API ship together: one install, one dev command, one deploy.', { bodySize: 12.5 });
   });

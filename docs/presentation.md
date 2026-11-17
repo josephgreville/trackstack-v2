@@ -37,7 +37,7 @@ then move on.
 | **2 · One album. Many collections. Your copy.** | Idea | 0:15–0:40 | 0:40 |
 | **3 · Six things you can do** | Idea | 0:40–0:50 | 0:50 |
 | **4 · The demo: one record's journey** (*switch to the app*) | Demo | 0:50–2:20 | 2:20 |
-| **5 · Browser → our API → database** | How it works | 2:20–2:55 | 2:55 |
+| **5 · Browser → the API I built → database** | How it works | 2:20–2:55 | 2:55 |
 | **6 · Shared album. Personal copy.** | How it works | 2:55–3:45 | 3:45 |
 | **7 · Same app, two shapes** | Design | 3:45–4:25 | 4:25 |
 | **8 · One container, one URL** | Proof | 4:25–4:50 | 4:50 |
@@ -122,7 +122,7 @@ Home dashboard       Album detail         Shelf, stats, wantlist  Community and 
 | Step | Screen | What I say (one line each) | Time |
 |---|---|---|---|
 | 1 | **Register / home** | "Register, then land on the dashboard." | 0:10 |
-| 2 | **Browse → search "Daft Punk"** | "Browse searches the iTunes catalogue through *our* API, not Apple directly." | 0:15 |
+| 2 | **Browse → search "Daft Punk"** | "Browse searches the iTunes catalogue through the API I built, not Apple directly." | 0:15 |
 | 3 | **Album detail** | "The album page: tracks and preview clips." | 0:08 |
 | 4 | **Add to a shelf** | "Add it, and record the copy: vinyl, near mint, £28." | 0:15 |
 | 5 | **Shelf detail → stats** | "My shelf, broken down by format, genre and decade." | 0:12 |
@@ -158,7 +158,7 @@ Database  PostgreSQL, stores users, shelves, copies
 Side note: iTunes supplies album metadata only. Only the API calls it.
 ```
 
-**Say:** "The browser talks to our API; the API talks to Postgres. iTunes only supplies catalogue
+**Say:** "The browser talks to the API I built; the API talks to Postgres. iTunes only supplies catalogue
 data, and only the API calls it. The browser never talks to the database directly. Each piece has
 one job, and the client and API ship together. One install, one deploy."
 

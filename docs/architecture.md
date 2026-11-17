@@ -5,7 +5,7 @@ collections, track the format / condition / price of each copy, keep a wantlist 
 and share your shelves with other collectors.
 
 This document covers the tech stack and why it was chosen, the data model, the API surface, security
-decisions, the hosting plan and the risks we know about.
+decisions, the hosting plan and the risks I know about.
 
 ---
 
@@ -13,15 +13,15 @@ decisions, the hosting plan and the risks we know about.
 
 | Layer | Choice | Why |
 |---|---|---|
-| Language (API) | **JavaScript (ESM) on Node.js 20** | One language across client and server. The brief lets the AI write most of the code. A single language means one set of mental models and one linter/formatter config. Node is also the best-supported runtime for the "API + Postgres" pattern we need. |
+| Language (API) | **JavaScript (ESM) on Node.js 20** | One language across client and server. The brief lets the AI write most of the code. A single language means one set of mental models and one linter/formatter config. Node is also the best-supported runtime for the "API + Postgres" pattern I need. |
 | Framework (API) | **Express 5** | Small, boring, and the most-documented HTTP framework for Node. Express 5 has native async error propagation, which removed a whole class of "unhandled promise rejection" bugs. |
-| Database | **PostgreSQL 16** | The data is relational and highly relational-constraint friendly: users own collections, collections join albums, and we have follows, likes, comments and stories. Postgres gives us real foreign keys, `CHECK` constraints, `jsonb` for flexible metadata, transactional writes and a `connect-pg-simple` session store. A document DB would have meant hand-rolling integrity. |
+| Database | **PostgreSQL 16** | The data is relational and highly relational-constraint friendly: users own collections, collections join albums, and the model includes follows, likes, comments and stories. Postgres gives me real foreign keys, `CHECK` constraints, `jsonb` for flexible metadata, transactional writes and a `connect-pg-simple` session store. A document DB would have meant hand-rolling integrity. |
 | DB access | **`pg` (node-postgres)** + a thin query layer | No heavyweight ORM. The queries are explicit SQL, which is easier to reason about for a graded project where "understand your database" matters. Writes that touch multiple tables run inside a transaction (`server/src/db/transaction.js`). |
 | Migrations | **Plain numbered `.sql` files** run by `server/src/db/migrate.js` | Version-controlled, reviewable, and idempotent. Each file is applied once and recorded in `schema_migrations`. No migration framework to learn. |
 | Validation | **zod** | Every request body, query and param is validated in a `validate()` middleware before a controller runs. Invalid input never reaches SQL. |
 | Auth | **`express-session` + `connect-pg-simple`** | Server-side sessions in the `sessions` table. The cookie is only a signed session id. No JWT is stored in `localStorage`, so an XSS bug can't steal a long-lived token. Sessions are revocable server-side, which JWTs are not. |
 | Password hashing | **bcryptjs** | Pure-JS bcrypt, no native build step (important for a Dockerfile that must build anywhere). Cost factor is applied at hash time. |
-| Language (client) | **React 19** | Component model that maps cleanly to "one page = one component", and the ecosystem we know well. |
+| Language (client) | **React 19** | Component model that maps cleanly to "one page = one component", and the ecosystem I know well. |
 | Routing | **React Router 7** | Declarative, nested routes with layouts, plus `RequireAuth` / `GuestOnly` guards. |
 | Build tool | **Vite 6** | Instant dev server, fast production builds, simple static output (`client/dist`). The same folder can be served by Netlify *or* by Express in production. |
 | Styling | **Tailwind CSS 3 + CSS variables** | Utility classes for layout consistency, a token file (`client/src/styles/tokens.css`) for the palette so the "sticker book" look lives in one place. |
@@ -106,7 +106,7 @@ colliding "Joey" and "joey".
 (`'itunes' | 'manual'`), timestamps.
 
 > **Design decision:** album *metadata* is global and shared, but a *copy* is personal. If two
-> people own the same pressing we do not duplicate the album row. We insert two rows into
+> people own the same pressing, I do not duplicate the album row. I insert two rows into
 > `collection_albums`. The copy-specific fields (format, condition, price…) live on the join table.
 
 **collection_albums**: the join table, and also the "my copy" entity:
@@ -166,7 +166,7 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 | GET | `/api/v1/auth/me` | public | Current user or `null` |
 | PATCH | `/api/v1/auth/profile` | user | Update username / email / bio |
 
-### Catalogue (third-party iTunes data, proxied and cached by our API)
+### Catalogue (third-party iTunes data, proxied and cached by my API)
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -254,7 +254,7 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 
 ## 4. Security
 
-| Concern | What we did |
+| Concern | What I did |
 |---|---|
 | Secrets | `.env` is git-ignored; `.env.example` documents every variable with no real values. The only secrets are `DATABASE_URL` and `SESSION_SECRET` (32+ chars enforced in production). |
 | Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and all upstream calls are made from `server/src/services/itunesService.js`. The browser never talks to Apple directly, so no key *could* end up in front-end code. |
@@ -348,7 +348,7 @@ university VM) with no code changes.
 
 ---
 
-## 8. Risks and how we would handle them
+## 8. Risks and how I would handle them
 
 | # | Risk | Impact | Mitigation / plan |
 |---|---|---|---|
@@ -365,9 +365,9 @@ university VM) with no code changes.
 
 ---
 
-## 9. Trade-offs we accepted
+## 9. Trade-offs I accepted
 
-- **No ORM.** More SQL to write, but total control over queries and a data model we can explain.
+- **No ORM.** More SQL to write, but total control over queries and a data model I can explain.
 - **Server-side sessions instead of JWT.** Extra database read per request, but revocable sessions
   and no token in `localStorage`.
 - **Shared `albums` table with a per-user join table.** Slightly more complex than a naive
