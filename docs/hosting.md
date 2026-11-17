@@ -291,7 +291,7 @@ Then, in the browser:
 - [ ] You → Wrapped (year) → Achievements.
 - [ ] Share a collection → open the share link in a private window (it works signed out).
 - [ ] Resize the window to phone width to show the bottom-tab dock.
-- [ ] Android APK open on a phone or emulator if you plan to show the native build during slide 10.
+- [ ] Android APK open on a phone or emulator if you plan to show the native build during slide 12.
 
 ---
 

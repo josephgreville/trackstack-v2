@@ -11,7 +11,7 @@ Files in this folder
                                 - Presentation script and Q&A
                                 - Hosting plan and runbook
                                 - Testing
-2. TrackStack-Presentation.pdf  The 12-slide deck, 16:9, one slide per page.
+2. TrackStack-Presentation.pdf  The 13-slide deck, 16:9, one slide per page.
 3. TrackStack-Presentation.pptx The editable PowerPoint with all speaker notes.
 
 Links to submit or paste into the private comment

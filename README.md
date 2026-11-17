@@ -18,7 +18,7 @@ Every application page requires an account. Signed-out visitors are sent to logi
 | **Page designs** | [`docs/page-designs.md`](docs/page-designs.md): desktop and mobile wireframes mapped to shipped routes |
 | **GitHub repo** | <https://github.com/josephgreville/trackstack-v2>. Public, `main` is the deployed commit |
 | **Live URL / hosting plan** | <https://trackstack-zin9.onrender.com> · plan and runbook in [`docs/hosting.md`](docs/hosting.md) |
-| **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (12-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
+| **Presentation** | [`docs/presentation.md`](docs/presentation.md) (script, timing, Q&A) · [`docs/presentation/index.html`](docs/presentation/index.html) (13-slide deck) · [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) (PowerPoint with speaker notes) |
 
 The presentation is **10 minutes: 6 minutes presenting, 4 minutes of questions**. The deck's
 speaker notes carry a per-slide time budget; the demo journey is in
@@ -154,5 +154,5 @@ repository root.
 | [`docs/page-designs.md`](docs/page-designs.md) | Desktop and mobile wireframes for every page |
 | [`docs/presentation.md`](docs/presentation.md) | 10-minute presentation: slides, demo journey, Q&A prep |
 | [`docs/presentation/index.html`](docs/presentation/index.html) | The slide deck itself. Open it in a browser and present |
-| [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) | The same 12 slides as a PowerPoint file, with speaker notes |
+| [`docs/presentation/TrackStack-Presentation.pptx`](docs/presentation/TrackStack-Presentation.pptx) | The same 13 slides as a PowerPoint file, with speaker notes |
 | [`docs/testing.md`](docs/testing.md) | How the test suites are structured and run |
