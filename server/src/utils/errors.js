@@ -27,7 +27,7 @@ export class ForbiddenError extends AppError {
 }
 
 export class NotFoundError extends AppError {
-  constructor(message = 'We could not find what you were looking for.') {
+  constructor(message = 'Could not find what you were looking for.') {
     super(404, 'NOT_FOUND', message);
   }
 }

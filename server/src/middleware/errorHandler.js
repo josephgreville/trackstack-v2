@@ -51,7 +51,7 @@ export function errorHandler(error, _req, res, _next) {
   return res.status(500).json({
     error: {
       code: 'INTERNAL_ERROR',
-      message: 'Something went wrong on our side. Please try again.',
+      message: 'Something went wrong. Please try again.',
     },
   });
 }

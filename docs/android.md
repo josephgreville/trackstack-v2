@@ -146,7 +146,7 @@ client/.env.mobile         The API address used for mobile builds
 
 ## Troubleshooting
 
-**The app shows "We could not reach TrackStack"**
+**The app shows "TrackStack could not be reached"**
 The API address is wrong or unreachable. Check the address in
 **You → Server connection**, and confirm the phone can reach the server.
 

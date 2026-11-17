@@ -62,7 +62,7 @@ async function request(path, { method = 'GET', body, signal } = {}) {
     });
   } catch (error) {
     if (error.name === 'AbortError') throw error;
-    throw new ApiError('We could not reach TrackStack. Check your connection and try again.', {
+    throw new ApiError('TrackStack could not be reached. Check your connection and try again.', {
       code: 'NETWORK_ERROR',
     });
   }
@@ -97,7 +97,7 @@ export const api = {
     try {
       response = await fetch(`${getApiBase()}${path}`, { credentials: 'include' });
     } catch {
-      throw new ApiError('We could not reach TrackStack. Check your connection and try again.', { code: 'NETWORK_ERROR' });
+      throw new ApiError('TrackStack could not be reached. Check your connection and try again.', { code: 'NETWORK_ERROR' });
     }
     if (!response.ok) {
       let payload;

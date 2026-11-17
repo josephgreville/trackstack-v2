@@ -75,7 +75,7 @@ export default function AuthLayout() {
           </div>
 
           <div className="auth-art-copy">
-            <h1>{registering ? 'Join us' : 'Welcome back'}</h1>
+            <h1>{registering ? 'Join TrackStack' : 'Welcome back'}</h1>
             <p>
               {registering
                 ? "Start building the record collection you've always wanted."

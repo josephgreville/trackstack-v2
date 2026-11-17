@@ -124,8 +124,8 @@ export default function DiscoverWeekly() {
           <div className="discover-empty">
             <h2>Not enough to go on yet</h2>
             <p>
-              Add a few albums to a collection and log a listen or two. The more we know about
-              your taste, the sharper these picks get.
+              Add a few albums to a collection and log a listen or two. The more you add,
+              the sharper these picks get.
             </p>
             <Button onClick={refresh} loading={refreshing}>Generate recommendations</Button>
           </div>

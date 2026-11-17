@@ -73,12 +73,12 @@ describe('collection and personal features', () => {
     });
     expect(saved.status).toBe(201);
     const memory = await agent.patch(`${api}/collections/${collection.id}/albums/${saved.body.album.id}`).send({
-      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record we bought together.',
+      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record my brother and I bought together.',
     });
     expect(memory.status).toBe(200);
     const shelf = await agent.get(`${api}/collections/${collection.id}`);
     expect(shelf.body.collection.albums[0]).toMatchObject({
-      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record we bought together.',
+      memoryLocation: 'A little shop in York', memoryWith: 'My brother', memoryNote: 'First record my brother and I bought together.',
     });
 
     const wanted = await agent.post(`${api}/me/wantlist`).send({ externalId: '594061854', maxPrice: 30 });

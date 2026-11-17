@@ -25,7 +25,7 @@ export default function AddAlbum() {
   const [usingManual, setUsingManual] = useState(false);
   const [collectionName, setCollectionName] = useState('');
 
-  // Fetch collection name if we have a collection ID
+  // Fetch collection name when a collection ID is present
   useEffect(() => {
     if (collectionId) {
       collectionsService

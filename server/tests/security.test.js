@@ -98,7 +98,7 @@ describe('Security boundaries', () => {
       const response = await agent.get(`${api}/collections`);
       expect(response.status).toBe(500);
       expect(response.body.error.code).toBe('INTERNAL_ERROR');
-      expect(response.body.error.message).toBe('Something went wrong on our side. Please try again.');
+      expect(response.body.error.message).toBe('Something went wrong. Please try again.');
       expect(JSON.stringify(response.body)).not.toContain('database connection detail');
     } finally {
       querySpy.mockRestore();
