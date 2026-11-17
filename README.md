@@ -12,7 +12,7 @@ Every application page requires an account. Signed-out visitors are sent to logi
 
 | Deliverable | Where it is |
 |---|---|
-| **Brief** | [`docs/brief.md`](docs/brief.md) — Route B: records. The deliverables list labels this item "Brief (Route A)"; the app follows Route B. |
+| **Brief** | [`docs/brief.md`](docs/brief.md) — Route B: records (the brief allows either route) |
 | **Architecture doc** | [`docs/architecture.md`](docs/architecture.md) — stack, data model, API, security, hosting and risks |
 | **Page designs** | [`docs/page-designs.md`](docs/page-designs.md) — desktop and mobile wireframes mapped to shipped routes |
 | **GitHub repo** | <https://github.com/josephgreville/trackstack-v2> — public, `main` is the deployed commit |
@@ -22,6 +22,9 @@ Every application page requires an account. Signed-out visitors are sent to logi
 The presentation is **10 minutes: 6 minutes presenting, 4 minutes of questions**. The deck's
 speaker notes carry a per-slide time budget; the demo journey is in
 [`docs/presentation.md`](docs/presentation.md) under **Beat 3**.
+
+A single upload-ready pack — the combined PDF, the slide deck as PDF, and the PowerPoint — is in
+[`submission/`](submission/), with a `README.txt` listing the links and demo logins.
 
 ## The app
 

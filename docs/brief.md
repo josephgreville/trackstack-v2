@@ -10,11 +10,9 @@
 | **Live app** | <https://trackstack-zin9.onrender.com> |
 | **Demo login** | `joey@example.com` / `Password123!` |
 
-> **A note on the route label.** The deliverables list labels the first item "Brief (Route A)",
-> but the app itself is built against **Route B: records** — users own collections, and collections
-> hold records. This document is the brief for that build. If Route A (a separate app concept) is
-> also required, it is **not** included in this repository; only the brief document is labelled
-> Route A in the deliverables list.
+> **Route.** The brief lets you choose **Route A or Route B**. This project chose **Route B:
+> records** — users own collections, and collections hold records. The "Brief (Route A)" label in
+> the deliverables list refers to the brief document; no separate Route A app is required.
 
 ---
 
