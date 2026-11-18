@@ -583,7 +583,13 @@
     border-radius: 0;
   }
   .auth-art { min-height: 0; padding: 1rem 1.25rem 1.25rem; }
-  .auth-record-art { top: 8%; left: 62%; width: min(40vw, 190px); }
+  .auth-record-art {
+    top: 8%;
+    right: 1.25rem;
+    left: auto;
+    width: min(26vw, 110px);
+    transform: none;
+  }
   .auth-art-copy h1 { margin-bottom: .25rem; font-size: 2.2rem; }
   .auth-art-copy p { max-width: 14rem; font-size: .9rem; }
   .auth-brand span { width: 30px; }

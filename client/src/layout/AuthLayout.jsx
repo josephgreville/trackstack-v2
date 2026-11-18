@@ -26,21 +26,8 @@ export default function AuthLayout() {
           </Link>
 
           <div className="auth-record-art" aria-hidden="true">
-            <svg viewBox="0 0 300 300" fill="none">
-              <path
-                d="M175 48v157a48 48 0 1 1-21-40V86l111 27v116a48 48 0 1 1-21-40V97L175 72"
-                stroke="currentColor"
-                strokeWidth="13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M56 102c-18 0-18 29 0 29M238 41v28m-14-14h28M50 234v30m-15-15h30"
-                stroke="currentColor"
-                strokeWidth="10"
-                strokeLinecap="round"
-              />
-              <circle cx="248" cy="237" r="7" fill="currentColor" />
+            <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3z" />
             </svg>
           </div>
 
