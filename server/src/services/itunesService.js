@@ -92,16 +92,20 @@ async function fetchItunes(path, params) {
     });
 
     if (!response.ok) {
+      const detail = await response.text().catch(() => '');
+      console.error('[itunes] upstream status', response.status, url.toString(), detail.slice(0, 300));
       throw new UpstreamError('The iTunes catalogue did not respond. Please try again.');
     }
 
     const payload = await response.json();
     if (!payload || !Array.isArray(payload.results)) {
+      console.error('[itunes] unexpected payload', url.toString());
       throw new UpstreamError('The iTunes catalogue returned an unexpected response.');
     }
     return payload;
   } catch (error) {
     if (error instanceof UpstreamError) throw error;
+    console.error('[itunes] fetch failed', url.toString(), error.name, error.message, error.cause?.message ?? '');
     throw new UpstreamError('The music catalogue is unavailable right now. Please try again.');
   }
 }
