@@ -639,3 +639,13 @@
   .recommendation-dismiss { min-width: 44px; min-height: 44px; }
   .recommendation-dismiss { display: grid; place-items: center; }
 }
+
+/* --- Discovery cards use a roomier single column on phones -------------- */
+
+@media (max-width: 640px) {
+  .recommendation-grid { grid-template-columns: 1fr; gap: .85rem; }
+  .recommendation-card { grid-template-columns: 112px minmax(0, 1fr); }
+  .recommendation-art img { height: 100%; aspect-ratio: auto; }
+  .recommendation-copy { padding: .85rem; gap: .4rem; }
+  .recommendation-actions { gap: .5rem; }
+}
