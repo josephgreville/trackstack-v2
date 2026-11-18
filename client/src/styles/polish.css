@@ -517,12 +517,23 @@ select:focus {
 }
 
 .auth-art {
+  color: var(--charcoal);
   background:
     radial-gradient(circle at 78% 18%, rgba(255, 122, 77, .2), transparent 42%),
     linear-gradient(145deg, #1a1a1e, #0d0d0f);
 }
 
+.auth-brand {
+  color: var(--charcoal);
+}
+
+.auth-brand span {
+  color: #1a0f09;
+  background: var(--orange);
+}
+
 .auth-art-copy h1 {
+  color: var(--charcoal);
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -.05em;
@@ -537,7 +548,12 @@ select:focus {
 }
 
 .auth-record-art {
-  opacity: .18;
+  color: var(--charcoal);
+  opacity: .85;
+}
+
+.auth-record-art svg {
+  filter: drop-shadow(0 10px 24px rgba(255, 122, 77, .35));
 }
 
 .auth-panel {
