@@ -87,7 +87,11 @@ async function fetchItunes(path, params) {
 
   try {
     const response = await fetch(url, {
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Accept-Language': 'en-GB,en;q=0.9',
+        'User-Agent': 'TrackStack/1.0 (+https://trackstack-zin9.onrender.com)',
+      },
       signal: AbortSignal.timeout(env.itunes.timeoutMs),
     });
 
