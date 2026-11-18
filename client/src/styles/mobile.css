@@ -585,9 +585,9 @@
     grid-template-rows: auto 1fr;
     border-radius: 0;
   }
-  .auth-art { min-height: 0; padding: 1rem 1.25rem 1.25rem; }
+  .auth-art { min-height: 240px; padding: 2rem 1.25rem 1.75rem; }
   .auth-record-art {
-    top: 8%;
+    top: 2.25rem;
     right: 1.25rem;
     left: auto;
     width: min(26vw, 110px);
