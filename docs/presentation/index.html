@@ -411,7 +411,7 @@
         <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
           <div class="card">
             <h3>Where iTunes fits</h3>
-            <p>iTunes supplies album information only. The API I built calls it. The browser never does.</p>
+            <p>iTunes supplies album information only. The API I built calls it first. The browser has a read-only fallback if a host is blocked.</p>
           </div>
           <div class="card">
             <h3>One repo</h3>
@@ -489,7 +489,7 @@
         <div class="card">
           <h3>iTunes API</h3>
           <p class="fields">No API key</p>
-          <p>Structured JSON, called only from the server.</p>
+          <p>Structured JSON, server call first with a browser fallback.</p>
         </div>
         <div class="card">
           <h3>Render + Capacitor</h3>
@@ -570,7 +570,7 @@
           <p style="margin-top:14px">The same pages, stacked into a single column.</p>
         </div>
       </div>
-      <p class="small" style="margin-top:16px">Thick outlines, solid shadows, pill buttons and springy motion, and every animation respects reduced motion.</p>
+      <p class="small" style="margin-top:16px">Near-black surfaces, soft elevation, Manrope type and a coral accent. Every animation respects reduced motion.</p>
     </div>
     <div class="foot"><span>TrackStack · Final Project</span><span class="pagenum">09 / 13</span></div>
   </section>
@@ -736,32 +736,32 @@
 
 <script>
   const NOTES = [
-    `0:00. Title. Say: "TrackStack is a web app for people who collect records. In the next six minutes I'll show you what it does, how it works, and what I learned building it."`,
+    `0:00 (0:08). Title. "TrackStack is a web app for people who collect records. In the next three minutes I'll show you what it does, how it works, and the result."`,
 
-    `0:15. What it is. "There is a shared catalogue of albums. You add your own copy to a shelf. The copy is yours: its format, condition and price. You can keep several shelves and share one with a link. The brief offered Route A or B; I chose records."`,
+    `0:08 (0:16). What it is. "There is a shared catalogue of albums. I add my own copy to a shelf with its format, condition and price. The brief offered Route A or B; I chose Route B, records."`,
 
-    `0:40. What you can do. "Six actions: find a record, add your copy, build shelves, keep a wantlist, share a shelf, and follow other collectors. There is also a journal, stories, badges and a yearly recap."`,
+    `0:24 (0:10). What I can do. "Six actions: find a record, add my copy, build shelves, keep a wantlist, share a shelf, and follow other collectors. The journal, stories, badges and recap are extras."`,
 
-    `0:45. Demo. Switch to the app now. Roughly ninety seconds. Follow one record: register, home, search Daft Punk, open the album, add the copy, show the stats, the shelf room and the share link, then community and phone width. Narrate the journey, not the widgets.
-Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, the public "Vinyl Shelf" shared, browser at ~1100px then dragged to 390px, audio muted.`,
+    `0:34 (0:36). Demo. Switch to the app now. Follow one record for thirty-six seconds: home, search Rumours, album detail, add the copy, show the shelf stats, then resize to phone width. Narrate the journey, not the widgets.
+Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, the public "Vinyl Shelf" shared, Discover tested with Rumours, browser at ~1100px then dragged to 390px, audio muted.`,
 
-    `2:15. How it works. "The browser talks to the API I built; the API talks to Postgres. iTunes only supplies catalogue data, and only the API calls it. One repo, one deploy."`,
+    `1:10 (0:12). How it works. "The browser talks to the API I built; the API talks to Postgres. iTunes supplies catalogue data, with a read-only browser fallback if a host blocks the server request. One repo, one deploy."`,
 
-    `2:45. How it is built. "Four layers, each with one job. React pages call Express. Express routes hand off to controllers, then services, then SQL. Postgres holds the data and enforces the rules. Docker and Render deliver one URL. Because the layers are separate, I could test and change one part without breaking the rest."`,
+    `1:22 (0:14). How it is built. "Four layers, each with one job. React pages call Express. Express routes hand off to controllers, then services, then SQL. Postgres holds the data and enforces the rules. Docker and Render deliver one URL."`,
 
-    `3:15. Why these tools. "The AI used familiar, well-documented tools because each one reduced risk. JavaScript kept one language across the app. React maps pages to components, Express is a small rules layer, and Postgres enforces the data rules with foreign keys and constraints. iTunes needs no key, Render gives one URL, and Capacitor reuses the same build on Android."`,
+    `1:36 (0:10). Why these tools. "The AI used familiar, well-documented tools because each one reduced risk. JavaScript kept one language across the app. React maps pages to components, Express is a small rules layer, and Postgres enforces the data rules. iTunes needs no key, Render gives one URL, and Capacitor reuses the same build on Android."`,
 
-    `3:40. The key idea. "The album row is shared. Your copy is a separate row that links your shelf to that album and holds condition, price and notes. So editing your copy never changes anyone else's record."`,
+    `1:46 (0:14). The key idea. "The album row is shared. My copy is a separate row that links my shelf to that album and holds condition, price and notes. Editing my copy never changes anyone else's record."`,
 
-    `4:05. Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: thick outlines, solid shadows, pill buttons and springy motion, and it respects reduced motion."`,
+    `2:00 (0:10). Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: near-black surfaces, soft elevation, Manrope type and a coral accent. It respects reduced motion."`,
 
-    `4:40. Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
+    `2:10 (0:08). Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
 
-    `5:00. Proof. "131 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If you have the phone ready, hold it up while you say the last sentence and show the same bottom dock."`,
+    `2:18 (0:08). Proof. "131 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app. If the phone is ready, hold it up for five seconds and show the bottom dock."`,
 
-    `5:25. Reflection. "What worked: schema first, small commits, and AI writing code inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design."`,
+    `2:26 (0:04). Reflection. "What worked: schema first, small commits, and AI writing inside boundaries I set. What didn't: the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a collection is a join table, not a list; real-database tests catch more; saying no is part of design." Then say "Here is the 30-second advert." and play submission/TrackStack-Ad.mp4 from 2:30 to 3:00.`,
 
-    `5:45. Close. "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and take questions.`
+    `3:00 (2:00 questions). Close. "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and take questions. Stop at 5:00 even if a question is still open.`
   ];
 
   const slides = Array.from(document.querySelectorAll('.slide'));

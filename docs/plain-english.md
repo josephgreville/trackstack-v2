@@ -52,7 +52,8 @@ Think of a restaurant:
 | The supplier | Provides ingredients the kitchen does not make | The iTunes catalogue |
 
 The browser never talks to the database directly. It asks the API; the API checks the request and
-then talks to the database. iTunes only supplies album information, and only the API calls it.
+then talks to the database. iTunes only supplies album information. The API calls it first, and the
+browser has a read-only fallback if a host blocks that call.
 
 ## The words in the deck, decoded
 
@@ -79,8 +80,8 @@ Say this, in this order. Each line is one slide.
 2. **The core idea.** "The album is shared, but your copy is personal: its condition, price and
    notes belong to you. That is the part worth explaining."
 3. **The demo.** "I'll follow one record from search to a shared shelf."
-4. **How it works.** "The browser talks to the API I built, the API talks to the database, and iTunes only
-   supplies album information."
+4. **How it works.** "The browser talks to the API I built, the API talks to the database, and iTunes
+   supplies album information through a server call first."
 5. **The design.** "The same app on desktop and phone: a left rail on desktop, a bottom dock on
    mobile, and one deliberate visual style."
 6. **Hosting and proof.** "One container on Render, one URL, and 131 automated tests against a real
@@ -108,7 +109,8 @@ many-to-many problem, not just a list."
 copy always points at a real album."
 
 **Where are the API keys?**
-"There are none. iTunes needs no key, and every call is made by the server."
+"There are none. iTunes needs no key. The server calls it first, with a read-only browser fallback if
+a host blocks that call."
 
 **Is it deployed?**
 "Yes, at <https://trackstack-zin9.onrender.com>. The free tier sleeps after 15 minutes idle, so the

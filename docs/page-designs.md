@@ -185,7 +185,8 @@ The greeting is time-aware.
 
 **Built as:** `Browse.jsx`, a `SearchBar` (debounced), `GenreChips` (horizontal scroller on
 mobile), an `AlbumCard` grid, and a `Pagination` control. The genre panel becomes a bottom sheet
-on mobile. Results come from `GET /api/v1/catalog/search`, which proxies the iTunes Search API.
+on mobile. Results come from `GET /api/v1/catalog/search`, which calls the iTunes Search API first.
+If a host is blocked, the browser reads the same public catalogue directly.
 
 ---
 

@@ -27,6 +27,7 @@ information about their things. The app must:
 - keep **no private keys** in the frontend or in GitHub;
 - live in a **public GitHub repository** with a **public URL** (or a documented hosting plan);
 - be presented in **10 minutes**: 6 minutes presenting, 4 minutes of questions.
+- Classroom update: present in **3 minutes** including a **30-second STAR video advert**, then **2 minutes** of questions. Stop at 5 minutes.
 
 Deliverables: brief, architecture document, page designs, GitHub repo, live URL or hosting plan,
 and the presentation.
@@ -110,12 +111,12 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 |---|---|---|
 | Users have many collections, collections many records | `collections`, `collection_albums`, `albums` with foreign keys and a unique `(collection_id, album_id)` pair | [`architecture.md`](architecture.md#2-data-model) · migrations in `server/migrations/` |
 | Own API, not a third-party backend | Express 5 API is the source of truth; iTunes only supplies catalogue metadata | `/api/v1` and `/api/v1/2` endpoint tables in [`architecture.md`](architecture.md#3-api) |
-| No private keys in frontend or GitHub | iTunes needs no key and is called server-side only; `DATABASE_URL` and `SESSION_SECRET` come from the environment; `.env` is git-ignored | `.env.example`, `server/src/config/env.js`, [`architecture.md`](architecture.md#4-security) |
+| No private keys in frontend or GitHub | iTunes needs no key and is called by the server first, with a read-only browser fallback when a host is blocked; `DATABASE_URL` and `SESSION_SECRET` come from the environment; `.env` is git-ignored | `.env.example`, `server/src/config/env.js`, [`architecture.md`](architecture.md#4-security) |
 | Responsive desktop and mobile | Left rail ≥1024px, bottom dock <768px, mobile type ramp | [`page-designs.md`](page-designs.md) |
 | Public repo and live URL | Public GitHub repo, Render deployment with managed Postgres | <https://github.com/josephgreville/trackstack-v2> · <https://trackstack-zin9.onrender.com> |
 | Access control | Every personal query is scoped by `user_id`; another user's collection returns 404 | `server/src/services/`, `collections.test.js` |
 | It actually works | 131 tests across 13 files against a real Postgres database; production image smoke-tested | [`testing.md`](testing.md) · `npm test` |
-| 10-minute presentation | 13-slide deck with speaker notes, a timed demo journey and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
+| 3-minute presentation with advert | 13-slide deck with speaker notes, a timed demo journey, a 30-second STAR advert and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
 
 ## 7. Constraints and risks
 

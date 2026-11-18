@@ -283,6 +283,7 @@ select:focus {
 }
 
 .home-stat-card {
+  min-width: 0;
   padding: 1.1rem 1.2rem;
 }
 
@@ -290,6 +291,8 @@ select:focus {
   color: var(--brown-light);
   font-size: .76rem;
   letter-spacing: .12em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
@@ -388,9 +391,17 @@ select:focus {
 }
 
 .wantlist-quick-button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  place-items: center;
   border: 0;
   border-radius: 50%;
   color: #fff;
+  font-size: 1.2rem;
   background: rgba(0, 0, 0, .55);
   backdrop-filter: blur(6px);
 }
@@ -647,7 +658,8 @@ select:focus {
   }
 
   .home-stat-card h3 {
-    font-size: .68rem;
+    font-size: .64rem;
+    letter-spacing: .06em;
   }
 
   .home-stat-card .stat-row strong {

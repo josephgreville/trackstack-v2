@@ -26,7 +26,7 @@ decisions, the hosting plan and the risks I know about.
 | Build tool | **Vite 6** | Instant dev server, fast production builds, simple static output (`client/dist`). The same folder can be served by Netlify *or* by Express in production. |
 | Styling | **Tailwind CSS 3 + CSS variables** | Utility classes for layout consistency, a token file (`client/src/styles/tokens.css`) for the palette so the "sticker book" look lives in one place. |
 | Animation | **Framer Motion** | Spring physics and layout animation, all gated behind `prefers-reduced-motion`. |
-| Third-party API | **iTunes Search API** | Album catalogue + artwork + 30s preview clips. Chosen because it needs **no API key**, returns structured JSON, and is not rate-limited for a demo. All calls go through the server (`server/src/services/itunesService.js`), never from the browser. |
+| Third-party API | **iTunes Search API** | Album catalogue + artwork + 30s preview clips. Chosen because it needs **no API key**, returns structured JSON, and is not rate-limited for a demo. The server calls it first (`server/src/services/itunesService.js`); the browser has a read-only fallback if a host is blocked. |
 | Mobile | **Capacitor 8 (Android)** | The same React build runs in a native shell; `android/` in the repo. The API base URL is runtime-configurable from the app. |
 | Tests | **Vitest + Testing Library + Supertest** | Vitest shares Vite's config, so one command runs both client and server suites. Supertest drives the real Express app against a real Postgres test database. |
 
@@ -257,7 +257,7 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 | Concern | What I did |
 |---|---|
 | Secrets | `.env` is git-ignored; `.env.example` documents every variable with no real values. The only secrets are `DATABASE_URL` and `SESSION_SECRET` (32+ chars enforced in production). |
-| Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and all upstream calls are made from `server/src/services/itunesService.js`. The browser never talks to Apple directly, so no key *could* end up in front-end code. |
+| Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and the first upstream call is made from `server/src/services/itunesService.js`. The browser fallback calls the same public endpoint without credentials, so no key *could* end up in front-end code. |
 | Password storage | bcryptjs hash, never logged, never returned by any endpoint. |
 | Sessions | Signed, `httpOnly` cookie (`ts.sid`), `SameSite=Lax` locally and `SameSite=None; Secure` in production (needed because the native Android app and a Netlify-hosted client are different origins). Session rows are stored server-side and can be revoked. |
 | XSS | React escapes by default; a strict Content-Security-Policy is set via helmet (`script-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`). No `dangerouslySetInnerHTML` anywhere. |
@@ -353,7 +353,7 @@ university VM) with no code changes.
 | # | Risk | Impact | Mitigation / plan |
 |---|---|---|---|
 | 1 | **Free-tier hosting sleeps or expires.** Render's free Postgres expires after ~30 days; free web services idle out. | Demo fails on the day. | Keep the Docker image as the fallback: it is portable to any host in minutes. Before the demo, wake the service and run the smoke-test script in `docs/hosting.md`. |
-| 2 | **iTunes Search API rate limits or outage.** No SLA, no key, no support. | Browse / Discover degrade. | Server-side 5-minute TTL cache + in-flight request de-duplication; the album pages already degrade gracefully when related-album lookups fail. Fallback: seed the `albums` table from a local JSON dump so the app works offline. |
+| 2 | **iTunes Search API rate limits or outage.** No SLA, no key, no support. | Browse / Discover degrade. | Server-side 5-minute TTL cache + in-flight request de-duplication, plus a read-only browser fallback when a host is blocked. The album pages degrade gracefully when related-album lookups fail. Final fallback: seed the `albums` table from a local JSON dump so the app works offline. |
 | 3 | **Single-region Postgres on a free tier.** No backups, no replicas. | Data loss on a bad deploy. | Migrations are additive and forward-only, so a rollback is "redeploy the previous image". For a real launch: managed Postgres with automated backups and a read replica. |
 | 4 | **Two-origin deployment weakens CSRF defences.** `SameSite=None` cookies travel on cross-site requests. | Forged writes if the origin allow-list leaks. | Strict `CLIENT_ORIGIN` allow-list, CSP, `SameSite=None` only where required. Fix: serve client and API from one origin (Option A) and restore `SameSite=Lax`. |
 | 5 | **Shared `albums` table means one user's edit could affect another's copy.** | Data inconsistency. | Album metadata rows are effectively immutable catalogue records; all personal data lives on `collection_albums`, `wantlist_items`, `listening_history` and `album_stories`, which are strictly user-scoped. |

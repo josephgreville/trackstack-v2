@@ -304,5 +304,5 @@ Then, in the browser:
 | Login succeeds then immediately logs out | `CLIENT_ORIGIN` mismatch → cookie rejected | `CLIENT_ORIGIN` must exactly match the front-end origin, no trailing slash |
 | CORS error in the browser console | Split deployment without the proxy rewrite | Add `CLIENT_ORIGIN` on the API and use the Netlify proxy rewrite (B1) |
 | Blank page, `GET /` 404 | Client not built or `NODE_ENV` not `production` | Ensure the build ran and `client/dist` exists in the image |
-| Browse is empty | iTunes unreachable | Check outbound network; the 5-minute cache means results appear after the first successful call |
+| Browse is empty | iTunes unreachable from both server and browser | Check outbound network; the 5-minute cache returns results after the first successful call |
 | First request takes 30 s | Free tier waking up | Expected. Wake it before the demo |
