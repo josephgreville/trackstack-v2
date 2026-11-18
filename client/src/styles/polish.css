@@ -559,6 +559,36 @@ select:focus {
   color: var(--brown-light);
 }
 
+.auth-field-icon {
+  color: var(--orange);
+  opacity: .85;
+}
+
+.auth-input {
+  padding-right: 3.5rem;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: .35rem;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  color: var(--brown-light);
+  background: transparent;
+}
+
+.auth-password-toggle:hover {
+  color: var(--orange);
+  background: var(--orange-soft);
+}
+
 .auth-submit,
 .auth-panel .btn-primary {
   border: 0;

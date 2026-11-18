@@ -101,7 +101,7 @@ export default function Login() {
 
         <p className="auth-social-caption">Sign in with social platforms</p>
         <div className="auth-socials">
-          {[['Instagram', '#E1306C'], ['Facebook', '#1877F2'], ['LinkedIn', '#0A66C2'], ['X', '#000000']].map(
+          {[['Instagram', '#E1306C'], ['Facebook', '#1877F2'], ['LinkedIn', '#0A66C2'], ['X', '#f7f7f8']].map(
             ([name, color]) => (
               <motion.button
                 key={name}
