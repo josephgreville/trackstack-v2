@@ -524,7 +524,7 @@ select:focus {
 }
 
 .auth-brand {
-  color: var(--charcoal);
+  color: var(--charcoal-soft);
 }
 
 .auth-brand span {
@@ -548,12 +548,14 @@ select:focus {
 }
 
 .auth-record-art {
-  color: var(--charcoal);
-  opacity: .85;
+  color: var(--charcoal-soft);
+  opacity: .55;
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
 }
 
 .auth-record-art svg {
-  filter: drop-shadow(0 10px 24px rgba(255, 122, 77, .35));
+  filter: drop-shadow(0 10px 24px rgba(255, 122, 77, .22));
 }
 
 .auth-panel {
