@@ -68,7 +68,7 @@ export default function DiscoverWeekly() {
         <header className="page-heading">
           <p className="eyebrow">Search and recommendations</p>
           <h1>Discover</h1>
-          <p>Search the whole catalogue, or take a pick built from what you already own.</p>
+          <p>Search the catalogue, or get a pick built from what you own.</p>
         </header>
 
         <div className="discover-search">

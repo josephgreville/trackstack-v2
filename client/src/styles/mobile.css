@@ -612,6 +612,13 @@
   .player-buttons .player-play { width: 40px; height: 40px; }
   .home-quick-actions { grid-template-columns: 1fr 1fr; }
   .catalog-grid, .collection-album-grid, .recommendation-grid { gap: .45rem; }
+
+  /* Keep the Discover introduction to one tidy eyebrow and a short line. */
+  .page-heading .eyebrow { font-size: .72rem; letter-spacing: .1em; }
+  .page-heading > p:not(.eyebrow) { font-size: .95rem; line-height: 1.45; }
+  .discover-search { padding: .9rem; }
+  .search-bar { padding-left: .7rem; }
+  .search-submit { padding-inline: .8rem; }
 }
 
 /* --- Landscape phones -------------------------------------------------- */
