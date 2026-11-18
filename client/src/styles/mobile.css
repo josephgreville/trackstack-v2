@@ -656,3 +656,32 @@
   .recommendation-copy { padding: .85rem; gap: .4rem; }
   .recommendation-actions { gap: .5rem; }
 }
+
+/* --- Scrolling stays, visible scroll bars do not ------------------------ */
+
+@media (max-width: 900px) {
+  html,
+  body,
+  .app-mobile-nav,
+  .auth-card,
+  .room-tabs,
+  .discover-genre-chips,
+  .range-switcher,
+  .shelf-records {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  .app-mobile-nav::-webkit-scrollbar,
+  .auth-card::-webkit-scrollbar,
+  .room-tabs::-webkit-scrollbar,
+  .discover-genre-chips::-webkit-scrollbar,
+  .range-switcher::-webkit-scrollbar,
+  .shelf-records::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
