@@ -77,26 +77,43 @@ function genreMatches(actualGenre, selectedGenre) {
   return aliases.some((alias) => actual.includes(alias));
 }
 
-async function fetchItunes(path, params) {
+function iTunesUrl(path, params) {
   const url = new URL(path, env.itunes.baseUrl);
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null && value !== '') {
       url.searchParams.set(key, String(value));
     }
   }
+  return url;
+}
 
+async function fetchItunes(path, params) {
+  const requestOptions = {
+    headers: {
+      Accept: 'application/json',
+      'Accept-Language': 'en-GB,en;q=0.9',
+      'User-Agent': 'TrackStack/1.0 (+https://trackstack-zin9.onrender.com)',
+    },
+    signal: AbortSignal.timeout(env.itunes.timeoutMs),
+  };
+
+  let url = iTunesUrl(path, params);
   try {
-    const response = await fetch(url, {
-      headers: {
-        Accept: 'application/json',
-        'Accept-Language': 'en-GB,en;q=0.9',
-        'User-Agent': 'TrackStack/1.0 (+https://trackstack-zin9.onrender.com)',
-      },
-      signal: AbortSignal.timeout(env.itunes.timeoutMs),
-    });
+    let response = await fetch(url, requestOptions);
+
+    // Some hosting providers get a 403 from the modern search route. Apple's
+    // older web-service route serves the same catalogue and keeps the same
+    // collection IDs, so try it before giving up on a search.
+    if (response.status === 403 && path === '/search') {
+      console.warn('[itunes] search route blocked, trying legacy search route');
+      url = iTunesUrl('/WebObjects/MZStoreServices.woa/ws/wsSearch', params);
+      response = await fetch(url, requestOptions);
+    }
 
     if (!response.ok) {
-      const detail = await response.text().catch(() => '');
+      const detail = typeof response.text === 'function'
+        ? await response.text().catch(() => '')
+        : '';
       console.error('[itunes] upstream status', response.status, url.toString(), detail.slice(0, 300));
       throw new UpstreamError('The iTunes catalogue did not respond. Please try again.');
     }
