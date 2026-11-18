@@ -205,9 +205,9 @@ export function IconLock(props) {
 export function IconMusic(props) {
   return (
     <Icon {...props}>
-      <path d="M9 18V6l10-2v12" />
-      <circle cx="6.5" cy="18" r="2.5" />
-      <circle cx="16.5" cy="16" r="2.5" />
+      <path d="M12 17V4.8" />
+      <path d="M12 4.8c3.4.9 5.3 2.8 5.3 6" />
+      <ellipse cx="8.6" cy="17.4" rx="3.2" ry="2.4" transform="rotate(-20 8.6 17.4)" />
     </Icon>
   );
 }
