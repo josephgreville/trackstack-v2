@@ -90,7 +90,8 @@ export async function commentCreate(req, res) {
     req.user.id,
     req.validated.params.targetType,
     req.validated.params.targetId,
-    req.validated.body.body
+    req.validated.body.body,
+    req.validated.body.parentId ?? null
   );
   res.status(201).json(comment);
 }
@@ -98,6 +99,7 @@ export async function commentCreate(req, res) {
 export async function commentsIndex(req, res) {
   const comments = await listComments(req.validated.params.targetType, req.validated.params.targetId, {
     limit: Number(req.validated?.query?.limit ?? 20),
+    userId: req.user.id,
   });
   res.json({ comments });
 }

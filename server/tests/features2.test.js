@@ -129,6 +129,26 @@ describe('TrackStack 2.0 — social', () => {
     expect(comments.body.comments[0]).toMatchObject({ body: 'Great shelf.' });
     expect(comments.body.comments[0].author.username).toBe('guest');
 
+    const commentLike = await guest.post(`${api}/2/social/like/comment/${comment.body.id}`);
+    expect(commentLike.status).toBe(200);
+    const reply = await owner
+      .post(`${api}/2/social/comments/collection/${collection.id}`)
+      .send({ body: 'Thanks!', parentId: comment.body.id });
+    expect(reply.status).toBe(201);
+    expect(reply.body.parentId).toBe(comment.body.id);
+
+    const otherCollection = await seedCollection(owner, 'Other stack');
+    const strayReply = await owner
+      .post(`${api}/2/social/comments/collection/${otherCollection.id}`)
+      .send({ body: 'Wrong thread.', parentId: comment.body.id });
+    expect(strayReply.status).toBe(404);
+
+    const thread = await guest.get(`${api}/2/social/comments/collection/${collection.id}`);
+    expect(thread.body.comments).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: comment.body.id, likeCount: 1, liked: true }),
+      expect.objectContaining({ body: 'Thanks!', parentId: comment.body.id, likeCount: 0, liked: false }),
+    ]));
+
     await guest.delete(`${api}/2/social/like/collection/${collection.id}`);
     expect((await guest.get(`${api}/2/social/like/collection/${collection.id}`)).body.count).toBe(0);
   });

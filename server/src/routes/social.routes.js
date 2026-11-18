@@ -12,7 +12,11 @@ import {
 
 const userIdParam = z.object({ userId: z.string().uuid() });
 const notificationIdParam = z.object({ notificationId: z.string().uuid() });
-const targetParams = z.object({
+const likeTargetParams = z.object({
+  targetType: z.string().refine((v) => ['collection', 'album', 'comment'].includes(v), { message: 'Invalid target type.' }),
+  targetId: z.string().min(1).max(64),
+});
+const commentTargetParams = z.object({
   targetType: z.string().refine((v) => ['collection', 'album'].includes(v), { message: 'Invalid target type.' }),
   targetId: z.string().min(1).max(64),
 });
@@ -42,19 +46,25 @@ router.patch('/notifications/:notificationId/read', validate({ params: notificat
 router.patch('/notifications/read-all', asyncHandler(notificationsReadAll));
 
 // Likes
-router.post('/like/:targetType/:targetId', validate({ params: targetParams }), asyncHandler(like));
-router.delete('/like/:targetType/:targetId', validate({ params: targetParams }), asyncHandler(unlike));
-router.get('/like/:targetType/:targetId', validate({ params: targetParams }), asyncHandler(likeStatus));
+router.post('/like/:targetType/:targetId', validate({ params: likeTargetParams }), asyncHandler(like));
+router.delete('/like/:targetType/:targetId', validate({ params: likeTargetParams }), asyncHandler(unlike));
+router.get('/like/:targetType/:targetId', validate({ params: likeTargetParams }), asyncHandler(likeStatus));
 
 // Comments
 router.post(
   '/comments/:targetType/:targetId',
-  validate({ params: targetParams, body: z.object({ body: z.string().min(1).max(1000) }) }),
+  validate({
+    params: commentTargetParams,
+    body: z.object({
+      body: z.string().min(1).max(1000),
+      parentId: z.string().uuid().optional(),
+    }),
+  }),
   asyncHandler(commentCreate),
 );
 router.get(
   '/comments/:targetType/:targetId',
-  validate({ params: targetParams, query: paginationQuery }),
+  validate({ params: commentTargetParams, query: paginationQuery }),
   asyncHandler(commentsIndex),
 );
 

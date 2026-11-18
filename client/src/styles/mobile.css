@@ -402,6 +402,9 @@
   .story-editor-row { grid-template-columns: 1fr; }
   .comment-form { flex-direction: column; align-items: stretch; }
   .comment-form .btn { width: 100%; }
+  .comment-replies { margin-left: .5rem; padding-left: .6rem; }
+  .comment-reply-form { margin-left: 0; }
+  .comment-reply-actions .btn { flex: 1; }
   .queue-builder { grid-template-columns: 1fr; }
   .queue-builder > span { grid-column: auto; }
   .queue-item { grid-template-columns: 1.5rem 48px minmax(0, 1fr); }

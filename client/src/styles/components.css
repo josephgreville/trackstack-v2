@@ -820,14 +820,25 @@ input:focus, textarea:focus, select:focus {
 .comment-heading { margin-bottom: .8rem; font-size: var(--text-base); }
 .comment-heading span { color: var(--brown-light); }
 .comment-form { display: flex; gap: .5rem; align-items: flex-end; margin-bottom: 1rem; }
-.comment-form textarea { flex: 1; min-height: 44px; padding: .6rem .8rem; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); color: var(--charcoal); background: var(--paper-deep); resize: vertical; }
+.comment-form textarea, .comment-reply-form textarea { flex: 1; min-height: 44px; padding: .6rem .8rem; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); color: var(--charcoal); background: var(--paper-deep); resize: vertical; }
 .comment-list { display: grid; gap: .8rem; }
-.comment-item { display: flex; gap: .7rem; }
+.comment-thread { display: grid; gap: .7rem; }
+.comment-item { display: flex; align-items: flex-start; gap: .7rem; }
 .comment-avatar { display: grid; width: 30px; height: 30px; flex: 0 0 30px; place-items: center; border-radius: 50%; color: var(--orange); background: var(--orange-soft); font-size: var(--text-xs); font-weight: 800; }
-.comment-copy { display: grid; gap: .1rem; }
+.comment-copy { display: grid; gap: .1rem; min-width: 0; }
 .comment-copy strong { color: var(--charcoal); font-size: var(--text-sm); }
 .comment-copy time { color: var(--brown-light); font-size: .68rem; }
-.comment-copy p { color: var(--brown); font-size: var(--text-sm); }
+.comment-copy p { color: var(--brown); font-size: var(--text-sm); overflow-wrap: anywhere; }
+.comment-reply-to { color: var(--brown-light); font-size: .7rem; }
+.comment-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: .35rem; }
+.comment-action { padding: .15rem 0; border: 0; color: var(--brown-light); background: transparent; cursor: pointer; font-size: var(--text-xs); font-weight: 700; }
+.comment-action:hover { color: var(--orange); }
+.comment-replies { display: grid; gap: .6rem; margin-left: .9rem; padding-left: .85rem; border-left: 2px solid var(--line-strong); }
+.comment-replies .comment-avatar { width: 24px; height: 24px; flex-basis: 24px; font-size: .65rem; }
+.comment-replies .comment-copy strong, .comment-replies .comment-copy p { font-size: .82rem; }
+.comment-replies .like-button { padding: .25rem .6rem; font-size: var(--text-xs); }
+.comment-reply-form { display: grid; gap: .5rem; margin-left: 2.4rem; }
+.comment-reply-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
 .comment-empty, .comment-loading { color: var(--brown-light); font-size: var(--text-sm); }
 
 /* --- Notifications ------------------------------------------------------ */

@@ -155,7 +155,7 @@ export async function getUnreadNotificationCount(userId) {
 }
 
 export async function likeContent(userId, targetType, targetId) {
-  if (!['collection', 'album'].includes(targetType)) throw new Error('Invalid target type.');
+  if (!['collection', 'album', 'comment'].includes(targetType)) throw new Error('Invalid target type.');
   try {
     await pool.query(
       `INSERT INTO likes (user_id, target_type, target_id) VALUES ($1, $2, $3)`,
@@ -184,28 +184,54 @@ export async function isLiked(userId, targetType, targetId) {
   return rows.length > 0;
 }
 
-export async function addComment(userId, targetType, targetId, body) {
+export async function addComment(userId, targetType, targetId, body, parentId = null) {
   if (!['collection', 'album'].includes(targetType)) throw new Error('Invalid target type.');
+  if (parentId) {
+    const { rows: parents } = await pool.query(
+      `SELECT 1 FROM comments
+       WHERE id = $1 AND target_type = $2 AND target_id = $3`,
+      [parentId, targetType, targetId]
+    );
+    if (!parents[0]) throw new NotFoundError('That comment could not be found.');
+  }
   const { rows } = await pool.query(
-    `INSERT INTO comments (user_id, target_type, target_id, body)
-     VALUES ($1, $2, $3, $4) RETURNING id, created_at`,
-    [userId, targetType, targetId, body]
+    `INSERT INTO comments (user_id, target_type, target_id, body, parent_id)
+     VALUES ($1, $2, $3, $4, $5) RETURNING id, created_at, parent_id`,
+    [userId, targetType, targetId, body, parentId]
   );
-  return { id: rows[0].id, createdAt: rows[0].created_at };
+  return {
+    id: rows[0].id,
+    createdAt: rows[0].created_at,
+    parentId: rows[0].parent_id,
+  };
 }
 
-export async function listComments(targetType, targetId, { limit = 20 } = {}) {
+export async function listComments(targetType, targetId, { limit = 20, userId = null } = {}) {
   const { rows } = await pool.query(
-    `SELECT c.id, c.body, c.created_at, u.username, u.avatar_url
+    `SELECT c.id, c.body, c.created_at, c.parent_id, u.username, u.avatar_url,
+            p.body AS parent_body, pu.username AS parent_username,
+            (SELECT count(*)::int FROM likes l
+              WHERE l.target_type = 'comment' AND l.target_id = c.id::text) AS like_count,
+            EXISTS (SELECT 1 FROM likes l2
+              WHERE l2.target_type = 'comment' AND l2.target_id = c.id::text
+                AND l2.user_id = $4) AS liked
      FROM comments c JOIN users u ON u.id = c.user_id
+     LEFT JOIN comments p ON p.id = c.parent_id
+     LEFT JOIN users pu ON pu.id = p.user_id
      WHERE c.target_type = $1 AND c.target_id = $2
      ORDER BY c.created_at DESC LIMIT $3`,
-    [targetType, targetId, limit]
+    [targetType, targetId, limit, userId]
   );
   return rows.map((row) => ({
     id: row.id,
     body: row.body,
     createdAt: row.created_at,
+    parentId: row.parent_id,
+    likeCount: row.like_count,
+    liked: row.liked,
+    replyTo: row.parent_id
+      ? { username: row.parent_username, body: row.parent_body }
+      : null,
     author: { username: row.username, avatarUrl: row.avatar_url },
   }));
 }

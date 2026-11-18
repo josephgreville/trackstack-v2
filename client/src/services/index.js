@@ -96,8 +96,11 @@ export const socialService = {
   unlike: (targetType, targetId) => api.delete(`/2/social/like/${targetType}/${targetId}`),
   likeStatus: (targetType, targetId) =>
     api.get(`/2/social/like/${targetType}/${targetId}`),
-  addComment: (targetType, targetId, body) =>
-    api.post(`/2/social/comments/${targetType}/${targetId}`, { body }),
+  addComment: (targetType, targetId, body, parentId) =>
+    api.post(`/2/social/comments/${targetType}/${targetId}`, {
+      body,
+      ...(parentId ? { parentId } : {}),
+    }),
   comments: (targetType, targetId, { limit = 20 } = {}) =>
     api.get(`/2/social/comments/${targetType}/${targetId}${api.query({ limit })}`),
 };

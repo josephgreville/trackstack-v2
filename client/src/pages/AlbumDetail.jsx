@@ -136,6 +136,8 @@ export default function AlbumDetail() {
     );
   }
 
+  const socialTargetId = String(album.id ?? album.externalId ?? '');
+
   return (
     <section className="py-12">
       <div className="container-narrow">
@@ -210,9 +212,11 @@ export default function AlbumDetail() {
         {album.externalId && <Button className="mt-6 ms-3" variant="outline" onClick={saveToWantlist}>Add to wantlist</Button>}
         <Button className="mt-6 ms-3" variant="outline" loading={loggingListen} onClick={logListen}>Log listen</Button>
 
-        <div className="album-social-row">
-          <LikeButton targetType="album" targetId={String(album.id)} />
-        </div>
+        {socialTargetId && (
+          <div className="album-social-row">
+            <LikeButton targetType="album" targetId={socialTargetId} />
+          </div>
+        )}
 
         {albumId && (
           <div className="mt-6">
@@ -256,9 +260,11 @@ export default function AlbumDetail() {
           </section>
         )}
 
-        <section className="mt-8">
-          <CommentSection targetType="album" targetId={String(album.id)} />
-        </section>
+        {socialTargetId && (
+          <section className="mt-8">
+            <CommentSection targetType="album" targetId={socialTargetId} />
+          </section>
+        )}
       </div>
     </section>
   );

@@ -31,6 +31,9 @@ const mocks = vi.hoisted(() => ({
   socialNotifications: vi.fn(),
   socialComments: vi.fn(),
   socialLikeStatus: vi.fn(),
+  socialLike: vi.fn(),
+  socialUnlike: vi.fn(),
+  socialAddComment: vi.fn(),
   storiesGetStory: vi.fn(),
 }));
 
@@ -59,9 +62,9 @@ vi.mock('../services/index.js', () => ({
     notifications: mocks.socialNotifications,
     comments: mocks.socialComments,
     likeStatus: mocks.socialLikeStatus,
-    like: vi.fn(),
-    unlike: vi.fn(),
-    addComment: vi.fn(),
+    like: mocks.socialLike,
+    unlike: mocks.socialUnlike,
+    addComment: mocks.socialAddComment,
     follow: vi.fn(),
     unfollow: vi.fn(),
     followStatus: vi.fn(),
@@ -371,6 +374,19 @@ describe('Browse page', () => {
 
 describe('Album details page', () => {
   it('renders album metadata and tracks, and handles absent optional fields', async () => {
+    const user = userEvent.setup();
+    mocks.socialComments.mockResolvedValue({
+      comments: [{
+        id: 'comment-1',
+        body: 'Great record.',
+        createdAt: '2026-01-01T00:00:00.000Z',
+        author: { username: 'sam' },
+        parentId: null,
+        likeCount: 2,
+        liked: false,
+        replyTo: null,
+      }],
+    });
     mocks.catalogAlbum.mockResolvedValueOnce({
       album: {
         ...featuredAlbum,
@@ -384,6 +400,19 @@ describe('Album details page', () => {
     expect(screen.getByText(/Fleetwood Mac/)).toBeInTheDocument();
     expect(screen.getByText(/Dreams/)).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Rumours' })).toHaveAttribute('src', featuredAlbum.artworkUrl);
+
+    const commentText = await screen.findByText('Great record.');
+    const thread = commentText.closest('.comment-thread');
+    expect(thread).not.toBeNull();
+    await user.click(within(thread).getByRole('button', { name: 'Like' }));
+    await waitFor(() => expect(mocks.socialLike).toHaveBeenCalledWith('comment', 'comment-1'));
+
+    await user.click(within(thread).getByRole('button', { name: 'Reply to sam' }));
+    await user.type(await screen.findByPlaceholderText('Reply to sam…'), 'Agreed.');
+    await user.click(screen.getByRole('button', { name: 'Post reply' }));
+    await waitFor(() => expect(mocks.socialAddComment).toHaveBeenCalledWith(
+      'album', '594061854', 'Agreed.', 'comment-1',
+    ));
   });
 
   it('uses artwork and track-list fallbacks when catalogue metadata is missing', async () => {
