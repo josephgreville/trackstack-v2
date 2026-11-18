@@ -1,0 +1,674 @@
+/* ==========================================================================
+   TrackStack visual polish
+   A final layer that tightens spacing, removes the remaining sticker styling
+   and gives the app a calm, music-player feel across phone and desktop.
+   Loaded after the component and mobile layers, before the native shell.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -12%, rgba(255, 122, 77, .07), transparent 34rem),
+    var(--cream);
+}
+
+body::before {
+  opacity: .18;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.eyebrow {
+  color: var(--orange-dark);
+  letter-spacing: .16em;
+}
+
+.eyebrow::before {
+  width: 24px;
+  background: var(--orange);
+}
+
+::selection {
+  color: #17100c;
+  background: var(--orange);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/* --- Buttons and controls ---------------------------------------------- */
+
+.btn {
+  border: 0;
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+  font-weight: 750;
+  letter-spacing: .01em;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-sm {
+  border: 0;
+  box-shadow: none;
+}
+
+.btn-primary {
+  color: #1a0f09;
+  background: var(--orange);
+}
+
+.btn-primary:hover:not(:disabled) {
+  color: #1a0f09;
+  background: var(--orange-dark);
+}
+
+.btn-outline,
+.btn-secondary {
+  border: 1px solid var(--line-strong);
+  background: #1b1b1f;
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--orange);
+  background: #222226;
+}
+
+.btn-danger {
+  color: #fff;
+  background: #b4473a;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #19191d;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 122, 77, .16);
+}
+
+/* --- App chrome --------------------------------------------------------- */
+
+.app-shell {
+  background: var(--cream);
+}
+
+.app-sidebar {
+  flex-basis: 248px;
+  padding: 1.5rem 1rem 1.1rem;
+  border-right: 1px solid var(--line);
+  background: #101013;
+}
+
+.app-brand-wrap {
+  padding-bottom: 1.6rem;
+}
+
+.app-nav-caption {
+  font-size: .66rem;
+  letter-spacing: .18em;
+}
+
+.app-nav-link {
+  min-height: 48px;
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+
+.app-nav-link:hover {
+  border: 0;
+  background: #1d1d21;
+}
+
+.app-nav-link.is-active {
+  color: var(--charcoal);
+  background: #222226;
+}
+
+.app-nav-pill {
+  inset: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+.app-nav-link.is-active .app-nav-icon {
+  color: var(--charcoal);
+  background: rgba(255, 122, 77, .18);
+  transform: none;
+}
+
+.app-sidebar-footer {
+  border-top: 1px solid var(--line);
+}
+
+.app-avatar,
+.comment-avatar {
+  border: 1px solid var(--line-strong);
+  color: var(--orange);
+  background: #24242a;
+}
+
+.app-main-column {
+  min-width: 0;
+}
+
+.app-topbar {
+  min-height: 58px;
+  padding-inline: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-content {
+  padding-top: 1.5rem;
+}
+
+.app-content > section {
+  padding-block: 1.5rem 3rem;
+}
+
+.app-mobile-header {
+  border-bottom: 1px solid var(--line);
+  background: rgba(11, 11, 13, .92);
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.app-menu-toggle {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #1a1a1e;
+}
+
+.app-mobile-nav {
+  border-bottom: 1px solid var(--line);
+  background: #111114;
+  box-shadow: 0 26px 50px -34px #000;
+}
+
+.app-mobile-nav a.is-active {
+  color: var(--orange);
+  background: #242429;
+}
+
+.app-tabbar {
+  border-top: 1px solid var(--line);
+  background: rgba(11, 11, 13, .95);
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.app-tab {
+  font-size: .66rem;
+  font-weight: 700;
+}
+
+.app-tab-icon {
+  width: 38px;
+  height: 30px;
+  border-radius: 9px;
+}
+
+.app-tab.is-active {
+  color: var(--charcoal);
+}
+
+.app-tab.is-active .app-tab-icon {
+  color: var(--orange);
+  background: var(--orange-soft);
+  transform: none;
+}
+
+.app-tab-pill {
+  display: none;
+}
+
+/* --- Home dashboard ----------------------------------------------------- */
+
+.dashboard-hero {
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 90% 120%, rgba(255, 122, 77, .12), transparent 42%),
+    linear-gradient(135deg, #1b1b20, #101013);
+  box-shadow: var(--shadow);
+}
+
+.dashboard-hero::after {
+  opacity: .6;
+}
+
+.dashboard-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  letter-spacing: -.045em;
+}
+
+.dashboard-hero > p:not(.eyebrow) {
+  color: var(--brown);
+}
+
+.home-stat-grid,
+.home-quick-actions {
+  gap: 1rem;
+}
+
+.home-stat-card,
+.home-quick-action,
+.app-content > div.bg-paper.rounded-lg {
+  border: 1px solid var(--line);
+  background: #151518;
+  box-shadow: var(--shadow-sm);
+}
+
+.home-stat-card {
+  padding: 1.1rem 1.2rem;
+}
+
+.home-stat-card h3 {
+  color: var(--brown-light);
+  font-size: .76rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.home-stat-card .stat-row strong {
+  color: var(--charcoal);
+  font: 750 1.8rem/1 var(--font-display);
+}
+
+.home-quick-action {
+  gap: .75rem;
+  padding: .85rem 1rem;
+  border-color: transparent;
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+
+.home-quick-action:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  background: #202024;
+  box-shadow: var(--shadow-sm);
+}
+
+.home-quick-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: var(--radius-sm);
+  background: var(--orange-soft);
+}
+
+.home-quick-copy strong {
+  font-size: .9rem;
+}
+
+.app-content > div.bg-paper.rounded-lg {
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+}
+
+.app-content h2 {
+  font-size: 1.35rem;
+}
+
+/* --- Cards and artwork -------------------------------------------------- */
+
+.group.bg-paper,
+.collection-album-card,
+.collection-manage-card,
+.stat-card,
+.recommendation-card,
+.achievement-badge,
+.activity-item,
+.notification-item,
+.wrapped-card,
+.story-card,
+.history-entry,
+.queue-item,
+.social-side-card,
+.collection-card {
+  border: 1px solid var(--line);
+  background: #151518;
+  box-shadow: var(--shadow-sm);
+}
+
+.group.bg-paper:hover,
+.collection-album-card:hover,
+.stat-card:hover,
+.recommendation-card:hover,
+.achievement-badge:hover {
+  border-color: var(--line-strong);
+  background: #1d1d21;
+  box-shadow: var(--shadow);
+}
+
+.group.bg-paper {
+  padding: .85rem;
+  border-radius: var(--radius);
+}
+
+.group.bg-paper img {
+  border-radius: var(--radius-sm);
+}
+
+.group.bg-paper h3 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.group.bg-paper p {
+  font-size: .82rem;
+}
+
+.album-artwork-fallback {
+  border: 1px solid var(--line-strong);
+}
+
+.wantlist-quick-button {
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(6px);
+}
+
+/* --- Album detail and comments ------------------------------------------ */
+
+.app-content .container-narrow > div.mb-8 {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-content .container-narrow > div.mb-8 img {
+  border-radius: var(--radius-lg);
+}
+
+.album-social-row {
+  gap: .75rem;
+  margin-top: 1.25rem;
+}
+
+.comment-section {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: #121215;
+}
+
+.comment-heading {
+  font-size: 1.05rem;
+  letter-spacing: -.02em;
+}
+
+.comment-form,
+.comment-reply-form {
+  gap: .75rem;
+}
+
+.comment-form textarea,
+.comment-reply-form textarea {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #1a1a1e;
+}
+
+.comment-thread {
+  gap: .8rem;
+  padding: .9rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.comment-thread:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.comment-item {
+  gap: .8rem;
+}
+
+.comment-actions {
+  gap: 1rem;
+  margin-top: .5rem;
+}
+
+.comment-action {
+  min-height: 36px;
+  padding: .2rem .35rem;
+  color: var(--brown-light);
+  font-weight: 700;
+}
+
+.comment-action:hover {
+  color: var(--orange);
+}
+
+.comment-replies {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--line-strong);
+}
+
+.comment-replies .comment-item {
+  padding-top: .35rem;
+}
+
+.like-button {
+  min-height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: #19191d;
+}
+
+.like-button.is-liked {
+  border-color: rgba(255, 143, 177, .5);
+  color: var(--rose);
+  background: var(--rose-soft);
+}
+
+/* --- Account screens ---------------------------------------------------- */
+
+.auth-scene {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 122, 77, .12), transparent 38rem),
+    #09090b;
+}
+
+.auth-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: #101013;
+  box-shadow: 0 40px 90px -44px #000;
+}
+
+.auth-art {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 122, 77, .2), transparent 42%),
+    linear-gradient(145deg, #1a1a1e, #0d0d0f);
+}
+
+.auth-art-copy h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -.05em;
+}
+
+.auth-art-copy p {
+  color: var(--brown);
+}
+
+.auth-floats {
+  display: none;
+}
+
+.auth-record-art {
+  opacity: .18;
+}
+
+.auth-panel {
+  background: #121215;
+}
+
+.auth-switch {
+  border: 1px solid var(--line);
+  background: #1f1f24;
+}
+
+.auth-switch a.active {
+  color: #1a0f09;
+  background: var(--orange);
+}
+
+.auth-input {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--charcoal);
+  background: #1b1b20;
+}
+
+.auth-input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 122, 77, .16);
+}
+
+.auth-input::placeholder {
+  color: var(--brown-light);
+}
+
+.auth-submit,
+.auth-panel .btn-primary {
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: #1a0f09;
+  background: var(--orange);
+  box-shadow: var(--shadow-orange);
+}
+
+.auth-submit:hover,
+.auth-panel .btn-primary:hover {
+  background: var(--orange-dark);
+}
+
+/* --- Player ------------------------------------------------------------- */
+
+.player-bar {
+  border-top: 1px solid var(--line);
+  background: rgba(15, 15, 17, .96);
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+.player-art {
+  border-radius: var(--radius-xs);
+}
+
+.player-buttons .player-play {
+  color: #1a0f09;
+  background: var(--orange);
+}
+
+/* --- Responsive refinement --------------------------------------------- */
+
+@media (max-width: 900px) {
+  .app-content {
+    width: min(calc(100% - 1.5rem), 1320px);
+    padding-top: 1rem;
+  }
+
+  .app-content > section {
+    padding-block: 1rem 2.25rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .home-stat-grid,
+  .home-quick-actions {
+    gap: .65rem;
+  }
+
+  .home-stat-card {
+    padding: .9rem;
+  }
+
+  .home-stat-card h3 {
+    font-size: .68rem;
+  }
+
+  .home-stat-card .stat-row strong {
+    font-size: 1.55rem;
+  }
+
+  .home-quick-action {
+    padding: .75rem;
+  }
+
+  .home-quick-icon {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .comment-section {
+    padding: 1rem;
+  }
+
+  .comment-replies {
+    margin-left: .4rem;
+    padding-left: .7rem;
+  }
+
+  .comment-reply-form {
+    margin-left: 0;
+  }
+
+  .comment-action {
+    min-height: 44px;
+    padding: .4rem .5rem;
+  }
+
+  .comment-replies .like-button {
+    min-height: 40px;
+    padding: .35rem .7rem;
+  }
+
+  .app-tabbar {
+    padding-bottom: calc(.35rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 480px) {
+  .home-quick-copy span {
+    font-size: .72rem;
+  }
+
+  .comment-form .btn,
+  .comment-reply-actions .btn {
+    width: 100%;
+  }
+}

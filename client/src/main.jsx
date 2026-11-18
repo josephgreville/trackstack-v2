@@ -8,6 +8,7 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/pages.css';
 import './styles/mobile.css';
+import './styles/polish.css';
 import './styles/native.css';
 
 // Prepare the native shell before the first render so the status bar and
