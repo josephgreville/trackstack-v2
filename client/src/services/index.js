@@ -1,5 +1,82 @@
 import { api } from '../api/client.js';
 
+// Apple blocks search requests from some hosting providers, while album
+// lookup still works. This browser fallback keeps search usable with the same
+// iTunes collection IDs, so album pages and previews continue to work.
+const ITUNES_GENRE_ALIASES = {
+  'hip-hop/rap': ['hip-hop', 'rap'],
+  'r&b/soul': ['r&b', 'soul'],
+  electronic: ['electronic', 'dance'],
+  indie: ['alternative', 'indie'],
+  'singer/songwriter': ['singer/songwriter', 'folk'],
+  alternative: ['alternative', 'indie'],
+  rock: ['rock'],
+  pop: ['pop'],
+  jazz: ['jazz'],
+  soul: ['soul', 'r&b'],
+  country: ['country'],
+  classical: ['classical'],
+  folk: ['folk', 'singer/songwriter'],
+  metal: ['metal'],
+  blues: ['blues'],
+};
+
+function normaliseItunesAlbum(item) {
+  if (!item || item.wrapperType !== 'collection' || !item.collectionId) return null;
+  const year = Number(String(item.releaseDate ?? '').slice(0, 4));
+  return {
+    externalId: String(item.collectionId),
+    title: item.collectionName ?? 'Untitled album',
+    artist: item.artistName ?? 'Unknown artist',
+    releaseYear: Number.isInteger(year) && year >= 1000 && year <= 2100 ? year : null,
+    genre: item.primaryGenreName ?? null,
+    artworkUrl: item.artworkUrl100?.replace(/\/\d+x\d+bb\.(jpg|jpeg|png|webp)$/i, '/600x600bb.$1') ?? null,
+    trackCount: Number.isInteger(item.trackCount) ? item.trackCount : null,
+    appleMusicUrl: item.collectionViewUrl ?? null,
+  };
+}
+
+function genreMatches(actual, selected) {
+  if (!selected) return true;
+  if (!actual) return false;
+  const aliases = ITUNES_GENRE_ALIASES[selected.toLowerCase()] ?? [selected.toLowerCase()];
+  return aliases.some((alias) => actual.toLowerCase().includes(alias));
+}
+
+async function searchItunesDirect(filters, signal) {
+  const { q = '', genre = '', artist = '', yearFrom, yearTo, sort = 'relevance', page = 1, limit = 24 } = filters;
+  const term = q.trim() || artist.trim() || genre.trim();
+  if (!term) throw new Error('Enter an album, artist or genre to search.');
+
+  const params = new URLSearchParams({
+    term,
+    country: 'GB',
+    media: 'music',
+    entity: 'album',
+    limit: '50',
+  });
+  const response = await fetch(`https://itunes.apple.com/search?${params}`, { signal });
+  if (!response.ok) throw new Error('The iTunes catalogue is unavailable right now. Please try again.');
+
+  const payload = await response.json();
+  const results = (payload.results ?? [])
+    .map(normaliseItunesAlbum)
+    .filter(Boolean)
+    .filter((album) => genreMatches(album.genre, genre.trim()))
+    .filter((album) => !artist.trim() || album.artist.toLowerCase().includes(artist.trim().toLowerCase()))
+    .filter((album) => album.releaseYear === null || (yearFrom === undefined || album.releaseYear >= yearFrom)
+      && (yearTo === undefined || album.releaseYear <= yearTo))
+    .sort((a, b) => {
+      if (sort === 'title') return a.title.localeCompare(b.title);
+      if (sort === 'artist') return a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title);
+      if (sort === 'year') return (a.releaseYear ?? 0) - (b.releaseYear ?? 0);
+      return 0;
+    })
+    .slice((page - 1) * limit, page * limit);
+
+  return { query: q, genre, total: payload.resultCount ?? results.length, page, results };
+}
+
 export const authService = {
   me: (options) => api.get('/auth/me', options),
   register: (payload) => api.post('/auth/register', payload),
@@ -9,8 +86,17 @@ export const authService = {
 };
 
 export const catalogService = {
-  search: ({ q = '', genre = '', artist = '', yearFrom, yearTo, sort = 'relevance', page = 1, limit = 24 } = {}, signal) =>
-    api.get(`/catalog/search${api.query({ q, genre, artist, yearFrom, yearTo, sort, page, limit })}`, { signal }),
+  search: async (filters = {}, signal) => {
+    const { q = '', genre = '', artist = '', yearFrom, yearTo, sort = 'relevance', page = 1, limit = 24 } = filters;
+    try {
+      return await api.get(`/catalog/search${api.query({ q, genre, artist, yearFrom, yearTo, sort, page, limit })}`, { signal });
+    } catch (error) {
+      if (error.status === 502 || error.code === 'UPSTREAM_UNAVAILABLE') {
+        return searchItunesDirect(filters, signal);
+      }
+      throw error;
+    }
+  },
   featured: (signal) => api.get('/catalog/featured', { signal }),
   album: (externalId, signal) => api.get(`/catalog/albums/${externalId}`, { signal }),
 };

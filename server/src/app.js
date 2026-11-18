@@ -52,7 +52,7 @@ export function createApp() {
           fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
           imgSrc: ["'self'", 'data:', 'https://*.mzstatic.com'],
           mediaSrc: ["'self'", 'https://audio-ssl.itunes.apple.com', 'https://audio.itunes.apple.com'],
-          connectSrc: ["'self'"],
+          connectSrc: ["'self'", 'https://itunes.apple.com'],
           objectSrc: ["'none'"],
           baseUri: ["'self'"],
           frameAncestors: ["'none'"],
