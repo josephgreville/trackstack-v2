@@ -45,8 +45,8 @@ then move on.
 | **8 · Shared album. Personal copy.** | How it works | 1:46-2:00 | 2:00 |
 | **9 · Same app, two shapes** | Design | 2:00-2:10 | 2:10 |
 | **10 · One container, one URL** | Proof | 2:10-2:18 | 2:18 |
-| **11 · Proof: it works** | Proof | 2:18-2:26 | 2:26 |
-| **12 · What worked, what didn't** | Reflection | 2:26-2:30 | 2:30 |
+| **11 · Proof: it works** | Proof | 2:18-2:24 | 2:24 |
+| **12 · What worked, what didn't** | Reflection | 2:24-2:30 | 2:30 |
 | **Video · STAR advert** | Proof | 2:30-3:00 | 3:00 |
 | **13 · Questions** | Close | 3:00 onward | 5:00 hard stop |
 
@@ -235,7 +235,7 @@ deliberate voice. Palette, type pairing and border weights are all choices, not 
 
 ---
 
-## Slides 10–11 · Proof (2:10–2:26)
+## Slides 10–11 · Proof (2:10–2:24)
 
 ### Slide 10 · One container, one URL (2:10–2:18)
 
@@ -251,7 +251,7 @@ Postgres managed Postgres 16 (data and sessions)
 it. Because the pages and the API share one origin, the login cookie just works and there is no CORS.
 One URL to demo. Migrations run at container start and can be repeated, so every redeploy is safe."
 
-### Slide 11 · Proof: it works (2:18–2:26)
+### Slide 11 · Proof: it works (2:18–2:24)
 
 ```
 131  automated tests against a real Postgres database
@@ -263,14 +263,9 @@ One URL to demo. Migrations run at container start and can be repeated, so every
 constraints and permissions. The live container builds, migrates, serves the app, handles deep links
 and logs in. The demo data means the app is never empty. The same client also runs as an Android app."
 
-**Showing the Android version (5 seconds, optional):** If the phone is ready, hold it up while I say
-the last sentence. Show one shelf and the bottom dock, then put the phone down. The APK is
-`android/app/build/outputs/apk/debug/app-debug.apk`; build instructions are in [`android.md`](android.md).
-If the device is not ready, I say the line and move on. I do not spend demo time installing it.
-
 ---
 
-## Slide 12 · Reflection (2:26–2:30)
+## Slide 12 · Reflection (2:24–2:30)
 
 | Worked | Didn't | Learned |
 |---|---|---|
@@ -282,6 +277,11 @@ If the device is not ready, I say the line and move on. I do not spend demo time
 the scope was too big, the first UI looked generic, and free hosting sleeps. What I learned: a
 collection is a join table, not a list; real-database tests catch more; and saying no is part of
 design."
+
+**Showing the Android version (5 seconds, optional):** Hold the phone up during this slide. Show one
+shelf and the bottom dock, then put the phone down. The APK is
+`android/app/build/outputs/apk/debug/app-debug.apk`; build instructions are in [`android.md`](android.md).
+If the device is not ready, I say the line and move on. I do not spend demo time installing it.
 
 Then say: "Here is the 30-second advert." and play `submission/TrackStack-Ad.mp4`.
 
