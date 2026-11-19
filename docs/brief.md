@@ -27,7 +27,7 @@ information about their things. The app must:
 - keep **no private keys** in the frontend or in GitHub;
 - live in a **public GitHub repository** with a **public URL** (or a documented hosting plan);
 - be presented in **10 minutes**: 6 minutes presenting, 4 minutes of questions.
-- Classroom update: present in **3 minutes** including a **30-second STAR video advert**, then **2 minutes** of questions. Stop at 5 minutes.
+- Classroom update: present in **4 minutes** including a **30-second STAR video advert**, then **1 minute** of questions. Stop at 5 minutes.
 
 Deliverables: brief, architecture document, page designs, GitHub repo, live URL or hosting plan,
 and the presentation.
@@ -116,7 +116,7 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 | Public repo and live URL | Public GitHub repo, Render deployment with managed Postgres | <https://github.com/josephgreville/trackstack-v2> · <https://trackstack-zin9.onrender.com> |
 | Access control | Every personal query is scoped by `user_id`; another user's collection returns 404 | `server/src/services/`, `collections.test.js` |
 | It actually works | 131 tests across 13 files against a real Postgres database; production image smoke-tested | [`testing.md`](testing.md) · `npm test` |
-| 3-minute presentation with advert | 13-slide deck with speaker notes, a timed demo journey, a 30-second STAR advert and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
+| 4-minute presentation with advert | 14-slide deck with speaker notes, a timed demo journey, a 30-second STAR advert and Q&A prep | [`presentation.md`](presentation.md) · [`presentation/index.html`](presentation/index.html) · [`TrackStack-Presentation.pptx`](presentation/TrackStack-Presentation.pptx) |
 
 ## 7. Constraints and risks
 

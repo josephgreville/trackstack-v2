@@ -11,12 +11,12 @@ Files in this folder
                                 - Presentation script and Q&A
                                 - Hosting plan and runbook
                                 - Testing
-2. TrackStack-Presentation.pdf  The 13-slide deck, one slide per page, 16:9.
-                                The talk is 3 minutes including the advert.
+2. TrackStack-Presentation.pdf  The 14-slide deck, one slide per page, 16:9.
+                                The talk is 4 minutes including the advert.
 3. TrackStack-Presentation.pptx The editable PowerPoint with all speaker notes.
-                                Notes include the 3-minute timing and 2-minute Q&A.
+                                Notes include the 4-minute timing and 1-minute Q&A.
 4. TrackStack-Ad.mp4            30-second STAR advert with live app screenshots.
-                                Play it at 2:30 in the presentation.
+                                Play it at 3:30 in the presentation.
 
 Please attach these as individual files in Google Classroom. I have not zipped
 the folder, because Classroom asks for files rather than a folder or archive.
@@ -30,9 +30,9 @@ Second account:    sam@example.com / Password123!
 
 Presentation format
 -------------------
-0:00 to 2:30    Slides 1 to 12, including the live demo
-2:30 to 3:00    STAR video advert
-3:00 to 5:00    Questions, with a hard stop at 5 minutes
+0:00 to 3:30    Slides 1 to 13, including the live demo
+3:30 to 4:00    STAR video advert
+4:00 to 5:00    Questions, with a hard stop at 5 minutes
 
 The STAR beats in the advert are Situation, Target, Action and Result. The
 captions carry the story, so the video works with the sound off.

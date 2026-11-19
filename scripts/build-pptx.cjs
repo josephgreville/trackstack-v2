@@ -13,7 +13,7 @@ const OUT = path.join(ROOT, 'docs', 'presentation', 'TrackStack-Presentation.ppt
 const SUBMISSION_OUT = path.join(ROOT, 'submission', 'TrackStack-Presentation.pptx');
 const OUTPUTS = [OUT, SUBMISSION_OUT];
 const LIVE_URL = process.env.LIVE_URL || 'trackstack-zin9.onrender.com';
-const TOTAL = 13;
+const TOTAL = 14;
 
 const C = {
   paper: '1E1C1B',
@@ -214,8 +214,30 @@ async function build() {
     });
   });
 
-  /* 2 · the idea */
+  /* 2 · what it is */
   add(2, (s) => {
+    kicker(s, '1 · The idea: in plain English');
+    heading(s, 'What TrackStack actually is');
+    subtitle(s, 'A record collection app. The album details are shared. The copy you own is yours.');
+    const items = [
+      ['1 · Find', 'Search the shared catalogue for an album, artist or genre.'],
+      ['2 · Save my copy', 'Record the format, condition, price, edition and notes.'],
+      ['3 · Build a stack', 'A stack is a named shelf. One album can sit on many stacks.'],
+      ['4 · Share', 'Send a read-only link. Friends can browse without an account.'],
+    ];
+    const cw = 2.77, gap = 0.25;
+    items.forEach(([title, body], i) => {
+      card(s, M + i * (cw + gap), TOP, cw, 2.6, title, body, {
+        hi: i === 0, titleSize: 15, bodySize: 12,
+      });
+    });
+    s.addText('Around that core: a wantlist, listening history, stories, badges and a social feed.', {
+      x: M, y: 5.5, w: CW, h: 0.4, fontFace: BODY, fontSize: 12, color: C.muted, margin: 0,
+    });
+  });
+
+  /* 3 · the idea */
+  add(3, (s) => {
     kicker(s, '1 · The idea: the key model');
     heading(s, 'The album is shared. Your copy is personal.');
     subtitle(s, "TrackStack stores one album, then keeps each person's copy separate.");
@@ -230,8 +252,8 @@ async function build() {
       { hi: true, bodySize: 13 });
   });
 
-  /* 3 · six things */
-  add(3, (s) => {
+  /* 4 · six things */
+  add(4, (s) => {
     kicker(s, '1 · The idea: what you can do');
     heading(s, 'Six things you can do');
     subtitle(s, 'Find it, keep it, organise it, share it, and follow other collectors.');
@@ -252,11 +274,11 @@ async function build() {
     });
   });
 
-  /* 4 · demo */
-  add(4, (s) => {
+  /* 5 · demo */
+  add(5, (s) => {
     kicker(s, '2 · Demo: what I will show you');
     heading(s, "The demo: one record's journey");
-    subtitle(s, 'From a search to a shared shelf in about ninety seconds.');
+    subtitle(s, 'From a search to a shared shelf in about forty-five seconds.');
     const steps = [
       ['STEP 1', 'Start', 'Register, then land on the home dashboard.'],
       ['STEP 2', 'Find', 'Browse and search. Open the album detail page.'],
@@ -294,8 +316,8 @@ async function build() {
     });
   });
 
-  /* 5 · how it works */
-  add(5, (s) => {
+  /* 6 · how it works */
+  add(6, (s) => {
     kicker(s, '3 · How it works: the three layers');
     heading(s, 'Browser → the API I built → database');
     subtitle(s, 'Each layer has one job. The browser never talks to the database directly.');
@@ -311,8 +333,8 @@ async function build() {
       'Client and API ship together: one install, one dev command, one deploy.', { bodySize: 12.5 });
   });
 
-  /* 6 · how it is built */
-  add(6, (s) => {
+  /* 7 · how it is built */
+  add(7, (s) => {
     kicker(s, '3 · How it works: how it is built');
     heading(s, 'One app, four layers');
     subtitle(s, 'Find, save, share and follow all use the same structure.', 12.5);
@@ -334,8 +356,8 @@ async function build() {
     });
   });
 
-  /* 7 · why these tools */
-  add(7, (s) => {
+  /* 8 · why these tools */
+  add(8, (s) => {
     kicker(s, '3 · How it works: why these tools');
     heading(s, 'Why these tools?', 28);
     subtitle(s, 'Each choice made the code easier to generate, check and explain.', 12.5);
@@ -357,8 +379,8 @@ async function build() {
     });
   });
 
-  /* 8 · the key idea */
-  add(8, (s) => {
+  /* 9 · the key idea */
+  add(9, (s) => {
     kicker(s, '3 · How it works: the one idea that matters');
     heading(s, 'Shared album. Personal copy.');
     subtitle(s, "Store the album once. Store each person's copy separately.");
@@ -394,8 +416,8 @@ async function build() {
     });
   });
 
-  /* 9 · design */
-  add(9, (s) => {
+  /* 10 · design */
+  add(10, (s) => {
     kicker(s, '4 · Design: one app, two screens');
     heading(s, 'Same app, two shapes');
     subtitle(s, 'One set of components. The navigation moves to where your thumb can reach.');
@@ -440,8 +462,8 @@ async function build() {
     });
   });
 
-  /* 10 · hosting */
-  add(10, (s) => {
+  /* 11 · hosting */
+  add(11, (s) => {
     kicker(s, '5 · Proof: where it runs');
     heading(s, 'One container, one URL');
     subtitle(s, 'The pages and the API share one address, so login just works.');
@@ -457,8 +479,8 @@ async function build() {
       'Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.', { bodySize: 12.5 });
   });
 
-  /* 11 · proof */
-  add(11, (s) => {
+  /* 12 · proof */
+  add(12, (s) => {
     kicker(s, '5 · Proof: how I know it works');
     heading(s, 'Proof: it works');
     subtitle(s, 'Tests, a live deployment, and demo data that makes the app feel real.');
@@ -493,8 +515,8 @@ async function build() {
     });
   });
 
-  /* 12 · reflection */
-  add(12, (s) => {
+  /* 13 · reflection */
+  add(13, (s) => {
     kicker(s, '6 · Reflection: what I learned');
     heading(s, "What worked, what didn't");
     subtitle(s, "Three things I'd keep, three I'd change, and three lessons.");
@@ -519,8 +541,8 @@ async function build() {
     });
   });
 
-  /* 13 · questions */
-  add(13, (s) => {
+  /* 14 · questions */
+  add(14, (s) => {
     kicker(s, '6 · Reflection: over to you');
     s.addText('Questions?', {
       x: 0.85, y: 1.45, w: 11.6, h: 1.1,

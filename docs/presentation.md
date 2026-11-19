@@ -9,9 +9,9 @@ and present from it; this document is the script and the Q&A prep behind it.
 | | |
 |---|---|
 | **Deck** | `docs/presentation/index.html`: open in Chrome or Edge, no install, works offline |
-| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx`: 13 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
-| **PDF** | `submission/TrackStack-Presentation.pdf`: 13 slides, one per page, 16:9 |
-| **Advert** | `submission/TrackStack-Ad.mp4`: 30-second STAR advert, played at 2:30 |
+| **PowerPoint** | `docs/presentation/TrackStack-Presentation.pptx`: 14 slides with all speaker notes, 16:9. Regenerate with `npm run deck:pptx` |
+| **PDF** | `submission/TrackStack-Presentation.pdf`: 14 slides, one per page, 16:9 |
+| **Advert** | `submission/TrackStack-Ad.mp4`: 30-second STAR advert, played at 3:30 |
 | **Navigate** | `→` / `Space` next · `←` previous · `Home` / `End` jump · `F` fullscreen |
 | **Speaker notes** | press `N`: each slide's script and timing are built in |
 | **Timer** | press `T` to start/pause, `R` to reset |
@@ -21,40 +21,41 @@ and present from it; this document is the script and the Q&A prep behind it.
 PowerPoint. If I redeploy under a different URL, I update `docs/presentation/index.html` and the
 `LIVE_URL` default in `scripts/build-pptx.cjs`, then run `npm run deck:pptx`.
 
-**Format:** 3 minutes total, including the 30-second advert. Then 2 minutes of questions. I stop at
+**Format:** 4 minutes total, including the 30-second advert. Then 1 minute of questions. I stop at
 5 minutes even if a question is still open. The slides carry very few words on purpose. They are
 prompts, not a document.
 
 The talk is six short sections: **Idea → Demo → How it works → Design → Proof → Reflection**. The
-deck has **13 slides**, and several slides sit inside one section. I say one clear thing per slide,
+deck has **14 slides**, and several slides sit inside one section. I say one clear thing per slide,
 then move on.
 
 ---
 
-## Timing plan (3:00 + 2:00 questions)
+## Timing plan (4:00 + 1:00 questions)
 
 | Slide | Section | Time | Running |
 |---|---|---|---|
-| **1 · Title** | None | 0:00-0:08 | 0:08 |
-| **2 · One album. Many collections. Your copy.** | Idea | 0:08-0:24 | 0:24 |
-| **3 · Six things you can do** | Idea | 0:24-0:34 | 0:34 |
-| **4 · The demo: one record's journey** (*switch to the app*) | Demo | 0:34-1:10 | 1:10 |
-| **5 · Browser → the API I built → database** | How it works | 1:10-1:22 | 1:22 |
-| **6 · One app, four layers** | How it works | 1:22-1:36 | 1:36 |
-| **7 · Why these tools?** | How it works | 1:36-1:46 | 1:46 |
-| **8 · Shared album. Personal copy.** | How it works | 1:46-2:00 | 2:00 |
-| **9 · Same app, two shapes** | Design | 2:00-2:10 | 2:10 |
-| **10 · One container, one URL** | Proof | 2:10-2:18 | 2:18 |
-| **11 · Proof: it works** | Proof | 2:18-2:24 | 2:24 |
-| **12 · What worked, what didn't** | Reflection | 2:24-2:30 | 2:30 |
-| **Video · STAR advert** | Proof | 2:30-3:00 | 3:00 |
-| **13 · Questions** | Close | 3:00 onward | 5:00 hard stop |
+| **1 · Title** | None | 0:00-0:10 | 0:10 |
+| **2 · What TrackStack actually is** | Idea | 0:10-0:25 | 0:25 |
+| **3 · The album is shared. Your copy is personal.** | Idea | 0:25-0:40 | 0:40 |
+| **4 · Six things you can do** | Idea | 0:40-0:52 | 0:52 |
+| **5 · The demo: one record's journey** (*switch to the app*) | Demo | 0:52-1:37 | 1:37 |
+| **6 · Browser → the API I built → database** | How it works | 1:37-1:52 | 1:52 |
+| **7 · One app, four layers** | How it works | 1:52-2:10 | 2:10 |
+| **8 · Why these tools?** | How it works | 2:10-2:22 | 2:22 |
+| **9 · Shared album. Personal copy.** | How it works | 2:22-2:37 | 2:37 |
+| **10 · Same app, two shapes** | Design | 2:37-2:49 | 2:49 |
+| **11 · One container, one URL** | Proof | 2:49-2:59 | 2:59 |
+| **12 · Proof: it works** | Proof | 2:59-3:11 | 3:11 |
+| **13 · What worked, what didn't** | Reflection | 3:11-3:30 | 3:30 |
+| **Video · STAR advert** | Proof | 3:30-4:00 | 4:00 |
+| **14 · Questions** | Close | 4:00 onward | 5:00 hard stop |
 
-There is no slack in the plan. The times assume a brisk but clear pace. If I am running late, I cut
-the final line of slide 7 and skip the Android hold-up on slide 11. I never skip the advert.
+There is still no slack in the plan. The times assume a clear pace. If I am running late, I cut the
+final line of slide 8 and skip the Android hold-up on slide 12. I never skip the advert.
 
-Run order: **open the live app before I start**, present slides 1 to 3, switch to the app for the
-demo, switch back for slides 5 to 12, play the advert, then open slide 13 for questions. I keep the
+Run order: **open the live app before I start**, present slides 1 to 4, switch to the app for the
+demo, switch back for slides 6 to 13, play the advert, then open slide 14 for questions. I keep the
 app in a second window so the first click is instant.
 
 ---
@@ -69,14 +70,29 @@ Find a record, add your copy, organise a shelf, share it.
 Idea → Demo → How it works → Design → Proof → Reflection
 ```
 
-**Say:** "TrackStack is a web app for people who collect records. In the next three minutes I'll show
+**Say:** "TrackStack is a web app for people who collect records. In the next four minutes I'll show
 you what it does, how it works, and the result."
 
 ---
 
-## Slides 2–3 · The idea (0:08–0:34)
+## Slides 2–4 · The idea (0:10–0:52)
 
-### Slide 2 · The album is shared. Your copy is personal. (0:08–0:24)
+### Slide 2 · What TrackStack actually is (0:10–0:25)
+
+```
+Find          Save my copy          Build a stack          Share
+Shared        Format, condition,    A named shelf;         A read-only link
+catalogue     price, notes          one album on many
+```
+
+**Say:** "This is a record collection app. I search the shared catalogue, save my own copy with its
+condition and price, organise copies into stacks, and share a shelf with a link. A stack is just a
+collection. The extras sit around that core."
+
+**If asked what a stack is:** "Stack is the name in the interface. The code and API call it a
+collection. It is one shelf of records."
+
+### Slide 3 · The album is shared. Your copy is personal. (0:25–0:40)
 
 ```
 Album: artist, title and year from the shared catalogue
@@ -91,7 +107,7 @@ mine. I chose Route B, records."
 
 **The one sentence to land:** "The album is shared. My copy is personal."
 
-### Slide 3 · Six things you can do (0:24–0:34)
+### Slide 4 · Six things you can do (0:40–0:52)
 
 ```
 Find a record · Add your copy · Build shelves
@@ -108,7 +124,7 @@ survive that swap."
 
 ---
 
-## Slide 4 · The demo: one record's journey (0:34–1:10) (*switch to the app*)
+## Slide 5 · The demo: one record's journey (0:52–1:37) (*switch to the app*)
 
 The slide is a **four-step roadmap**. Leave it up for a second, then switch to the app.
 
@@ -119,16 +135,16 @@ Home dashboard       Album detail         Shelf, stats, wantlist  Community and 
                                                                      Resize to phone width
 ```
 
-### Inside those four steps (36 seconds)
+### Inside those four steps (45 seconds)
 
 | Step | Screen | What I say | Time |
 |---|---|---|---|
-| 1 | **Home** | "Register, then land on the dashboard." | 0:05 |
-| 2 | **Discover → search "Rumours"** | "Discover searches the iTunes catalogue through the API I built." | 0:08 |
-| 3 | **Album detail** | "The album page has the tracks and preview clips." | 0:05 |
-| 4 | **Add to a shelf** | "I add my copy: vinyl, near mint, £28." | 0:07 |
-| 5 | **Shelf detail → stats** | "My shelf, broken down by format, genre and decade." | 0:06 |
-| 6 | **Resize to phone** | "Same app, five tabs, now a floating bottom dock." | 0:05 |
+| 1 | **Home** | "Register, then land on the dashboard." | 0:06 |
+| 2 | **Discover → search "Rumours"** | "Discover searches the iTunes catalogue through the API I built." | 0:10 |
+| 3 | **Album detail** | "The album page has the tracks and preview clips." | 0:06 |
+| 4 | **Add to a shelf** | "I add my copy: vinyl, near mint, £28." | 0:09 |
+| 5 | **Shelf detail → stats** | "My shelf, broken down by format, genre and decade." | 0:08 |
+| 6 | **Resize to phone** | "Same app, five tabs, now a floating bottom dock." | 0:06 |
 
 **Say while switching back:** "Every screen is one React route talking to one Express endpoint. No
 hard-coded data. The demo account was created minutes before this talk."
@@ -145,9 +161,9 @@ hard-coded data. The demo account was created minutes before this talk."
 
 ---
 
-## Slides 5–8 · How it works (1:10–2:00)
+## Slides 6–9 · How it works (1:37–2:37)
 
-### Slide 5 · Browser → API → database (1:10–1:22)
+### Slide 6 · Browser → API → database (1:37–1:52)
 
 ```
 Browser   React pages, showing the pages
@@ -167,7 +183,7 @@ API ship together."
 **Detail if needed:** "routes → controllers → services → SQL. Controllers never write SQL, and
 services never touch the request. That is what makes it testable."
 
-### Slide 6 · One app, four layers (1:22–1:36)
+### Slide 7 · One app, four layers (1:52–2:10)
 
 ```
 Pages     React 19        Seven routes, shared components
@@ -180,7 +196,7 @@ Delivery  Docker + Render One container, one URL
 handles rules through routes, controllers and services, then SQL. Postgres holds the data with
 migrations and constraints. Docker and Render deliver one container and one URL."
 
-### Slide 7 · Why these tools? (1:36–1:46)
+### Slide 8 · Why these tools? (2:10–2:22)
 
 ```
 JavaScript + Node   One language across the app
@@ -199,7 +215,7 @@ one URL, and Capacitor reuses the same build on Android."
 **If pushed on AI:** "I set the architecture, data model and acceptance checks first. AI wrote inside
 that contract, and the tests decided whether the code was allowed in."
 
-### Slide 8 · Shared album. Personal copy. (1:46–2:00)
+### Slide 9 · Shared album. Personal copy. (2:22–2:37)
 
 ```
 THE ALBUM (shared)                  YOUR COPY (personal)
@@ -216,7 +232,7 @@ my copy never changes anyone else's record, and the database enforces the links.
 
 ---
 
-## Slide 9 · Design (2:00–2:10)
+## Slide 10 · Design (2:37–2:49)
 
 ```
 Desktop:  left rail with five tabs, multi-column grids
@@ -234,9 +250,9 @@ deliberate voice. Palette, type pairing and border weights are all choices, not 
 
 ---
 
-## Slides 10–11 · Proof (2:10–2:24)
+## Slides 11–12 · Proof (2:49–3:11)
 
-### Slide 10 · One container, one URL (2:10–2:18)
+### Slide 11 · One container, one URL (2:49–2:59)
 
 ```
 Docker   built app + API in one image
@@ -250,7 +266,7 @@ Postgres managed Postgres 16 (data and sessions)
 it. Because the pages and the API share one origin, the login cookie just works and there is no CORS.
 One URL to demo. Migrations run at container start and can be repeated, so every redeploy is safe."
 
-### Slide 11 · Proof: it works (2:18–2:24)
+### Slide 12 · Proof: it works (2:59–3:11)
 
 ```
 131  automated tests against a real Postgres database
@@ -264,7 +280,7 @@ and logs in. The demo data means the app is never empty. The same client also ru
 
 ---
 
-## Slide 12 · Reflection (2:24–2:30)
+## Slide 13 · Reflection (3:11–3:30)
 
 | Worked | Didn't | Learned |
 |---|---|---|
@@ -286,7 +302,7 @@ Then say: "Here is the 30-second advert." and play `submission/TrackStack-Ad.mp4
 
 ---
 
-## Video advert · STAR story (2:30–3:00)
+## Video advert · STAR story (3:30–4:00)
 
 | Beat | Time | On screen |
 |---|---|---|
@@ -300,14 +316,14 @@ story, so it works with the sound off.
 
 ---
 
-## Slide 13 · Questions (3:00–5:00)
+## Slide 14 · Questions (4:00–5:00)
 
 **Say:** "Happy to go deeper on the data model, the API, security or hosting." Then stop talking and
-take questions for two minutes. At 5:00 I stop, even if a question is still open.
+take questions for one minute. At 5:00 I stop, even if a question is still open.
 
 ---
 
-## Questions I should expect (2 minutes)
+## Questions I should expect (1 minute)
 
 Have answers to these. Say the short version, then stop.
 
@@ -398,8 +414,8 @@ rule-based recommendation with something learned from listening history."
 
 ## Delivery tips
 
-1. Rehearse with a timer at least three times. The target is 2:30 of speaking, 0:30 of advert and
-   2:00 of questions.
+1. Rehearse with a timer at least three times. The target is 3:30 of speaking, 0:30 of advert and
+   1:00 of questions.
 2. Open the app in a second window *before* I start so the first click is instant.
 3. Test Discover with "Rumours" before I start. The first result should be Fleetwood Mac.
 4. Do not narrate the UI element by element. Narrate the journey.
