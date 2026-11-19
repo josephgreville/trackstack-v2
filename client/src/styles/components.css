@@ -429,7 +429,54 @@ input:focus, textarea:focus, select:focus {
 .player-buttons .player-play { border: 2px solid var(--ink); box-shadow: var(--sticker-sm); }
 
 /* --- Toast --- */
-.toast { border-width: 2px; }
+.toast-viewport {
+  position: fixed;
+  inset: auto 1rem 1rem auto;
+  z-index: 2000;
+  display: grid;
+  gap: .5rem;
+  max-width: min(380px, calc(100vw - 2rem));
+  pointer-events: none;
+}
+.toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .7rem;
+  align-items: center;
+  padding: .8rem .9rem;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--charcoal);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+  pointer-events: auto;
+}
+.toast-icon {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--orange);
+  background: var(--orange-soft);
+}
+.toast-success { border-color: rgba(127, 209, 185, .45); }
+.toast-success .toast-icon { color: var(--success); background: var(--success-soft); }
+.toast-error { border-color: rgba(255, 122, 107, .5); }
+.toast-error .toast-icon { color: var(--danger); background: var(--danger-soft); }
+.toast-close {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--brown);
+  background: transparent;
+}
+.toast-close:hover { color: var(--charcoal); background: var(--paper-deep); }
 
 /* --- Stat bars --- */
 .stat-track { height: 8px; }
@@ -1180,6 +1227,30 @@ textarea:focus-visible {
 }
 .auth-input {
   padding-left: 2.6rem;
+}
+.auth-input-wrap {
+  position: relative;
+}
+.auth-input[aria-invalid='true'] {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px rgba(255, 122, 107, .28);
+}
+.auth-field-error {
+  display: block;
+  margin-top: .4rem;
+  color: var(--danger);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+}
+.auth-form-error {
+  margin: -.3rem 0 0;
+  padding: .7rem .85rem;
+  border: 1px solid rgba(255, 122, 107, .4);
+  border-radius: var(--radius-sm);
+  color: #ffb4a9;
+  background: var(--danger-soft);
+  font-size: var(--text-sm);
+  line-height: 1.4;
 }
 .auth-divider {
   display: flex;

@@ -564,6 +564,7 @@
     inset: auto 0 calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px)) 0;
     display: grid;
     gap: .4rem;
+    max-width: none;
     padding: .6rem .75rem;
   }
   /* When the player is open, lift toasts above it as well as the dock. */

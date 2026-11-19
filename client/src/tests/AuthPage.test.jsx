@@ -87,6 +87,7 @@ describe('Login page', () => {
     await user.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(await screen.findByRole('status')).toHaveTextContent('Email or password is incorrect.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Email or password is incorrect.');
     expect(screen.queryByText('incorrect-secret')).not.toBeInTheDocument();
   });
 
@@ -133,6 +134,8 @@ describe('Login page', () => {
     await user.type(screen.getByLabelText('Email'), 'not-an-email');
     await user.type(screen.getByLabelText('Password'), 'secure-password');
     expect(form.checkValidity()).toBe(false);
+    await user.click(screen.getByRole('button', { name: 'Log in' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Enter a valid email address.');
     expect(authMocks.login).not.toHaveBeenCalled();
   });
 });
@@ -168,6 +171,7 @@ describe('Register page', () => {
     await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
     expect(await screen.findByRole('status')).toHaveTextContent('Passwords do not match.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Passwords do not match.');
     expect(authMocks.register).not.toHaveBeenCalled();
   });
 
