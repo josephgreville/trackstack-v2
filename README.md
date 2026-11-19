@@ -4,7 +4,7 @@ A dark, coral-accented home for your records, cassettes and listening lists.
 
 TrackStack lets you discover albums, organise a personal collection, record copy details, keep a wantlist and listening journal, and share collections with a link or public profile.
 
-Every application page requires an account. Signed-out visitors are sent to login and returned to their requested page after signing in; new users can register from the login screen.
+Every application page requires an account. Signed-out visitors are sent to login and returned to their requested page after signing in; new users can register from the login screen. Google sign-up appears on both screens when the deployment has Google OAuth credentials set.
 
 **Live demo:** <https://trackstack-zin9.onrender.com>. Sign in with `joey@example.com` / `Password123!` (or `sam@example.com` / `Password123!`). The free instance sleeps after 15 minutes idle, so the first request can take ~30 seconds.
 

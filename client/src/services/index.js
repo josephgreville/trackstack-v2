@@ -81,6 +81,7 @@ export const authService = {
   me: (options) => api.get('/auth/me', options),
   register: (payload) => api.post('/auth/register', payload),
   login: (payload) => api.post('/auth/login', payload),
+  googleStatus: () => api.get('/auth/google/status'),
   logout: () => api.post('/auth/logout'),
   updateProfile: (payload) => api.patch('/auth/profile', payload),
 };

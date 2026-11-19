@@ -48,6 +48,9 @@ Render fills these from the Blueprint. Confirm in *Environment*:
 | `COOKIE_SAMESITE` | `lax` | One origin, so `Lax` is safe and stronger than `None` |
 | `TRUST_PROXY` | `true` | Render terminates TLS in front of the service |
 | `ITUNES_COUNTRY` | `GB` | Change to `US` etc. if you want a different storefront |
+| `GOOGLE_CLIENT_ID` | optional | Adds the Google sign-up button when set with the secret |
+| `GOOGLE_CLIENT_SECRET` | optional | Secret, set only in Render, never in the repository |
+| `GOOGLE_REDIRECT_URI` | optional | Defaults to `CLIENT_ORIGIN` plus `/api/v1/auth/google/callback` |
 
 **Step 4: Watch the first deploy**
 
@@ -71,6 +74,23 @@ curl https://trackstack-zin9.onrender.com/api/v1/health
 ```
 
 Then open the URL in a browser, register an account and add one album to a collection.
+
+### Google sign-up (optional)
+
+The Google button appears only when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are both
+set on the service. To enable it:
+
+1. In Google Cloud Console, create an OAuth client ID of type **Web application**.
+2. Add this authorised redirect URI:
+   `https://trackstack-zin9.onrender.com/api/v1/auth/google/callback`.
+3. Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in Render's *Environment* tab, then
+   Save & Deploy. I do not put either value in the repository.
+4. Open `/api/v1/auth/google/status`. It should return `{"configured":true}`. The login
+   and registration pages will now show a single Google button.
+
+Google returns a verified email and a stable subject id. I use the subject id to recognise
+returning Google users, and I link to an existing password account only when the verified
+email matches. Email and password login keeps working exactly as before.
 
 **Step 6: Seed the demo data (optional but recommended)**
 

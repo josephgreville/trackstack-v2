@@ -600,7 +600,7 @@
   .auth-switch { top: 1rem; right: 1rem; }
   .auth-title { margin-bottom: 1.2rem; }
   .auth-input { height: 50px; }
-  .auth-social { width: 46px; height: 46px; }
+  .auth-google { min-height: 48px; }
 }
 
 /* --- Small phones ------------------------------------------------------ */

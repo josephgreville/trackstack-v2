@@ -91,10 +91,13 @@ users ──┬──< collections ──< collection_albums >── albums
         └──< sessions  (server-side auth)
 ```
 
-**users**: `id`, `username`, `email`, `password_hash`, `xp`, `level`, `bio`, `avatar_url`,
-`location`, `website`, `profile_public`, timestamps.
-Unique indexes on `lower(email)` and `lower(username)`: case-insensitive login without
-colliding "Joey" and "joey".
+**users**: `id`, `username`, `email`, `password_hash`, `auth_provider`, `provider_id`,
+`email_verified`, `xp`, `level`, `bio`, `avatar_url`, `location`, `website`,
+`profile_public`, timestamps. Password accounts keep a bcrypt hash. Google accounts
+store the Google subject id instead, so they do not need a local password. A verified
+Google email can link to an existing password account with the same address.
+Unique indexes on `lower(email)`, `lower(username)` and `(auth_provider, provider_id)`:
+case-insensitive login without colliding "Joey" and "joey", and one Google identity per user.
 
 **collections**: `id`, `user_id` → users, `name`, `description`, `is_public`, `share_token`,
 `shelf_theme`, `layout_pref`, timestamps.
@@ -162,6 +165,9 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 |---|---|---|---|
 | POST | `/api/v1/auth/register` | public | Create account, start a session |
 | POST | `/api/v1/auth/login` | public | Log in |
+| GET | `/api/v1/auth/google/status` | public | Whether Google sign-up is configured |
+| GET | `/api/v1/auth/google` | public | Start the Google OAuth redirect flow |
+| GET | `/api/v1/auth/google/callback` | public | Verify state, link or create the user, start a session |
 | POST | `/api/v1/auth/logout` | public | Destroy session |
 | GET | `/api/v1/auth/me` | public | Current user or `null` |
 | PATCH | `/api/v1/auth/profile` | user | Update username / email / bio |
@@ -256,12 +262,12 @@ Base URL: `/api/v1`. JSON in, JSON out. Every response is either a JSON object o
 
 | Concern | What I did |
 |---|---|
-| Secrets | `.env` is git-ignored; `.env.example` documents every variable with no real values. The only secrets are `DATABASE_URL` and `SESSION_SECRET` (32+ chars enforced in production). |
+| Secrets | `.env` is git-ignored; `.env.example` documents every variable with no real values. The secrets are `DATABASE_URL`, `SESSION_SECRET` (32+ chars enforced in production), and `GOOGLE_CLIENT_SECRET` when Google sign-up is enabled. |
 | Third-party API keys | The iTunes Search API needs **no key**, so there is no key to leak. The catalogue URL is a server-side env var and the first upstream call is made from `server/src/services/itunesService.js`. The browser fallback calls the same public endpoint without credentials, so no key *could* end up in front-end code. |
 | Password storage | bcryptjs hash, never logged, never returned by any endpoint. |
 | Sessions | Signed, `httpOnly` cookie (`ts.sid`), `SameSite=Lax` locally and `SameSite=None; Secure` in production (needed because the native Android app and a Netlify-hosted client are different origins). Session rows are stored server-side and can be revoked. |
 | XSS | React escapes by default; a strict Content-Security-Policy is set via helmet (`script-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`). No `dangerouslySetInnerHTML` anywhere. |
-| CSRF | `SameSite` cookies + an origin allow-list check on every request that carries an `Origin` header + `credentials: 'include'` only for allow-listed origins. |
+| CSRF | `SameSite` cookies + an origin allow-list check on every request that carries an `Origin` header + `credentials: 'include'` only for allow-listed origins. Google sign-in also uses a short-lived, HMAC-signed `state` cookie that is checked on callback. |
 | SQL injection | Parameterised queries only. No string-concatenated user input in SQL, ever. |
 | Brute force | `express-rate-limit`, a strict limiter on `/auth/login` and `/auth/register`, a general limiter on `/api`. |
 | Authorisation | `requireAuth` for logged-in routes, and an ownership check inside every service that touches user data. |

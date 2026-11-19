@@ -27,6 +27,7 @@ import ListeningQueue from './pages/ListeningQueue.jsx';
 import SharedCollection from './pages/SharedCollection.jsx';
 import PublicProfile from './pages/PublicProfile.jsx';
 import PageLoader from './components/PageLoader.jsx';
+import AuthNotices from './components/AuthNotices.jsx';
 import { PlayerProvider } from './context/PlayerContext.jsx';
 import { PageTransition } from './components/motion.jsx';
 
@@ -131,6 +132,7 @@ export default function App() {
         <AuthProvider>
           <PlayerProvider>
             <ScrollToTop />
+            <AuthNotices />
             <AppRoutes />
           </PlayerProvider>
         </AuthProvider>

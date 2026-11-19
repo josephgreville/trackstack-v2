@@ -44,8 +44,10 @@ Notes for the marker
 - The database is a free Render Postgres instance and expires on 2026-12-17.
 - The Android build is in the repository under android/; the debug APK is at
   android/app/build/outputs/apk/debug/app-debug.apk.
-- No API keys are stored in the frontend or in the repository. The only secrets
-  are DATABASE_URL and SESSION_SECRET, supplied as environment variables.
+- No API keys are stored in the frontend or in the repository. The secrets are
+  DATABASE_URL and SESSION_SECRET, plus GOOGLE_CLIENT_SECRET if Google sign-up
+  is enabled, all supplied as environment variables. The Google button appears
+  only when GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are set in Render.
 - Discover search calls iTunes through the API first. If a hosting provider is
   blocked by iTunes, the browser uses a read-only fallback to the same public
   endpoint, keeping the same collection IDs.

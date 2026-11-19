@@ -38,11 +38,20 @@ const clientOrigins = (process.env.CLIENT_ORIGIN ?? 'http://localhost:5173')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const port = numberFromEnv('PORT', 4000);
+const publicUrl = (
+  process.env.PUBLIC_URL
+  ?? process.env.RENDER_EXTERNAL_URL
+  ?? clientOrigins[0]
+  ?? `http://localhost:${port}`
+).replace(/\/+$/, '');
+
 const env = {
   nodeEnv,
   isProduction: nodeEnv === 'production',
   isTest: nodeEnv === 'test',
-  port: numberFromEnv('PORT', 4000),
+  port,
+  publicUrl,
   databaseUrl:
     nodeEnv === 'test'
       ? required(
@@ -66,6 +75,12 @@ const env = {
   cookieSameSite: process.env.COOKIE_SAMESITE ?? (nodeEnv === 'production' ? 'none' : 'lax'),
   trustProxy: process.env.TRUST_PROXY === 'true',
   clientOrigins,
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    redirectUri:
+      process.env.GOOGLE_REDIRECT_URI ?? `${publicUrl}/api/v1/auth/google/callback`,
+  },
   itunes: {
     baseUrl: process.env.ITUNES_BASE_URL ?? 'https://itunes.apple.com',
     country: process.env.ITUNES_COUNTRY ?? 'GB',

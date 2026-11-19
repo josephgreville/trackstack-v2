@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import { useGoogleSignIn } from '../hooks/useGoogleSignIn.js';
 import Button from '../components/Button.jsx';
+import GoogleButton from '../components/GoogleButton.jsx';
 import { IconUser, IconMail, IconLock } from '../components/Icons.jsx';
 import { fadeInUp } from '../components/motion.jsx';
-
-const SOCIALS = [
-  { name: 'Instagram', color: '#E1306C', glyph: 'camera' },
-  { name: 'Facebook', color: '#1877F2', glyph: 'f' },
-  { name: 'LinkedIn', color: '#0A66C2', glyph: 'in' },
-  { name: 'X', color: '#000000', glyph: 'x' },
-];
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -23,6 +17,7 @@ export default function Register() {
   const navigate = useNavigate();
   const { success, error } = useToast();
   const { register } = useAuth();
+  const googleAvailable = useGoogleSignIn();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,27 +120,15 @@ export default function Register() {
           Already have an account? <Link to="/login">Click here to login</Link>
         </p>
 
-        <div className="auth-divider">
-          <span>Or</span>
-        </div>
-
-        <p className="auth-social-caption">Sign up with social platforms</p>
-        <div className="auth-socials">
-          {SOCIALS.map((social) => (
-            <motion.button
-              key={social.name}
-              whileHover={{ scale: 1.08, rotate: 3 }}
-              whileTap={{ scale: 0.92 }}
-              type="button"
-              className="auth-social"
-              style={{ borderColor: social.color, color: social.color }}
-              title={social.name}
-              aria-label={`Sign up with ${social.name}`}
-            >
-              <span className="auth-social-glyph">{social.glyph}</span>
-            </motion.button>
-          ))}
-        </div>
+        {googleAvailable && (
+          <div className="auth-google-wrap">
+            <div className="auth-divider">
+              <span>Or</span>
+            </div>
+            <p className="auth-social-caption">Continue with Google</p>
+            <GoogleButton label="Sign up with Google" />
+          </div>
+        )}
       </form>
     </div>
   );

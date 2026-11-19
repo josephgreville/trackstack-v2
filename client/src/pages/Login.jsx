@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import { useGoogleSignIn } from '../hooks/useGoogleSignIn.js';
 import Button from '../components/Button.jsx';
+import GoogleButton from '../components/GoogleButton.jsx';
 import { IconUser, IconLock, IconMail, IconEye, IconEyeOff } from '../components/Icons.jsx';
 import { fadeInUp } from '../components/motion.jsx';
 
@@ -16,6 +17,7 @@ export default function Login() {
   const location = useLocation();
   const { success, error } = useToast();
   const { login } = useAuth();
+  const googleAvailable = useGoogleSignIn();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,29 +97,15 @@ export default function Login() {
           Don't have an account? <Link to="/register">Sign up</Link>
         </p>
 
-        <div className="auth-divider">
-          <span>Or</span>
-        </div>
-
-        <p className="auth-social-caption">Sign in with social platforms</p>
-        <div className="auth-socials">
-          {[['Instagram', '#E1306C'], ['Facebook', '#1877F2'], ['LinkedIn', '#0A66C2'], ['X', '#f7f7f8']].map(
-            ([name, color]) => (
-              <motion.button
-                key={name}
-                whileHover={{ scale: 1.08, rotate: 3 }}
-                whileTap={{ scale: 0.92 }}
-                type="button"
-                className="auth-social"
-                style={{ borderColor: color, color }}
-                title={name}
-                aria-label={`Sign in with ${name}`}
-              >
-                <span className="auth-social-glyph">{name[0]}</span>
-              </motion.button>
-            ),
-          )}
-        </div>
+        {googleAvailable && (
+          <div className="auth-google-wrap">
+            <div className="auth-divider">
+              <span>Or</span>
+            </div>
+            <p className="auth-social-caption">Continue with Google</p>
+            <GoogleButton label="Log in with Google" />
+          </div>
+        )}
       </form>
     </div>
   );

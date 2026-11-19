@@ -39,7 +39,9 @@ collection CRUD, album search and selection, validation and error states,
 request/response contracts, ownership boundaries, database constraints,
 transaction rollback, and mocked catalogue responses. External iTunes calls
 are mocked in server tests. The album-details page now lets a signed-in user
-choose a collection and add the displayed album.
+choose a collection and add the displayed album. Authentication tests also cover
+the Google configuration status, signed OAuth state check, mocked Google profile,
+session creation and the absence of the button when credentials are missing.
 
 ## Browser end-to-end testing
 

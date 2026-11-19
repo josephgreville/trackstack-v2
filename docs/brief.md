@@ -88,7 +88,7 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 
 **In scope and delivered**
 
-- Account registration, login, logout and server-side sessions.
+- Account registration, login, logout and server-side sessions, with optional Google sign-up.
 - iTunes catalogue search, album detail, previews and related albums.
 - Multiple collections per user, with copy-level details and CSV import/export.
 - Wantlist, listening history, album stories and a visual collection room.
@@ -102,7 +102,7 @@ Story timeline (`/stories`), public profile (`/users/:username`) and shared coll
 
 - Tags (designed but deferred; the schema pattern is documented in the Q&A prep).
 - Offline writes and background sync in the Android app.
-- Email verification, password reset and third-party sign-in.
+- Email verification and password reset. Google is the only third-party provider implemented.
 - Payments, recommendations learned from a model, and multi-region hosting.
 
 ## 6. Acceptance criteria and evidence

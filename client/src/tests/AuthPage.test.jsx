@@ -13,6 +13,7 @@ const authMocks = vi.hoisted(() => ({
   me: vi.fn(),
   login: vi.fn(),
   register: vi.fn(),
+  googleStatus: vi.fn(),
   logout: vi.fn(),
 }));
 
@@ -24,6 +25,7 @@ vi.mock('../services/index.js', async (importOriginal) => {
       me: authMocks.me,
       login: authMocks.login,
       register: authMocks.register,
+      googleStatus: authMocks.googleStatus,
       logout: authMocks.logout,
     },
   };
@@ -49,6 +51,7 @@ function renderAuthPage(path, page, locationState) {
 beforeEach(() => {
   vi.clearAllMocks();
   authMocks.me.mockResolvedValue({ user: null });
+  authMocks.googleStatus.mockResolvedValue({ configured: false });
 });
 
 afterEach(() => {
