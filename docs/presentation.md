@@ -306,10 +306,10 @@ Then say: "Here is the 30-second advert." and play `submission/TrackStack-Ad.mp4
 
 | Beat | Time | On screen |
 |---|---|---|
-| **Situation** | 0:00-0:07 | Record collectors juggle shelves, wants and listening notes |
-| **Target** | 0:07-0:14 | One place to find an album, save my copy and share a shelf |
-| **Action** | 0:14-0:23 | Discover, album detail, add to shelf, phone layout |
-| **Result** | 0:23-0:30 | 16 tables, 131 tests, one live URL, Android build |
+| **Situation** | 0:00-0:07 | Records everywhere, details nowhere, the collection in my head |
+| **Target** | 0:07-0:14 | One home for every record, with search and preview |
+| **Action** | 0:14-0:23 | Save my copy, build a shelf, share a link, browse without an account |
+| **Result** | 0:23-0:30 | An organised, searchable collection and one live URL |
 
 The advert uses screenshots from the live app. I do not narrate over it; the captions carry the
 story, so it works with the sound off.
