@@ -1,7 +1,7 @@
 /*
- * Build docs/presentation/TrackStack-Presentation.pptx from the same content
- * as the HTML deck. Speaker notes are read directly out of index.html so the
- * two decks can never drift apart.
+ * Build the PowerPoint deck from the same content as the HTML deck, then copy
+ * it into submission/ for Classroom. Speaker notes are read directly out of
+ * index.html so the decks can never drift apart.
  */
 const fs = require('fs');
 const path = require('path');
@@ -10,6 +10,8 @@ const pptxgen = require('pptxgenjs');
 const ROOT = path.join(__dirname, '..');
 const HTML = path.join(ROOT, 'docs', 'presentation', 'index.html');
 const OUT = path.join(ROOT, 'docs', 'presentation', 'TrackStack-Presentation.pptx');
+const SUBMISSION_OUT = path.join(ROOT, 'submission', 'TrackStack-Presentation.pptx');
+const OUTPUTS = [OUT, SUBMISSION_OUT];
 const LIVE_URL = process.env.LIVE_URL || 'trackstack-zin9.onrender.com';
 const TOTAL = 13;
 
@@ -172,7 +174,7 @@ function rule(slide, x, y, w = 1.3) {
 }
 
 /* ------------------------------------------------------------------- deck */
-function build() {
+async function build() {
   const notes = readNotes();
   const pptx = new pptxgen();
   SHAPE = pptx.ShapeType;
@@ -541,13 +543,18 @@ function build() {
     });
   });
 
-  return pptx.writeFile({ fileName: OUT });
+  for (const output of OUTPUTS) {
+    await pptx.writeFile({ fileName: output });
+  }
+  return OUTPUTS;
 }
 
 build()
-  .then(() => {
-    const kb = Math.round(fs.statSync(OUT).size / 1024);
-    console.log(`Wrote ${path.relative(ROOT, OUT)} (${kb} KB)`);
+  .then((outputs) => {
+    outputs.forEach((output) => {
+      const kb = Math.round(fs.statSync(output).size / 1024);
+      console.log(`Wrote ${path.relative(ROOT, output)} (${kb} KB)`);
+    });
   })
   .catch((err) => {
     console.error(err);
