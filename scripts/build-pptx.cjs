@@ -214,17 +214,17 @@ function build() {
 
   /* 2 · the idea */
   add(2, (s) => {
-    kicker(s, '1 · The idea: what it is');
-    heading(s, 'One album. Many collections. Your copy.');
-    subtitle(s, 'The album is shared. The physical record on your shelf is personal.');
+    kicker(s, '1 · The idea: the key model');
+    heading(s, 'The album is shared. Your copy is personal.');
+    subtitle(s, "TrackStack stores one album, then keeps each person's copy separate.");
     bullets(s, M, 2.55, 6.3, 3.7, [
-      'A record lives in a shared catalogue.',
-      'Your copy has its own format, condition and price.',
-      'A collection is a shelf you can share.',
-      'The brief offers Route A or B. I chose records.',
+      'Album: artist, title and year from the shared catalogue.',
+      'Copy: my format, condition, price and notes.',
+      'Collection: a named shelf that can hold many albums.',
+      'Route B: the brief offered records, and I chose records.',
     ], 16);
-    card(s, 7.35, 2.5, 5.2, 3.7, 'The interesting part',
-      'One album can sit in many collections, but your copy is personal. Its condition and price belong to you, not to the album. That is the relationship this app is built around.',
+    card(s, 7.35, 2.5, 5.2, 3.7, 'Why this matters',
+      "Fleetwood Mac's Rumours can sit on several shelves at once. Everyone sees the same album details, but my vinyl and your CD stay separate. That is the relationship the app is built around.",
       { hi: true, bodySize: 13 });
   });
 

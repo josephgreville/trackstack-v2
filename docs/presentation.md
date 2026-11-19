@@ -76,19 +76,18 @@ you what it does, how it works, and the result."
 
 ## Slides 2–3 · The idea (0:08–0:34)
 
-### Slide 2 · One album. Many collections. Your copy. (0:08–0:24)
+### Slide 2 · The album is shared. Your copy is personal. (0:08–0:24)
 
 ```
-A record lives in a shared catalogue
-Your copy has its own format, condition and price
-A collection is a shelf you can share
-The brief offers Route A or B. I chose records
+Album: artist, title and year from the shared catalogue
+Copy: my format, condition, price and notes
+Collection: a named shelf that can hold many albums
+Route B: the brief offered records, and I chose records
 ```
 
-**Say:** "There is a shared catalogue of albums. I add my own copy to a shelf, with its format,
-condition and price. I can keep several shelves and share one with a link. The brief offered Route A
-or B, and I chose Route B, records, because the same album can be owned by many people but each copy
-is different."
+**Say:** "Album means the shared details from iTunes. Copy means my own format, condition, price
+and notes. Collection means a shelf I can share. Rumours can sit on many shelves, but my copy stays
+mine. I chose Route B, records."
 
 **The one sentence to land:** "The album is shared. My copy is personal."
 
