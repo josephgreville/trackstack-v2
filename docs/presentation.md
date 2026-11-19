@@ -45,7 +45,7 @@ then move on.
 | **8 · Why these tools?** | How it works | 2:10-2:22 | 2:22 |
 | **9 · Shared album. Personal copy.** | How it works | 2:22-2:37 | 2:37 |
 | **10 · Same app, two shapes** | Design | 2:37-2:49 | 2:49 |
-| **11 · One container, one URL** | Proof | 2:49-2:59 | 2:59 |
+| **11 · Where the app actually runs** | Proof | 2:49-2:59 | 2:59 |
 | **12 · Proof: it works** | Proof | 2:59-3:11 | 3:11 |
 | **13 · What worked, what didn't** | Reflection | 3:11-3:30 | 3:30 |
 | **Video · STAR advert** | Proof | 3:30-4:00 | 4:00 |
@@ -252,19 +252,22 @@ deliberate voice. Palette, type pairing and border weights are all choices, not 
 
 ## Slides 11–12 · Proof (2:49–3:11)
 
-### Slide 11 · One container, one URL (2:49–2:59)
+### Slide 11 · Where the app actually runs (2:49–2:59)
 
 ```
-Docker   built app + API in one image
+Browser   opens one URL
    ↓
-Render   trackstack-zin9.onrender.com (HTTPS, one service)
+Render    runs one HTTPS service
    ↓
-Postgres managed Postgres 16 (data and sessions)
+Docker    built React site + Express API in one container
+   ↓
+Postgres  records, users and sessions
 ```
 
-**Say:** "One Docker container serves the pages and the API, on Render, with managed Postgres behind
-it. Because the pages and the API share one origin, the login cookie just works and there is no CORS.
-One URL to demo. Migrations run at container start and can be repeated, so every redeploy is safe."
+**Say:** "The browser opens one address. Render runs one Docker image at that address. The image
+contains the built React site and the Express API. Data and sessions live in managed Postgres. Because
+the site and API share one origin, the login cookie works automatically. Migrations run at container
+start, so redeploys are repeatable."
 
 ### Slide 12 · Proof: it works (2:59–3:11)
 

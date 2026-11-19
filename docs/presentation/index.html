@@ -597,36 +597,41 @@
   <!-- 10 · hosting -->
   <section class="slide">
     <div class="slide-head">
-      <span class="kicker">5 · Proof: where it runs</span>
-      <h2>One container, one URL</h2>
-      <p class="subtitle">The pages and the API share one address, so login just works.</p>
+      <span class="kicker">5 · Proof: hosting</span>
+      <h2>Where the app actually runs</h2>
+      <p class="subtitle">The browser sees one address. Behind it, one container serves the site and API.</p>
     </div>
     <div class="content">
       <div class="split">
         <div class="flow">
           <div class="node c">
-            <span class="tag">DOCKER</span>
-            <span><span class="name">One image</span><span class="desc">The built client and the Express API</span></span>
+            <span class="tag">BROWSER</span>
+            <span><span class="name">One URL</span><span class="desc">trackstack-zin9.onrender.com</span></span>
           </div>
           <div class="arrow">↓</div>
           <div class="node c">
             <span class="tag">RENDER</span>
-            <span><span class="name">One service</span><span class="desc">trackstack-zin9.onrender.com · HTTPS</span></span>
+            <span><span class="name">One HTTPS service</span><span class="desc">Runs the Docker image</span></span>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node c">
+            <span class="tag">DOCKER</span>
+            <span><span class="name">One container</span><span class="desc">Built React site + Express API</span></span>
           </div>
           <div class="arrow">↓</div>
           <div class="node p">
             <span class="tag">POSTGRES</span>
-            <span><span class="name">Managed database</span><span class="desc">Postgres 16 (data and sessions)</span></span>
+            <span><span class="name">Managed database</span><span class="desc">Records, users and sessions</span></span>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:16px; justify-content:center">
           <div class="card">
             <h3>Why one URL</h3>
-            <p>The pages and the API share one origin, so the login cookie works and there is no CORS. One link to demo.</p>
+            <p>The site and API share one origin. The login cookie works automatically, with no CORS or second API address.</p>
           </div>
           <div class="card">
             <h3>Safe redeploys</h3>
-            <p>Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.</p>
+            <p>Migrations run when the container starts, so each deploy updates the schema the same way.</p>
           </div>
         </div>
       </div>
@@ -776,7 +781,7 @@ Pre-flight: logged in as joey@example.com / Password123!, three seeded shelves, 
 
     `2:37 (0:12). Design. "Desktop uses a left rail; mobile uses a bottom dock within thumb reach. Same components. The look is deliberate: near-black surfaces, soft elevation, Manrope type and a coral accent. It respects reduced motion."`,
 
-    `2:49 (0:10). Hosting. "One Docker container serves the pages and the API. Render hosts it, with managed Postgres behind it. One URL and one origin, so the login cookie just works and there is no CORS."`,
+    `2:49 (0:10). Hosting. "The browser opens one address. Render runs one Docker image at that address. The image contains the built React site and the Express API. Data and sessions live in managed Postgres. Because the site and API share one origin, the login cookie works automatically. Migrations run at container start, so redeploys are repeatable."`,
 
     `2:59 (0:12). Proof. "131 automated tests against a real Postgres database, plus the live container and seeded demo data. It works. The same client also runs as an Android app."`,
 

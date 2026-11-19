@@ -11,7 +11,7 @@ const ROOT = path.join(__dirname, '..');
 const HTML = path.join(ROOT, 'docs', 'presentation', 'index.html');
 const OUT = path.join(ROOT, 'docs', 'presentation', 'TrackStack-Presentation.pptx');
 const SUBMISSION_OUT = path.join(ROOT, 'submission', 'TrackStack-Presentation.pptx');
-const OUTPUTS = [OUT, SUBMISSION_OUT];
+const OUTPUTS = process.env.DECK_ONLY === '1' ? [OUT] : [OUT, SUBMISSION_OUT];
 const LIVE_URL = process.env.LIVE_URL || 'trackstack-zin9.onrender.com';
 const TOTAL = 14;
 
@@ -464,19 +464,21 @@ async function build() {
 
   /* 11 · hosting */
   add(11, (s) => {
-    kicker(s, '5 · Proof: where it runs');
-    heading(s, 'One container, one URL');
-    subtitle(s, 'The pages and the API share one address, so login just works.');
-    const nx = M, nw = 6.35, nh = 0.92;
-    node(s, nx, 2.5, nw, nh, 'DOCKER', 'One image', 'The built client and the Express API', C.coral);
-    arrow(s, nx + nw / 2, 3.44);
-    node(s, nx, 3.66, nw, nh, 'RENDER', 'One service', `${LIVE_URL} · HTTPS`, C.coral);
-    arrow(s, nx + nw / 2, 4.6);
-    node(s, nx, 4.82, nw, nh, 'POSTGRES', 'Managed database', 'Postgres 16 (data and sessions)', C.sage);
-    card(s, 7.5, 2.5, 5.08, 1.55, 'Why one URL',
-      'The pages and the API share one origin, so the login cookie works and there is no CORS. One link to demo.', { bodySize: 12.5 });
-    card(s, 7.5, 4.25, 5.08, 1.5, 'Safe redeploys',
-      'Migrations run at container start and can be repeated. A split hosting option and a local Docker path are documented.', { bodySize: 12.5 });
+    kicker(s, '5 · Proof: hosting');
+    heading(s, 'Where the app actually runs', 29);
+    subtitle(s, 'The browser sees one address. One container serves the site and API.');
+    const nx = M, nw = 6.35, nh = 0.75;
+    node(s, nx, 2.5, nw, nh, 'BROWSER', 'One URL', LIVE_URL, C.gold);
+    arrow(s, nx + nw / 2, 3.28);
+    node(s, nx, 3.5, nw, nh, 'RENDER', 'One HTTPS service', 'Runs the Docker image', C.coral);
+    arrow(s, nx + nw / 2, 4.28);
+    node(s, nx, 4.5, nw, nh, 'DOCKER', 'One container', 'Built React site + Express API', C.coral);
+    arrow(s, nx + nw / 2, 5.28);
+    node(s, nx, 5.5, nw, nh, 'POSTGRES', 'Managed database', 'Records, users and sessions', C.sage);
+    card(s, 7.5, 2.5, 5.08, 1.6, 'Why one URL',
+      'The site and API share one origin. The login cookie works automatically, with no CORS or second API address.', { bodySize: 12.5 });
+    card(s, 7.5, 4.3, 5.08, 1.55, 'Safe redeploys',
+      'Migrations run when the container starts, so each deploy updates the schema the same way.', { bodySize: 12.5 });
   });
 
   /* 12 · proof */
